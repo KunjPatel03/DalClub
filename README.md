@@ -10,3 +10,4 @@
 - [Rahul Kherajani (B00884966)] (mailto: rh346685@dal.ca)
 - [Vishwanath Hosdurga Suresh (B00828116)] (mailto: vs542176@dal.ca)
 - [Kunj Vijaykumar Patel (B00894376)] (mailto: kn846956@dal.ca)
+- [Kishan Thakkar (B00863424)] <ks940236@dal.ca>
