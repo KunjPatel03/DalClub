@@ -8,3 +8,4 @@
 ## Authors
 
 - [Rahul Kherajani (B00884966)] (mailto: rh346685@dal.ca)
+- [Vishwanath Hosdurga Suresh (B00828116)] (mailto: vs542176@dal.ca)
