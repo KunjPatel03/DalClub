@@ -6,3 +6,5 @@
 - _Last Modification Date_: 27 JAN 2022
 
 ## Authors
+
+- [Rahul Kherajani (B00884966)] (mailto: rh346685@dal.ca)
