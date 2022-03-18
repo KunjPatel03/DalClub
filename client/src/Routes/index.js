@@ -6,6 +6,7 @@ import AdminLogin from "../Pages/Admin/AdminLogin";
 import UserHeader from "../Components/Users/Header"
 import Homepage from "../Pages/Users/Homepage";
 import UserLogin from "../Pages/Users/UserLogin";
+import EventList from "../Pages/Users/EventList";
 
 const AppRoutes = () => {
   return (
@@ -25,6 +26,7 @@ const AppRoutes = () => {
       <Route path="/" element={<UserHeader />}>
         {/* User routes with header */}
         <Route index element={<Homepage />} />
+        <Route path="/events" element={<EventList />} />
       </Route>
     </Routes>
     </BrowserRouter>
