@@ -8,7 +8,7 @@ const PageBanner = ({ title = "Banner" }) => {
         height={"35vh"}
         width={"100%"}
         sx={{ objectFit: "cover" }}
-        src={`https://via.placeholder.com/1800x200?text=${"title"}`}
+        src={`https://via.placeholder.com/1800x200?text=${title}`}
         alt={title}
       />
       <Typography

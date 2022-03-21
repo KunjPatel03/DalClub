@@ -1,8 +1,10 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Typography, Box, Grid, TextField } from "@mui/material";
 import EventCard from "../../Components/Users/Events/EventCard";
 import PageBanner from "../../Components/Users/PageBanner";
 import {styled} from '@mui/system'
+import { toast } from "react-toastify";
+import axios from "../../Assets/config/axiosConfig";
 
 const CategoryTab = styled('div')(({ theme }) => ({
   padding: "5px",
@@ -20,7 +22,18 @@ const CategoryTab = styled('div')(({ theme }) => ({
 
 const EventList = () => {
   const [activeFilter, setActiveFilter] = useState("All");
+  const [events, setEvents] = useState([])
   const CategoryList = ["All", "Movies", "Conference", "Drama", "Concert", "Game"];
+
+  useEffect(() => {
+    axios.get("/events").then(response => {
+      if(response.data.success) {
+        setEvents(response.data.events)
+      }
+    }).catch((err) => {
+      toast.error(err?.response?.data?.message || "Something went wrong")
+    })
+  }, [])
 
   return (
     <>
@@ -34,9 +47,8 @@ const EventList = () => {
             <Box>
               {CategoryList.map((ele) => (
                 <CategoryTab
-                  className={`${
-                    activeFilter === ele ? "selected" : ""
-                  }`}
+                  key={ele}
+                  className={`${activeFilter === ele ? "selected" : ""}`}
                   onClick={() => setActiveFilter(ele)}
                 >
                   {ele}
@@ -52,11 +64,19 @@ const EventList = () => {
               fullWidth
             />
             <Grid container spacing={4} mb={3} mt={1}>
-              {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((ele) => (
-                <Grid item key={ele} sm={6} md={4}>
-                  <EventCard />
-                </Grid>
-              ))}
+              {events.map(
+                ({ id, name, coverImage, eventDate, silverMemberPrice }) => (
+                  <Grid key={id} item sm={6} md={4}>
+                    <EventCard
+                      id={id}
+                      name={name}
+                      coverImage={coverImage}
+                      eventDate={eventDate}
+                      silverMemberPrice={silverMemberPrice}
+                    />
+                  </Grid>
+                )
+              )}
             </Grid>
           </Grid>
         </Grid>

@@ -7,6 +7,7 @@ const InfoSection = ({ isReverse = false }) => {
       <img
         src={`https://via.placeholder.com/600x400?text=Info+Section`}
         width="100%"
+        alt="para info"
         height="100%"
       />
       </Box>

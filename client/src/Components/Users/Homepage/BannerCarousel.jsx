@@ -44,7 +44,7 @@ const BannerCarousel = () => {
     <Box>
       <Slider style={{ height: "50vh" }} {...settings}>
         {[0, 1, 2, 3].map((ele) => (
-          <Box sx={{ "& img": { height: "50vh", width: "100%" } }}>
+          <Box sx={{ "& img": { height: "50vh", width: "100%" } }} key={ele}>
           <img
             src={`https://via.placeholder.com/700x250?text=Text`}
             alt="Part"

@@ -7,7 +7,7 @@ const Header = () => {
     <Grid position={"sticky"} zIndex={5} top={0} container justifyContent={"space-between"} alignItems={"center"} bgcolor="primary.main" color={"white"}>
       <Box display={"flex"} py={2} px={3} alignItems="center">
         <Box fontSize={"1.5rem"} fontWeight={"medium"} className="cursor-pointer">
-          DalClub
+          <Link to={"/"}>DalClub</Link>
         </Box>
         <Grid container width={"fit-content"}>
           <Typography color={"white"} className="cursor-pointer" marginLeft={2}>Bookings</Typography>

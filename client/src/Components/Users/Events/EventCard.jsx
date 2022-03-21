@@ -1,8 +1,10 @@
 import { Box, Typography, Grid } from "@mui/material";
+import { format, parseISO } from "date-fns";
 
-const EventCard = () => {
+const EventCard = ({ id, name="", coverImage, eventDate, silverMemberPrice }) => {
   return (
     <Box
+      key={id}
       borderRadius={1}
       border={"1px solid lightgray"}
       margin={1.25}
@@ -15,7 +17,8 @@ const EventCard = () => {
       }}
     >
       <img
-        src={`https://via.placeholder.com/600x400?text=Event`}
+        src={coverImage || `https://via.placeholder.com/600x400?text=${name.replace(" ", "+")}`}
+        alt={name}
         width="100%"
         height="100%"
       />
@@ -27,14 +30,14 @@ const EventCard = () => {
       >
         <Box>
           <Typography fontWeight={"bold"} color="primary.main">
-            Event
+            {name}
           </Typography>
           <Typography mt={-0.5} fontSize={"0.8rem"} color="grey.700">
-            19-12-2022
+            {eventDate ? format(parseISO(eventDate), "MM-dd-yyyy") : ""}
           </Typography>
         </Box>
         <Typography fontWeight={"bold"} color="secondary.light">
-          $20
+          ${silverMemberPrice}
         </Typography>
       </Grid>
     </Box>
