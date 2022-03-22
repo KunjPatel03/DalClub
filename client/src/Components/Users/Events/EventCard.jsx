@@ -1,5 +1,7 @@
 import { Box, Typography, Grid } from "@mui/material";
 import { format, parseISO } from "date-fns";
+import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
+import { Link } from "react-router-dom"
 
 const EventCard = ({ id, name="", coverImage, eventDate, silverMemberPrice }) => {
   return (
@@ -16,30 +18,41 @@ const EventCard = ({ id, name="", coverImage, eventDate, silverMemberPrice }) =>
         },
       }}
     >
-      <img
-        src={coverImage || `https://via.placeholder.com/600x400?text=${name.replace(" ", "+")}`}
-        alt={name}
-        width="100%"
-        height="100%"
-      />
-      <Grid
-        container
-        p={1}
-        justifyContent={"space-between"}
-        alignItems={"center"}
-      >
-        <Box>
-          <Typography fontWeight={"bold"} color="primary.main">
-            {name}
-          </Typography>
-          <Typography mt={-0.5} fontSize={"0.8rem"} color="grey.700">
-            {eventDate ? format(parseISO(eventDate), "MM-dd-yyyy") : ""}
-          </Typography>
-        </Box>
-        <Typography fontWeight={"bold"} color="secondary.light">
-          ${silverMemberPrice}
-        </Typography>
-      </Grid>
+      <Link to={`/eventDetails/${id}`}>
+        <img
+          src={coverImage || `https://via.placeholder.com/600x400?text=${name.replace(" ", "+")}`}
+          alt={name}
+          width="100%"
+          height="100%"
+        />
+        <Grid
+          container
+          p={1}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+        >
+          <Grid item xs={10}>
+            <Typography
+              fontWeight={"bold"}
+              color="primary.main"
+              textOverflow={"ellipsis"}
+              overflow="hidden"
+              whiteSpace={"nowrap"}
+            >
+              {name}
+            </Typography>
+            <Box display={"flex"} alignItems="center" mb={0.5} fontSize={"0.8rem"} color="grey.700">
+              <Box color="primary.main"><CalendarTodayRoundedIcon style={{ fontSize: "1.3rem" }} /></Box>
+              &nbsp;{eventDate ? format(parseISO(eventDate), "MM-dd-yyyy") : ""}
+            </Box>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography fontWeight={"bold"} color="secondary.light">
+              ${silverMemberPrice}
+            </Typography>
+          </Grid>
+        </Grid>
+      </Link>
     </Box>
   );
 };

@@ -7,6 +7,7 @@ import UserHeader from "../Components/Users/Header"
 import Homepage from "../Pages/Users/Homepage";
 import UserLogin from "../Pages/Users/UserLogin";
 import EventList from "../Pages/Users/EventList";
+import EventDetails from "../Pages/Users/EventDetails";
 
 const AppRoutes = () => {
   return (
@@ -27,6 +28,7 @@ const AppRoutes = () => {
         {/* User routes with header */}
         <Route index element={<Homepage />} />
         <Route path="/events" element={<EventList />} />
+        <Route path="/eventDetails/:eventId" element={<EventDetails />} />
       </Route>
     </Routes>
     </BrowserRouter>

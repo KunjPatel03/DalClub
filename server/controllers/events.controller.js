@@ -1,15 +1,14 @@
 const { EventsModel, EventBookingsModel } = require("../models");
-const { format, formatISO } = require("date-fns");
+const { Op } = require('sequelize')
+const { format } = require("date-fns");
 const DBConnection = require("../config/dbConfig");
 
 const getEventList = (req, res) => {
-  EventsModel.findAll({
-    include: {
-      model: EventBookingsModel,
-      as: "eventBookings",
-      attributes: ["bookedOn", "ticketType", "ticketsBooked"],
-    },
-  })
+  const {category, searchText} = req.body
+  const conditionObject = {}
+  if(category) conditionObject["category"] = category
+  if(searchText) conditionObject["name"] = { [Op.like]: `%${searchText}%` }
+  EventsModel.findAll({ where: conditionObject })
     .then((events) => {
       res.send({ success: true, events });
     })
@@ -103,8 +102,26 @@ const bookEvent = async (req, res) => {
   }
 };
 
+const getEventDetails = (req, res) => {
+  const { eventId="" } = req.params
+  if(!eventId) {
+    res.status(400).send({ success: false, message: "Event id is required." })
+    return
+  }
+  EventsModel.findOne({ where: { id: eventId } }).then(eventDetails => {
+    if(eventDetails) {
+      res.send({ success: true, eventDetails })
+    } else {
+      res.status(404).send({ success: false, message: "Event not found." })
+    }
+  }).catch(err => {
+    res.status(500).send({ success: false, message: "Something went wrong." })
+  })
+}
+
 module.exports = {
   getEventList,
   getBookedEvents,
   bookEvent,
+  getEventDetails
 };
