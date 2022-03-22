@@ -1,13 +1,18 @@
+import AppRoutes from './Routes';
+import { ToastContainer } from 'react-toastify';
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from './Assets/config/siteTheme';
 import './App.css';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import AppRoutes from './Routes';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 function App() {
   return (
-    <div>
+    <ThemeProvider theme={theme}>
       <AppRoutes />
-    </div>
+      <ToastContainer position='top-right' autoClose={3000} closeOnClick pauseOnHover theme='colored' hideProgressBar />
+    </ThemeProvider>
   );
 }
 
