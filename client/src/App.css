@@ -18,3 +18,13 @@ a {
 .cursor-pointer {
   cursor: pointer;
 }
+
+.container {
+  display: flex;
+  margin-top: 10px;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
