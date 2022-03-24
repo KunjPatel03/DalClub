@@ -1,11 +1,12 @@
-import React from 'react';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
-import AdminDashboard from '../Pages/Admin/DashboardPage';
-import AdminLogin from '../Pages/Admin/AdminLogin';
-import UserHeader from '../Components/Users/Header';
-import Homepage from '../Pages/Users/Homepage';
-import UserLogin from '../Pages/Users/UserLogin';
-import EventList from '../Pages/Users/EventList';
+import React from "react"
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import AdminDashboard from "../Pages/Admin/Dashboard";
+import AdminLogin from "../Pages/Admin/AdminLogin";
+import UserHeader from "../Components/Users/Header"
+import Homepage from "../Pages/Users/Homepage";
+import UserLogin from "../Pages/Users/UserLogin";
+import EventList from "../Pages/Users/EventList";
+import EventDetails from "../Pages/Users/EventDetails";
 import Home from '../Components/Admin/Home';
 
 const AppRoutes = () => {
@@ -23,12 +24,13 @@ const AppRoutes = () => {
         {/* User routes without header */}
         <Route path='/user/login' element={<UserLogin />} />
 
-        <Route path='/' element={<UserHeader />}>
-          {/* User routes with header */}
-          <Route index element={<Homepage />} />
-          <Route path='/events' element={<EventList />} />
-        </Route>
-      </Routes>
+      <Route path="/" element={<UserHeader />}>
+        {/* User routes with header */}
+        <Route index element={<Homepage />} />
+        <Route path="/events" element={<EventList />} />
+        <Route path="/eventDetails/:eventId" element={<EventDetails />} />
+      </Route>
+    </Routes>
     </BrowserRouter>
   );
 };
