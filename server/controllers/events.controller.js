@@ -1,5 +1,5 @@
 const { EventsModel, EventBookingsModel, PaymentDetailsModel } = require("../models");
-const { Op } = require('sequelize')
+const { Op, fn, col } = require('sequelize')
 const { format } = require("date-fns");
 const DBConnection = require("../config/dbConfig");
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -21,7 +21,14 @@ const getEventList = (req, res) => {
 
 const getBookedEvents = (req, res) => {
   EventBookingsModel.findAll({
-    include: { model: EventsModel, as: "event", attributes: ["id", "name"] },
+    where: { userId: req.params.userId },
+    group: "event_id",
+    attributes: [[fn('sum', col('tickets_booked')), 'ticketsBooked']],
+    include: {
+      model: EventsModel,
+      as: "event",
+      attributes: ["id", "name", "coverImage", "eventDate"]
+    },
   })
     .then((events) => {
       res.send({ success: true, events });
