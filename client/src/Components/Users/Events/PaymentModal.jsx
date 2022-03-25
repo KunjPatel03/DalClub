@@ -6,10 +6,35 @@ import {
   Button,
   TextField,
   IconButton,
+  Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import React, { useState } from "react";
+import { PaymentElement, useStripe, useElements} from "@stripe/react-stripe-js";
 
 const PaymentModal = ({ open, handleClose, amount }) => {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [message, setMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: "http://localhost:3000/paymentStatus",
+      },
+    });
+
+    if (error.type === "card_error" || error.type === "validation_error") {
+      setMessage(error.message);
+    } else {
+      setMessage("An unexpected error occured.");
+    }
+    setIsLoading(false);
+  };
   return (
     <Dialog
       open={open}
@@ -33,8 +58,23 @@ const PaymentModal = ({ open, handleClose, amount }) => {
         </IconButton>
       </DialogTitle>
       <DialogContent>
-        <Box>Payment form</Box>
-        <Button variant="contained" sx={{ color: "white", textTransform: "none" }}>Pay ${amount}</Button>
+        <form id="payment-form" style={{ textAlign: "center" }} onSubmit={handleSubmit}>
+          <PaymentElement id="payment-element" />
+          <br />
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ color: "white", textTransform: "none" }}
+            disabled={isLoading}
+            id="submit"
+          >
+            <span id="button-text">
+              {isLoading ? "Processing" : "Pay now"}
+            </span>
+          </Button>
+        {message && <Typography variant="danger">{message}</Typography>}
+      </form>
       </DialogContent>
     </Dialog>
   );

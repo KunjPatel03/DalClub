@@ -1,4 +1,5 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { useState } from "react"
+import { Box, Grid, Typography, Menu, MenuItem } from "@mui/material";
 import { Link, Outlet } from "react-router-dom";
 import { Badge } from '@mui/material';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -8,6 +9,11 @@ import { useContext } from 'react';
 import Footer from "./Footer";
 
 const Header = () => {
+  const [eventElement, setEventElement] = useState(null);
+
+  const openEventMenu = (e) => setEventElement(e.currentTarget)
+  const closeEventMenu = () => setEventElement(null)
+
   const { cartList } = useContext(StateContext);
   return (
     <Box position={"relative"}>
@@ -18,13 +24,14 @@ const Header = () => {
         </Box>
         <Grid container width={"fit-content"}>
           <Typography color={"white"} className="cursor-pointer" marginLeft={2}>Bookings</Typography>
-          <Typography color={"white"} className="cursor-pointer" marginLeft={2}>
-            <Link to={"/events"}>Events</Link>
+          <Typography color={"white"} className="cursor-pointer" marginLeft={2} onClick={openEventMenu}>
+            Events
           </Typography>
           <Typography color={"white"} className="cursor-pointer" marginLeft={2}><Link to={"/store/products"}>Merchandise Store</Link></Typography>
           <Typography color={"white"} className="cursor-pointer" marginLeft={2}>About</Typography>
         </Grid>
       </Box>
+      <Box py={2} px={3} className="cursor-pointer">Login</Box>
       <Box py={2} px={3} className="cursor-pointer">
         <Grid container width={"fit-content"}>
         <Typography color={"white"} className="cursor-pointer" marginLeft={2}><Link to={"/store/orders"}>My Orders</Link></Typography>
@@ -38,6 +45,14 @@ const Header = () => {
         </Grid>
       </Box>
     </Grid>
+    <Menu anchorEl={eventElement} open={!!eventElement} onClose={closeEventMenu}>
+      <MenuItem onClick={closeEventMenu}>
+        <Link to="/events">Events</Link>
+      </MenuItem>
+      <MenuItem onClick={closeEventMenu}>
+        <Link to="/registeredEvents">Registered Events</Link>
+      </MenuItem>
+    </Menu>
     <Box><Outlet /></Box>
     <Footer />
     </Box>

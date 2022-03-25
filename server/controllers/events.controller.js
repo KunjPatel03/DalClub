@@ -1,7 +1,8 @@
-const { EventsModel, EventBookingsModel } = require("../models");
+const { EventsModel, EventBookingsModel, PaymentDetailsModel } = require("../models");
 const { Op } = require('sequelize')
 const { format } = require("date-fns");
 const DBConnection = require("../config/dbConfig");
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const getEventList = (req, res) => {
   const {category, searchText} = req.body
@@ -32,15 +33,16 @@ const getBookedEvents = (req, res) => {
 };
 
 const bookEvent = async (req, res) => {
-  const { eventId } = req.params;
-  const { userId, ticketsBooked, ticketType, paymentStatus, amount } = req.body;
-  const eventDetails = await EventsModel.findOne({ where: { id: eventId } }).then((data) => data).catch(() => null);
+  const { userId, paymentIntent, ticketType } = req.body;
+  const paymentIntentDetails = await stripe.paymentIntents.retrieve(paymentIntent);
+  const { metadata: { id, ticketsBooked }, amount } = paymentIntentDetails;
+  const eventDetails = await EventsModel.findOne({ where: { id } }).then((data) => data).catch(() => null);
   if (eventDetails) {
     const {
       ticketLimit, remainingSilverSeats, remainingGoldSeats, remainingPlatinumSeats,
     } = eventDetails
     const userBookedEvents = await EventBookingsModel.findAll({
-      where: { userId },
+      where: { userId, eventId: id },
     }).then((bookings) => {
       const totalBookings = bookings.reduce(
         (prevValue, currentValue) => prevValue + currentValue.ticketsBooked, 0
@@ -71,12 +73,18 @@ const bookEvent = async (req, res) => {
           }, { transaction: t })
           await EventBookingsModel.create({
             userId,
-            eventId,
+            eventId: id,
             ticketsBooked,
             amount,
-            paymentStatus,
+            paymentStatus: "Recieved",
             ticketType,
             bookedOn: format(new Date(), "yyyy-MM-dd hh:mm:ss")
+          }, { transaction: t })
+          await PaymentDetailsModel.create({
+            paymentIntent,
+            module: "event",
+            userId,
+            moduleId: id
           }, { transaction: t })
           await t.commit()
           res.send({ success: true, message: "Tickets booked successfully." })
@@ -103,14 +111,22 @@ const bookEvent = async (req, res) => {
 };
 
 const getEventDetails = (req, res) => {
-  const { eventId="" } = req.params
+  const { eventId="", userId="" } = req.params
   if(!eventId) {
-    res.status(400).send({ success: false, message: "Event id is required." })
+    res.status(400).send({ success: false, message: "Event id and user id are required." })
     return
   }
-  EventsModel.findOne({ where: { id: eventId } }).then(eventDetails => {
+  EventsModel.findOne({ where: { id: eventId } }).then(async eventDetails => {
     if(eventDetails) {
-      res.send({ success: true, eventDetails })
+      const userBookedEvents = await EventBookingsModel.findAll({
+        where: { userId, eventId },
+      }).then((bookings) => {
+        const totalBookings = bookings.reduce(
+          (prevValue, currentValue) => prevValue + currentValue.ticketsBooked, 0
+        );
+        return totalBookings
+      }).catch(() => 0);
+      res.send({ success: true, eventDetails: { ...eventDetails.dataValues, userBookedEvents } })
     } else {
       res.status(404).send({ success: false, message: "Event not found." })
     }

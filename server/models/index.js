@@ -1,7 +1,8 @@
 const { DataTypes } = require('sequelize');
 const DBConnection = require('../config/dbConfig');
-const Events = require('./events.model');
-const EventBookings = require('./eventBookings.model');
+const Events = require("./events.model")
+const EventBookings = require("./eventBookings.model")
+const PaymentDetails = require("./paymentDetails.model")
 const OrderHeader = require('./orderheader.model.js');
 const OrderLine = require('./orderline.model.js');
 const Product = require('./product.model.js');
@@ -10,6 +11,7 @@ const ProductColor = require('./productcolor.model.js');
 
 const EventsModel = Events(DBConnection, DataTypes);
 const EventBookingsModel = EventBookings(DBConnection, DataTypes);
+const PaymentDetailsModel = PaymentDetails(DBConnection, DataTypes);
 const OrderHeaderModel = OrderHeader(DBConnection, DataTypes);
 const OrderLineModel = OrderLine(DBConnection, DataTypes);
 const ProductModel = Product(DBConnection, DataTypes);
@@ -60,6 +62,7 @@ ProductColorModel.belongsTo(ProductModel, {
 module.exports = {
   EventsModel,
   EventBookingsModel,
+  PaymentDetailsModel,
   OrderHeaderModel,
   OrderLineModel,
   ProductModel,
