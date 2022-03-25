@@ -27,8 +27,6 @@ app.use("/api/careers", CareersRouter)
 
 app.use("/api/payments", PaymentRouter)
 
-app.use("/api/careers", CareersRouter)
-    
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });
