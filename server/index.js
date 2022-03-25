@@ -4,6 +4,7 @@ const path = require("path");
 const cors = require("cors");
 const bodyParser = require('body-parser')
 const EventRouter = require("./routes/events");
+const PaymentRouter = require("./routes/payment");
 
 const PORT = process.env.PORT || 3005;
 const app = express();
@@ -17,6 +18,8 @@ app.get("/api/status", (req, res) => {
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 app.use("/api/events", EventRouter)
+
+app.use("/api/payments", PaymentRouter)
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));

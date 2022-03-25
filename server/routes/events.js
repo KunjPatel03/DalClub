@@ -5,8 +5,8 @@ const validateBookEvent = require("../validators/events.validator");
 const EventRouter = express.Router();
 
 EventRouter.post("/", getEventList);
-EventRouter.get("/eventDetails/:eventId", getEventDetails);
-EventRouter.get("/booked_events/:userId", getBookedEvents);
-EventRouter.post("/book_event/:eventId", validateBookEvent("bookEvent"), bookEvent);
+EventRouter.get("/event/:eventId/details/:userId", getEventDetails);
+EventRouter.get("/bookedEvents/:userId", getBookedEvents);
+EventRouter.post("/bookEvent", validateBookEvent("bookEvent"), bookEvent);
 
 module.exports = EventRouter;

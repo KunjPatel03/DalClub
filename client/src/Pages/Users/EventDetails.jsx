@@ -9,6 +9,8 @@ import { toast } from "react-toastify"
 import { format, parseISO } from "date-fns"
 import { CalendarMonthRounded, AccessTimeRounded } from '@mui/icons-material';
 import PaymentModal from "../../Components/Users/Events/PaymentModal";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 const ContentContainer = styled(Box)(({ theme }) => ({
   margin: "auto",
@@ -33,11 +35,20 @@ const EventDetails = () => {
   const [numOfTicket, setNumOfTicket] = useState()
   const [showPaymentModel, setShowPaymentModal] = useState(false)
   const [paymentAmount, setPaymentAmount] = useState(0)
+  const [stripeSecret, setStripeSecret] = useState("");
   const { eventId } = useParams()
   
   useEffect(() => {
-    axios.get(`/events/eventDetails/${eventId}`).then(response => {
-      setEventDetails(response.data.success ? response.data.eventDetails : {})
+    axios.get(`/events/event/${eventId}/details/${1}`).then(response => {
+      let userType = "Silver"
+      let remainingTicket = userType === "Silver" ? "remainingSilverSeats"
+      : userType === "Gold" ? "remainingGoldSeats"
+      : userType === "Platinum" ? "remainingPlatinumSeats"
+      : "";
+      if(!remainingTicket || !response.data.success) throw new Error()
+      let { eventDetails } = response.data
+      let bookableTicket = eventDetails[remainingTicket] > eventDetails["userBookedEvents"] ? eventDetails[remainingTicket] : eventDetails["userBookedEvents"]
+      setEventDetails({ ...eventDetails, bookableTicket })
     }).catch(err => {
       setEventDetails({})
       toast.error(err?.response?.data?.message || "Something went wrong")
@@ -46,7 +57,7 @@ const EventDetails = () => {
 
   const handleTicketChange = (e) => setNumOfTicket(e.target.value);
 
-  const togglePaymentModal = () => {
+  const togglePaymentModal = async () => {
     if(!numOfTicket) {
       toast.error("Please select number of ticket to book.")
       return
@@ -54,12 +65,29 @@ const EventDetails = () => {
       toast.error(`Number of ticket to book should be less than ${eventDetails.remainingSilverSeats}.`)
       return
     } else {
-      setPaymentAmount(numOfTicket * eventDetails.silverMemberPrice)
-      setShowPaymentModal(true)
+      axios.post("/payments/createIntent", {
+        module: "event",
+        entityId: eventDetails.id,
+        entityName: eventDetails.name,
+        amount: eventDetails.silverMemberPrice * numOfTicket,
+        ticketsBooked: numOfTicket
+      }).then((res) => {
+        if(res.data.success) {
+          setStripeSecret(res.data.clientSecret)
+          setPaymentAmount(numOfTicket * eventDetails.silverMemberPrice)
+          setShowPaymentModal(true)
+        } else {
+          toast.error(res?.data?.message || "Cannot initiate payment.")
+        }
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message || "Cannot initiate payment")
+      });
     }
   }
 
   const closePaymentModal = () => setShowPaymentModal(false)
+  const loadStripeKey = loadStripe("pk_test_51KgEo1GMutfkjZDFgZN4zTuVLFDNLlUzae99RhzKMjWXlcBg6y0dIFKSRg3AMPZKaJLGuvUGT8MeDqe6tAzcCbfb00Ko70FnbZ");
   
   return (
     <>
@@ -123,7 +151,7 @@ const EventDetails = () => {
                   value={numOfTicket}
                   onChange={handleTicketChange}
                 >
-                  {Array.from({length: eventDetails.remainingSilverSeats}).map((ele, i) => (
+                  {Array.from({length: eventDetails.bookableTicket}).map((ele, i) => (
                     <MenuItem key={`seat-${i}`} value={i+1}>{i+1}</MenuItem>
                   ))}
                 </Select>
@@ -146,7 +174,11 @@ const EventDetails = () => {
             lineHeight={1.5}
           />
         </> : "Cannot find requested event." : "Fetching event details."}
-        <PaymentModal open={showPaymentModel} handleClose={closePaymentModal} amount={paymentAmount} />
+        {showPaymentModel && <Elements
+          options={{ clientSecret: stripeSecret, appearance: { theme: 'stripe' } }}
+          stripe={loadStripeKey}>
+          <PaymentModal open={showPaymentModel} handleClose={closePaymentModal} amount={paymentAmount} />
+        </Elements>}
       </ContentContainer>
     </>
   );
