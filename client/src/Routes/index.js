@@ -17,6 +17,7 @@ import RegisteredEvents from "../Pages/Users/RegisteredEvents";
 import PaymentStatus from "../Pages/Users/PaymentStatus";
 import {Elements} from '@stripe/react-stripe-js';
 import {loadStripe} from '@stripe/stripe-js';
+import Careers from '../Pages/Users/Careers';
 
 const AppRoutes = () => {
   const loadStripeKey = loadStripe("pk_test_51KgEo1GMutfkjZDFgZN4zTuVLFDNLlUzae99RhzKMjWXlcBg6y0dIFKSRg3AMPZKaJLGuvUGT8MeDqe6tAzcCbfb00Ko70FnbZ");
@@ -43,6 +44,7 @@ const AppRoutes = () => {
           <Route path='/store/products/:id' element={<ProductPage />} />
           <Route path='/store/cart' element={<CartPage />} />
           <Route path='/store/orders' element={<OrdersPage />} />
+          <Route path='/careers' element={<Careers />} />
         </Route>
       </Routes>
     </BrowserRouter>
