@@ -22,7 +22,7 @@ const Header = () => {
             <Link to={"/events"}>Events</Link>
           </Typography>
           <Typography color={"white"} className="cursor-pointer" marginLeft={2}><Link to={"/store/products"}>Merchandise Store</Link></Typography>
-          <Typography color={"white"} className="cursor-pointer" marginLeft={2}>About</Typography>
+          <Typography color={"white"} className="cursor-pointer" marginLeft={2}> <Link to={"/careers"}>Careers</Link></Typography>
         </Grid>
       </Box>
       <Box py={2} px={3} className="cursor-pointer">

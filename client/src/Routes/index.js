@@ -12,6 +12,7 @@ import ProductPage from '../Pages/Users/ProductPage';
 import CartPage from '../Pages/Users/CartPage';
 import OrdersPage from '../Pages/Users/OrdersPage';
 import Home from '../Components/Admin/Home';
+import Careers from '../Pages/Users/Careers';
 
 const AppRoutes = () => {
   return (
@@ -34,6 +35,7 @@ const AppRoutes = () => {
           <Route path='/store/products/:id' element={<ProductPage />} />
           <Route path='/store/cart' element={<CartPage />} />
           <Route path='/store/orders' element={<OrdersPage />} />
+          <Route path='/careers' element={<Careers />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -7,6 +7,7 @@ const OrderLine = require('./orderline.model.js');
 const Product = require('./product.model.js');
 const ProductSize = require('./productsize.model.js');
 const ProductColor = require('./productcolor.model.js');
+const Careers= require("./careers.model");
 
 const EventsModel = Events(DBConnection, DataTypes);
 const EventBookingsModel = EventBookings(DBConnection, DataTypes);
@@ -15,6 +16,8 @@ const OrderLineModel = OrderLine(DBConnection, DataTypes);
 const ProductModel = Product(DBConnection, DataTypes);
 const ProductSizeModel = ProductSize(DBConnection, DataTypes);
 const ProductColorModel = ProductColor(DBConnection, DataTypes);
+const CareersModel = Careers(DBConnection, DataTypes) 
+
 
 EventsModel.hasMany(EventBookingsModel, {
   foreignKey: 'event_id',
@@ -65,4 +68,5 @@ module.exports = {
   ProductModel,
   ProductColorModel,
   ProductSizeModel,
+  CareersModel
 };
