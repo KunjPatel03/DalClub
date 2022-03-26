@@ -3,7 +3,7 @@ import { format, parseISO } from "date-fns";
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 import { Link } from "react-router-dom"
 
-const EventCard = ({ id, name="", coverImage, eventDate, silverMemberPrice }) => {
+const EventCard = ({ id, name="", coverImage, eventDate, price }) => {
   return (
     <Box
       key={id}
@@ -47,9 +47,9 @@ const EventCard = ({ id, name="", coverImage, eventDate, silverMemberPrice }) =>
             </Box>
           </Grid>
           <Grid item xs={2}>
-            <Typography fontWeight={"bold"} color="secondary.light">
-              ${silverMemberPrice}
-            </Typography>
+            {price && <Typography fontWeight={"bold"} color="secondary.light">
+              ${price}
+            </Typography>}
           </Grid>
         </Grid>
       </Link>

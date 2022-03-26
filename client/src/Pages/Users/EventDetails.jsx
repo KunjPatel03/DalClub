@@ -47,8 +47,9 @@ const EventDetails = () => {
       : "";
       if(!remainingTicket || !response.data.success) throw new Error()
       let { eventDetails } = response.data
-      let bookableTicket = eventDetails[remainingTicket] > eventDetails["userBookedEvents"] ? eventDetails[remainingTicket] : eventDetails["userBookedEvents"]
-      setEventDetails({ ...eventDetails, bookableTicket })
+      let userLimit = eventDetails.ticketLimit - eventDetails["userBookedEvents"]
+      let bookableTicket = eventDetails[remainingTicket] > userLimit ? userLimit : eventDetails[remainingTicket]
+      setEventDetails({ ...eventDetails, bookableTicket, remainingTicket: eventDetails[remainingTicket] })
     }).catch(err => {
       setEventDetails({})
       toast.error(err?.response?.data?.message || "Something went wrong")
@@ -61,7 +62,7 @@ const EventDetails = () => {
     if(!numOfTicket) {
       toast.error("Please select number of ticket to book.")
       return
-    } else if(numOfTicket > eventDetails.remainingSilverSeats) {
+    } else if(numOfTicket > eventDetails.bookableTicket) {
       toast.error(`Number of ticket to book should be less than ${eventDetails.remainingSilverSeats}.`)
       return
     } else {
@@ -141,7 +142,7 @@ const EventDetails = () => {
                 &nbsp;{format(parseISO(eventDetails.eventDate), "hh:mm a")}
               </Box>
             </Box>
-            <Box>
+            {eventDetails.bookableTicket > 0 ? <Box>
               <FormControl sx={{ minWidth: 140 }} size="small">
                 <InputLabel id="select-ticket">Select tickets</InputLabel>
                 <Select
@@ -164,7 +165,11 @@ const EventDetails = () => {
               >
                 Book Event
               </Button>
-            </Box>
+            </Box> : (
+              <Typography color="grey" fontWeight={"bold"}>
+                {eventDetails.remainingTicket === 0 ? "Event is full." : `You cannot book more than ${eventDetails.ticketLimit} tickets.`}
+              </Typography>
+            )}
           </Box>
           <Box
             component={"p"}

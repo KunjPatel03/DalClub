@@ -1,7 +1,8 @@
 import Axios from "axios"
+import { BACKEND_URL } from "./constants"
 
 const axios = Axios.create({
-  baseURL: "http://localhost:3005/api",
+  baseURL: BACKEND_URL,
 })
 
 export default axios

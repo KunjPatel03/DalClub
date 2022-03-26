@@ -2,15 +2,14 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  Box,
   Button,
-  TextField,
   IconButton,
   Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import React, { useState } from "react";
 import { PaymentElement, useStripe, useElements} from "@stripe/react-stripe-js";
+import { FRONTEND_URL } from "../../../Assets/config/constants";
 
 const PaymentModal = ({ open, handleClose, amount }) => {
   const stripe = useStripe();
@@ -24,7 +23,7 @@ const PaymentModal = ({ open, handleClose, amount }) => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:3000/paymentStatus",
+        return_url: `${FRONTEND_URL}paymentStatus`,
       },
     });
 
@@ -70,7 +69,7 @@ const PaymentModal = ({ open, handleClose, amount }) => {
             id="submit"
           >
             <span id="button-text">
-              {isLoading ? "Processing" : "Pay now"}
+              {isLoading ? "Processing" : `Pay $${amount}`}
             </span>
           </Button>
         {message && <Typography variant="danger">{message}</Typography>}

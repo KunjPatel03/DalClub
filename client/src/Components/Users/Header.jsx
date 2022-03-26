@@ -46,12 +46,16 @@ const Header = () => {
       </Box>
     </Grid>
     <Menu anchorEl={eventElement} open={!!eventElement} onClose={closeEventMenu}>
-      <MenuItem onClick={closeEventMenu}>
-        <Link to="/events">Events</Link>
-      </MenuItem>
-      <MenuItem onClick={closeEventMenu}>
-        <Link to="/registeredEvents">Registered Events</Link>
-      </MenuItem>
+      <Link to="/events">
+        <MenuItem onClick={closeEventMenu}>
+          Events
+        </MenuItem>
+      </Link>
+      <Link to="/registeredEvents">
+        <MenuItem onClick={closeEventMenu}>
+          Registered Events
+        </MenuItem>
+      </Link>
     </Menu>
     <Box><Outlet /></Box>
     <Footer />

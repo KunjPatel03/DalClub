@@ -94,7 +94,7 @@ const EventList = () => {
                       name={name}
                       coverImage={coverImage}
                       eventDate={eventDate}
-                      silverMemberPrice={silverMemberPrice}
+                      price={silverMemberPrice}
                     />
                   </Grid>
                 )
