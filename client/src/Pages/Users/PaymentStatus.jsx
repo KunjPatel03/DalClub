@@ -28,7 +28,7 @@ const PaymentStatus = () => {
                 ticketType: "Silver"
               }).then(response => {
                 toast.success(`Payment successfully processed for ${entity}.`);
-                navigate("/registeredEvents")
+                navigate("/events")
                 return
               }).catch(err => {
                 toast.error(err?.response?.data?.message || "Something went wrong.")
