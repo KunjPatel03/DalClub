@@ -6,22 +6,24 @@ import { useNavigate } from 'react-router-dom';
 const Container = styled('section')({
   display: 'grid',
   gap: '3em',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
   margin: '5vh',
 });
 
-const ProductContainer = styled('div')({
-  margin: '1vh',
+const ProductContainer = styled('div')(({ theme }) => ({
   minWidth: '300px',
   height: '450px',
-  backgroundColor: '#edf6ff',
+  backgroundColor: theme.palette.secondary.background,
+  border: '0.5px solid gray',
+  boxShadow: '0 0 6px hsl(210 14% 90%)',
+  borderRadius: '10px',
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   flexDirection: 'column',
   cursor: 'pointer',
-});
+}));
 
 const Image = styled('img')({
   height: '70%',

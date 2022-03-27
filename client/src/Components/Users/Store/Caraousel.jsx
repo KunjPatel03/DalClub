@@ -2,14 +2,17 @@ import { styled } from '@mui/system';
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 
-const Container = styled('div')({
+const Container = styled('div')(({ theme }) => ({
   flex: 1,
   height: '90vh',
   display: 'flex',
   position: 'relative',
   overflow: 'hidden',
-  backgroundColor: '#edf6ff',
-});
+  backgroundColor: theme.palette.secondary.background,
+  border: '0.5px solid gray',
+  boxShadow: '0 0 6px hsl(210 14% 90%)',
+  borderRadius: '10px',
+}));
 
 const ArrowButton = styled('div')((props) => ({
   width: '50px',
@@ -38,19 +41,15 @@ const Wrapper = styled('div')((props) => ({
 
 const Slide = styled('div')({
   width: '50vw',
-  height: '100%',
+  height: '100vh',
   display: 'flex',
-});
-
-const ImageContainer = styled('div')({
-  flex: 1,
-  height: '100%',
+  justifyContent: 'center',
+  alignItems: 'center',
 });
 
 const Image = styled('img')({
-  maxHeight: '100vh',
+  maxHeight: '80%',
   maxWidth: '80%',
-  padding: '0 5vw',
 });
 
 const Caraousel = ({ product, index, setIndex }) => {
@@ -70,9 +69,7 @@ const Caraousel = ({ product, index, setIndex }) => {
       <Wrapper index={index}>
         {product.product_color.map((item) => (
           <Slide key={item.product_color_id}>
-            <ImageContainer>
-              <Image src={item.product_image} />
-            </ImageContainer>
+            <Image src={item.product_image} />
           </Slide>
         ))}
       </Wrapper>

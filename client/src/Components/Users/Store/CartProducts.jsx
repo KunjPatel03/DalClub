@@ -63,8 +63,8 @@ const RightContainer = styled('div')({
   display: 'flex',
 });
 
-const Button = styled('button')({
-  backgroundColor: '#437FC7',
+const Button = styled('button')(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
   color: 'white',
   height: '5vh',
   width: '20vh',
@@ -73,7 +73,7 @@ const Button = styled('button')({
   fontWeight: 700,
   cursor: 'pointer',
   alignSelf: 'center',
-});
+}));
 
 const Color = styled('div')((props) => ({
   width: '20px',
@@ -95,14 +95,14 @@ const OrderDetail = styled('span')({
   textAlign: 'left',
 });
 
-const OrderDetailContainer = styled('div')({
+const OrderDetailContainer = styled('div')(({ theme }) => ({
   border: '0.5px solid lightgray',
   borderTopLeftRadius: '1em',
   borderTopRightRadius: '1em',
   boxShadow: '0 0 6px hsl(210 14% 90%)',
-  backgroundColor: '#edf6ff',
+  backgroundColor: theme.palette.secondary.background,
   height: '5vh',
-});
+}));
 
 const CartProducts = ({ cartList, setCartList, total }) => {
   const handleRemove = (index) => {

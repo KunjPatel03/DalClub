@@ -5,7 +5,7 @@ import KeyboardBackspaceOutlined from '@mui/icons-material/KeyboardBackspaceOutl
 import { useNavigate } from 'react-router-dom';
 import Orders from '../../Components/Users/Store/Orders';
 import { useState, useEffect } from 'react';
-import axios from "../../Assets/config/axiosConfig";
+import axios from '../../Assets/config/axiosConfig';
 
 const Container = styled('section')({});
 
@@ -19,8 +19,8 @@ const Title = styled('h1')({
   marginTop: '5vh',
 });
 
-const Button = styled('button')({
-  backgroundColor: '#437FC7',
+const Button = styled('button')(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
   color: 'white',
   height: '5vh',
   width: '10vh',
@@ -32,7 +32,7 @@ const Button = styled('button')({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-});
+}));
 
 const OrdersPage = () => {
   const navigate = useNavigate();
@@ -42,9 +42,7 @@ const OrdersPage = () => {
     const fetchOrderList = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
-          `/orders?order_user_id=1`
-        );
+        const response = await axios.get(`/orders?order_user_id=1`);
         if (response.status === 200) {
           console.log(response.data);
           setOrderList(response.data);
