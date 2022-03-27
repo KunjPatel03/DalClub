@@ -2,7 +2,7 @@ import Navbar from '../../Components/Admin/Navbar';
 import Sidebar from '../../Components/Admin/Sidebar';
 import { Outlet } from 'react-router-dom';
 
-const DashboardPage = () => {
+const AdminHome = () => {
   return (
     <div>
       <Navbar />
@@ -14,4 +14,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default AdminHome;
