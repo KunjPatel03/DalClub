@@ -4,7 +4,7 @@
   "main": "server/index.js",
   "scripts": {
     "start": "nodemon server/index.js",
-    "build": "cd client && npm install && env-cmd -f ../.env npm run build"
+    "build": "cd client && npm install && npm run build"
   },
   "repository": {
     "type": "git",
