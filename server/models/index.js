@@ -9,6 +9,7 @@ const Product = require('./product.model.js');
 const ProductSize = require('./productsize.model.js');
 const ProductColor = require('./productcolor.model.js');
 const Careers= require("./careers.model");
+const JobApplications = require("./jobApplication.model")
 
 const EventsModel = Events(DBConnection, DataTypes);
 const EventBookingsModel = EventBookings(DBConnection, DataTypes);
@@ -18,7 +19,8 @@ const OrderLineModel = OrderLine(DBConnection, DataTypes);
 const ProductModel = Product(DBConnection, DataTypes);
 const ProductSizeModel = ProductSize(DBConnection, DataTypes);
 const ProductColorModel = ProductColor(DBConnection, DataTypes);
-const CareersModel = Careers(DBConnection, DataTypes) 
+const CareersModel = Careers(DBConnection, DataTypes);
+const JobApplicationsModel = JobApplications(DBConnection, DataTypes);
 
 
 EventsModel.hasMany(EventBookingsModel, {
@@ -62,6 +64,13 @@ ProductColorModel.belongsTo(ProductModel, {
   foreignKey: 'product_id',
 });
 
+CareersModel.hasMany(JobApplicationsModel, {
+  foreignKey: 'job_id'
+});
+JobApplicationsModel.belongsTo(CareersModel, {
+  foreignKey: 'job_id'
+});
+
 module.exports = {
   EventsModel,
   EventBookingsModel,
@@ -71,5 +80,6 @@ module.exports = {
   ProductModel,
   ProductColorModel,
   ProductSizeModel,
-  CareersModel
+  CareersModel,
+  JobApplicationsModel
 };

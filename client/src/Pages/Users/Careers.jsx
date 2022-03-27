@@ -2,12 +2,13 @@ import { useState, useEffect } from "react"
 import { Grid, Box, Stack, Typography, Button } from "@mui/material";
 import PageBanner from "../../Components/Users/PageBanner";
 import { styled } from '@mui/system'
-import Paper from '@mui/material/Paper';
 import axios from "../../Assets/config/axiosConfig";
 import CareersBanner from "../../Assets/images/careers-banner.jpeg";
 import { toast } from "react-toastify"
+import {useNavigate } from "react-router-dom";
 
 const Careers = () => {
+    const navigate = useNavigate();
 
     const [jobs, setJobs] = useState([]);
     const [activeJob, setActiveJob] = useState({})
@@ -48,14 +49,18 @@ const Careers = () => {
         setActiveJob(job);
     };
 
+    const handleSubmit = (jobId) => {
+        navigate(`/careers/application/${jobId}`)
+    }
+
     return (
-        <>
+        <div>
             <PageBanner title="Careers" bannerImage={CareersBanner} />
             <Box sx={{ flexGrow: 1, m: 2 }}>
                 <Grid container spacing={2}>
                     <Grid item xs>
                         <Stack spacing={1}>
-                            {jobs.map(job => {
+                            {jobs ? jobs.length > 0 ? jobs.map(job => {
                                 return (
                                     <JobTab key={job.job_id}>
                                         <div onClick={() => handleClick(job)} >
@@ -82,7 +87,7 @@ const Careers = () => {
                                         </div>
                                     </JobTab>
                                 );
-                            })}
+                            }): "No results found." : "Fetching events."}
                         </Stack>
                     </Grid>
                     <Grid item xs>
@@ -118,7 +123,7 @@ const Careers = () => {
                                                     </Typography>
                                                 </Grid>
                                                 <Grid item>
-                                                <Button variant="contained">Apply Now</Button>
+                                                <Button variant="contained" onClick={() => handleSubmit(activeJob.job_id)}>Apply Now</Button>
                                                 </Grid>
                                             </Grid>
                                         </Grid>
@@ -129,7 +134,7 @@ const Careers = () => {
                     </Grid>
                 </Grid>
             </Box>
-        </>
+        </div>
     );
 };
 
