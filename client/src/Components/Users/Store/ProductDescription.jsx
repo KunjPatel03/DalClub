@@ -6,6 +6,7 @@ import { StateContext } from '../../../State';
 import { useContext } from 'react';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
+import { toast } from 'react-toastify';
 
 const Container = styled('div')({
   flex: 1,
@@ -69,19 +70,19 @@ const AmountContainer = styled('div')({
   fontWeight: 700,
 });
 
-const Amount = styled('span')({
+const Amount = styled('span')(({ theme }) => ({
   width: '50px',
   height: '50px',
   borderRadius: '30%',
-  border: '1px solid #437FC7',
+  border: `1px solid ${theme.palette.primary.main}`,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   margin: '0px 5px',
-});
+}));
 
 const Button = styled('button')((props) => ({
-  backgroundColor: !props.disabled ? '#437FC7' : 'white',
+  backgroundColor: !props.disabled ? props.theme.palette.primary.main : 'white',
   color: !props.disabled ? 'white' : 'black',
   height: '50px',
   width: '50px',
@@ -92,7 +93,7 @@ const Button = styled('button')((props) => ({
   cursor: 'pointer',
 }));
 
-const ProductDescription = ({ product, setOpen, setMessage, setIndex }) => {
+const ProductDescription = ({ product, setIndex }) => {
   const [quantity, setQuantity] = useState(0);
   const [color, setColor] = useState(0);
   const [size, setSize] = useState('');
@@ -115,11 +116,9 @@ const ProductDescription = ({ product, setOpen, setMessage, setIndex }) => {
       setCartList([...cartList, cartProduct]);
       setDisabled(true);
       setText('ADDED TO CART');
-      setMessage('Product Added to Cart');
-      setOpen(true);
+      toast.error('Product Added to Cart');
     } else {
-      setMessage('Please Select Size and Quantity');
-      setOpen(true);
+      toast.error('Please Select Color, Size & Quantity');
     }
   };
 
@@ -158,21 +157,6 @@ const ProductDescription = ({ product, setOpen, setMessage, setIndex }) => {
               );
             })}
           </Select>
-          {/* <TextField
-            select
-            value={size}
-            label='Size'
-            sx={{ width: '20vh' }}
-            onChange={(e) => setSize(e.target.value)}
-          >
-            {product.product_size.map((item) => {
-              return (
-                <MenuItem key={item.product_size_id}>
-                  {item.product_size}
-                </MenuItem>
-              );
-            })}
-          </TextField> */}
         </Filter>
       </FilterContainer>
       <AddContainer>

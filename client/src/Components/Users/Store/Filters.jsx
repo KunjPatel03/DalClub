@@ -11,7 +11,14 @@ const FilterContainer = styled('section')({
 
 const Filter = styled('div')({ margin: '20px' });
 
-const Filters = ({ category, sort, setCategory, setSort, filterSort , productList}) => {
+const Filters = ({
+  category,
+  sort,
+  setCategory,
+  setSort,
+  filterSort,
+  productList,
+}) => {
   return (
     <FilterContainer>
       <Filter>
@@ -23,11 +30,12 @@ const Filters = ({ category, sort, setCategory, setSort, filterSort , productLis
             setCategory(e.target.value);
             filterSort(e.target.value, sort, productList);
           }}
-          sx = {{width : '20vh', marginLeft : '5vh'}}
+          sx={{ width: '20vh', marginLeft: '5vh' }}
         >
           <MenuItem value='All'>All</MenuItem>
           <MenuItem value='Tshirts'>T-Shirts</MenuItem>
           <MenuItem value='Jeans'>Jeans</MenuItem>
+          <MenuItem value='Shoes'>Shoes</MenuItem>
         </TextField>
       </Filter>
       <Filter>
@@ -39,7 +47,7 @@ const Filters = ({ category, sort, setCategory, setSort, filterSort , productLis
             setSort(e.target.value);
             filterSort(category, e.target.value, productList);
           }}
-          sx = {{width : '20vh', marginRight : '5vh'}}
+          sx={{ width: '20vh', marginRight: '5vh' }}
         >
           <MenuItem value='LowToHigh'>Low To High</MenuItem>
           <MenuItem value='HighToLow'>High To Low</MenuItem>

@@ -7,14 +7,14 @@ const OrderContainer = styled('div')({
   marginBottom: '5vh',
 });
 
-const OrderDetailContainer = styled('div')({
+const OrderDetailContainer = styled('div')(({ theme }) => ({
   border: '0.5px solid lightgray',
   borderTopLeftRadius: '1em',
   borderTopRightRadius: '1em',
   boxShadow: '0 0 6px hsl(210 14% 90%)',
-  backgroundColor: '#edf6ff',
+  backgroundColor: theme.palette.secondary.background,
   height: '5vh',
-});
+}));
 
 const ProductsContainer = styled('div')({
   height: 'auto',
