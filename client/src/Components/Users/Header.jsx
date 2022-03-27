@@ -68,7 +68,6 @@ const Header = () => {
             </Typography>
           </Grid>
         </Box>
-<<<<<<< HEAD
         <Box py={2} px={3} className='cursor-pointer'>
           <Grid container width={'fit-content'}>
             <Typography
@@ -89,23 +88,6 @@ const Header = () => {
               color={'white'}
               className='cursor-pointer'
               marginLeft={2}
-=======
-        <Grid container width={"fit-content"}>
-          <Typography color={"white"} className="cursor-pointer" marginLeft={2}>Bookings</Typography>
-          <Typography color={"white"} className="cursor-pointer" marginLeft={2} onClick={openEventMenu}>
-            Events
-          </Typography>
-          <Typography color={"white"} className="cursor-pointer" marginLeft={2}><Link to={"/store/products"}>Merchandise Store</Link></Typography>
-          <Typography color={"white"} className="cursor-pointer" marginLeft={2}> <Link to={"/careers"}>Careers</Link></Typography>
-        </Grid>
-      </Box>
-      <Box py={2} px={3} className="cursor-pointer">
-        <Grid container width={"fit-content"}>
-        <Typography color={"white"} className="cursor-pointer" marginLeft={2}><Link to={"/store/orders"}>My Orders</Link></Typography>
-          <Box color={"white"} className="cursor-pointer" marginLeft={2}>
-            <Badge
-              badgeContent={cartList.length ? cartList.length : '0'}
->>>>>>> 114401ed90d3008c9caff15f2aab933478e4cb93
             >
               <LogoutIcon />
             </Typography>
