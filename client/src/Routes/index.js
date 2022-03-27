@@ -12,15 +12,17 @@ import ProductPage from '../Pages/Users/ProductPage';
 import CartPage from '../Pages/Users/CartPage';
 import OrdersPage from '../Pages/Users/OrdersPage';
 import Home from '../Components/Admin/Home';
-import AdminLayout from "../Components/Admin/AdminLayout";
-import RegisteredEvents from "../Pages/Users/RegisteredEvents";
-import PaymentStatus from "../Pages/Users/PaymentStatus";
-import {Elements} from '@stripe/react-stripe-js';
-import {loadStripe} from '@stripe/stripe-js';
+import AdminLayout from '../Components/Admin/AdminLayout';
+import RegisteredEvents from '../Pages/Users/RegisteredEvents';
+import PaymentStatus from '../Pages/Users/PaymentStatus';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import Careers from '../Pages/Users/Careers';
 
 const AppRoutes = () => {
-  const loadStripeKey = loadStripe("pk_test_51KgEo1GMutfkjZDFgZN4zTuVLFDNLlUzae99RhzKMjWXlcBg6y0dIFKSRg3AMPZKaJLGuvUGT8MeDqe6tAzcCbfb00Ko70FnbZ");
+  const loadStripeKey = loadStripe(
+    'pk_test_51KgEo1GMutfkjZDFgZN4zTuVLFDNLlUzae99RhzKMjWXlcBg6y0dIFKSRg3AMPZKaJLGuvUGT8MeDqe6tAzcCbfb00Ko70FnbZ'
+  );
 
   return (
     <BrowserRouter>
@@ -28,8 +30,9 @@ const AppRoutes = () => {
         {/* Admin routes without layout */}
         <Route path='/admin/login' element={<AdminLogin />} />
         {/* Admin routes with layout */}
-        <Route path='' element={<Home />} />
-        <Route path='/admin/dashboard' element={<AdminDashboard />}></Route>
+        <Route path='/admin/dashboard' element={<AdminDashboard />}>
+          <Route path='' element={<Home />} />
+        </Route>
 
         {/* User routes without header */}
         <Route path='/user/login' element={<UserLogin />} />
@@ -38,8 +41,15 @@ const AppRoutes = () => {
           <Route index element={<Homepage />} />
           <Route path='/events' element={<EventList />} />
           <Route path='/eventDetails/:eventId' element={<EventDetails />} />
-          <Route path="/registeredEvents" element={<RegisteredEvents />} />
-          <Route path="/paymentStatus" element={<Elements stripe={loadStripeKey}><PaymentStatus /></Elements>} />
+          <Route path='/registeredEvents' element={<RegisteredEvents />} />
+          <Route
+            path='/paymentStatus'
+            element={
+              <Elements stripe={loadStripeKey}>
+                <PaymentStatus />
+              </Elements>
+            }
+          />
           <Route path='/store/products' element={<StorePage />} />
           <Route path='/store/products/:id' element={<ProductPage />} />
           <Route path='/store/cart' element={<CartPage />} />
