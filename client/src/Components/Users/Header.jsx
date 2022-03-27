@@ -31,7 +31,6 @@ const Header = () => {
           <Typography color={"white"} className="cursor-pointer" marginLeft={2}> <Link to={"/careers"}>Careers</Link></Typography>
         </Grid>
       </Box>
-      <Box py={2} px={3} className="cursor-pointer">Login</Box>
       <Box py={2} px={3} className="cursor-pointer">
         <Grid container width={"fit-content"}>
         <Typography color={"white"} className="cursor-pointer" marginLeft={2}><Link to={"/store/orders"}>My Orders</Link></Typography>
