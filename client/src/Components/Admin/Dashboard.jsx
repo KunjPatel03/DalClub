@@ -1,7 +1,6 @@
 import React from 'react';
 import { styled } from '@mui/system';
-import { featuredData } from './api';
-import { ArrowUpward } from '@mui/icons-material';
+import { adminDashboardData } from './api';
 
 const HomeContainer = styled('div')({
   flex: '8',
@@ -25,45 +24,35 @@ const FeaturedItem = styled('div')({
 const FeaturedTitle = styled('span')({
   fontSize: '20px',
 });
-const FeaturedMoneyContainer = styled('div')({
+const FeaturesStatsContainer = styled('div')({
   margin: '10px 0px',
   display: 'flex',
   alignItems: 'center',
-  '.featuredMoney': {
+  '.stats': {
     fontSize: '30px',
     fontWeight: '600',
   },
-  '.featuredMoneyRate': {
+  '.statMessage': {
     display: 'flex',
     alignItems: 'center',
     marginLeft: '20px',
-  },
-  '.featuredIcon': {
-    fontSize: '14px',
-    marginLeft: '5px',
-    color: 'green',
-  },
-});
-const FeaturedSub = styled('span')({
-  fontSize: '15px',
-  color: 'gray',
+  }
 });
 
-const Home = () => {
+const Dashboard = () => {
   return (
     <HomeContainer>
       <FeaturedContainer>
-        {featuredData &&
-          featuredData.map((item, index) => (
+        {adminDashboardData &&
+          adminDashboardData.map((item, index) => (
             <FeaturedItem key={index}>
               <FeaturedTitle>{item.title}</FeaturedTitle>
-              <FeaturedMoneyContainer>
-                <span className='featuredMoney'>{item.money}</span>
-                <span className='featuredMoneyRate'>
-                  {item.moneyRate} <ArrowUpward className='featuredIcon' />
+              <FeaturesStatsContainer>
+                <span className='stats'>{item.stats}</span>
+                <span className='statMessage'>
+                  {item.message}
                 </span>
-              </FeaturedMoneyContainer>
-              <FeaturedSub>Compared to Previous month</FeaturedSub>
+              </FeaturesStatsContainer>
             </FeaturedItem>
           ))}
       </FeaturedContainer>
@@ -71,4 +60,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Dashboard;

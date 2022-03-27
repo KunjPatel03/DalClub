@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
-import AdminDashboard from '../Pages/Admin/DashboardPage';
+import AdminDashboard from '../Pages/Admin/AdminHome';
 import AdminLogin from '../Pages/Admin/AdminLogin';
 import UserHeader from '../Components/Users/Header';
 import Homepage from '../Pages/Users/Homepage';
@@ -11,8 +11,7 @@ import StorePage from '../Pages/Users/StorePage';
 import ProductPage from '../Pages/Users/ProductPage';
 import CartPage from '../Pages/Users/CartPage';
 import OrdersPage from '../Pages/Users/OrdersPage';
-import Home from '../Components/Admin/Home';
-import AdminLayout from '../Components/Admin/AdminLayout';
+import Home from '../Components/Admin/Dashboard';
 import RegisteredEvents from '../Pages/Users/RegisteredEvents';
 import PaymentStatus from '../Pages/Users/PaymentStatus';
 import { Elements } from '@stripe/react-stripe-js';
