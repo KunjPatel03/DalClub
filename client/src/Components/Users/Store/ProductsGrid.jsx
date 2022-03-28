@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const Container = styled('section')({
   display: 'grid',
   gap: '3em',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
   margin: '5vh',
 });
 

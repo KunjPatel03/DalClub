@@ -4,9 +4,11 @@ const {
   ProductColorModel,
 } = require('../models');
 
+const { Op } = require('sequelize');
+
 exports.findAllProducts = (req, res) => {
   ProductModel.findAll({
-    where: { product_isactive: true },
+    where: { product_isactive: true, product_quantity: { [Op.gt]: 0 } },
     include: [
       { model: ProductColorModel, as: 'product_color' },
       { model: ProductSizeModel, as: 'product_size' },

@@ -8,6 +8,9 @@ import { StateContext } from '../../State';
 import { useContext, useEffect, useState } from 'react';
 import axios from '../../Assets/config/axiosConfig';
 import { toast } from 'react-toastify';
+import PaymentModal from '../../Components/Users/Events/PaymentModal';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
 const Container = styled('section')({});
 
@@ -62,58 +65,53 @@ const Cart = () => {
   const navigate = useNavigate();
   const { cartList, setCartList } = useContext(StateContext);
   const [total, setTotal] = useState(0);
+  const [name, setName] = useState('');
+  const [showPaymentModel, setShowPaymentModal] = useState(false);
+  const [stripeSecret, setStripeSecret] = useState('');
+
   useEffect(() => {
     let totalAmount = 0;
+    let entities = '';
     cartList.forEach((product) => {
       totalAmount += product.product_subtotal;
+      entities += product.product_name + ',';
     });
     setTotal(totalAmount);
+    setName(entities);
     console.log(cartList);
   });
 
-  const handleCheckout = () => {
-    if (cartList.length !== 0) {
-      const order_line = [];
-      cartList.forEach((product) => {
-        const line = {
-          order_product_id: product.product_id,
-          order_product_name: product.product_name,
-          order_product_quantity: product.product_quantity,
-          order_product_size: product.product_size,
-          order_product_color: product.product_color,
-          order_product_price: product.product_price,
-          order_product_image: product.product_image,
-        };
-        order_line.push(line);
-      });
-
-      axios({
-        method: 'post',
-        url: '/orders/new',
-        data: {
-          order_user_id: 1,
-          order_total: total,
-          order_payment_id: 1,
-          order_status: 'Created',
-          order_line: order_line,
-        },
-      })
-        .then((response) => {
-          if (response.status === 200) {
-            setCartList([]);
-            toast.error('Order Placed');
-            setTimeout(() => {
-              navigate('/store/orders');
-            }, 1000);
+  const togglePaymentModal = () => {
+    if (cartList.length == 0) {
+      toast.error('Add Products to Place your Order');
+      return;
+    } else {
+      axios
+        .post('/payments/createIntent', {
+          module: 'order',
+          amount: total,
+          entityName: name,
+        })
+        .then((res) => {
+          if (res.data.success) {
+            setStripeSecret(res.data.clientSecret);
+            setShowPaymentModal(true);
+          } else {
+            toast.error(res?.data?.message || 'Cannot initiate payment.');
           }
         })
-        .catch((error) => {
-          toast.error('Something went wrong');
+        .catch((err) => {
+          toast.error(
+            err?.response?.data?.message || 'Cannot initiate payment'
+          );
         });
-    } else {
-      toast.error('Add Products to Place your Order');
     }
   };
+
+  const closePaymentModal = () => setShowPaymentModal(false);
+  const loadStripeKey = loadStripe(
+    'pk_test_51KgEo1GMutfkjZDFgZN4zTuVLFDNLlUzae99RhzKMjWXlcBg6y0dIFKSRg3AMPZKaJLGuvUGT8MeDqe6tAzcCbfb00Ko70FnbZ'
+  );
 
   return (
     <Container>
@@ -127,7 +125,7 @@ const Cart = () => {
             </Button>
           </LeftContainer>
           <RightContainer>
-            <Button sx={{ padding: '0vh 5vh' }} onClick={handleCheckout}>
+            <Button sx={{ padding: '0vh 5vh' }} onClick={togglePaymentModal}>
               PROCEED TO CHECKOUT
             </Button>
           </RightContainer>
@@ -138,6 +136,21 @@ const Cart = () => {
           total={total}
         />
       </Wrapper>
+      {showPaymentModel && (
+        <Elements
+          options={{
+            clientSecret: stripeSecret,
+            appearance: { theme: 'stripe' },
+          }}
+          stripe={loadStripeKey}
+        >
+          <PaymentModal
+            open={showPaymentModel}
+            handleClose={closePaymentModal}
+            amount={total}
+          />
+        </Elements>
+      )}
     </Container>
   );
 };

@@ -15,10 +15,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DOUBLE,
       },
 
-      order_payment_id: {
-        type: DataTypes.INTEGER,
-      },
-
       order_status: {
         type: DataTypes.STRING,
       },
