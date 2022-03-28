@@ -6,10 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import CartProducts from '../../Components/Users/Store/CartProducts';
 import { StateContext } from '../../State';
 import { useContext, useEffect, useState } from 'react';
-import Snackbar from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
 import axios from '../../Assets/config/axiosConfig';
+import { toast } from 'react-toastify';
 
 const Container = styled('section')({});
 
@@ -23,8 +21,8 @@ const Title = styled('h1')({
   marginTop: '5vh',
 });
 
-const Button = styled('button')({
-  backgroundColor: '#437FC7',
+const Button = styled('button')(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
   color: 'white',
   height: '5vh',
   width: 'auto',
@@ -37,7 +35,7 @@ const Button = styled('button')({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-});
+}));
 
 const ButtonsContainer = styled('div')({
   padding: '10px',
@@ -64,8 +62,6 @@ const Cart = () => {
   const navigate = useNavigate();
   const { cartList, setCartList } = useContext(StateContext);
   const [total, setTotal] = useState(0);
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState('');
   useEffect(() => {
     let totalAmount = 0;
     cartList.forEach((product) => {
@@ -105,42 +101,19 @@ const Cart = () => {
         .then((response) => {
           if (response.status === 200) {
             setCartList([]);
-            setMessage('Order Placed');
-            setOpen(true);
+            toast.error('Order Placed');
             setTimeout(() => {
               navigate('/store/orders');
             }, 1000);
           }
         })
         .catch((error) => {
-          setMessage('Something Went Wrong');
-          setOpen(true);
+          toast.error('Something went wrong');
         });
     } else {
-      setMessage('Add Products to Place your Order');
-      setOpen(true);
+      toast.error('Add Products to Place your Order');
     }
   };
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
-  };
-
-  const action = (
-    <React.Fragment>
-      <IconButton
-        size='small'
-        aria-label='close'
-        color='inherit'
-        onClick={handleClose}
-      >
-        <CloseIcon fontSize='small' />
-      </IconButton>
-    </React.Fragment>
-  );
 
   return (
     <Container>
@@ -165,13 +138,6 @@ const Cart = () => {
           total={total}
         />
       </Wrapper>
-      <Snackbar
-        open={open}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        message={message}
-        action={action}
-      />
     </Container>
   );
 };

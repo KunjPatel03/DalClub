@@ -6,9 +6,6 @@ import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspace
 import { useNavigate, useParams } from 'react-router-dom';
 import Banner from '../../Components/Users/Store/Banner';
 import { useState, useEffect } from 'react';
-import Snackbar from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
 import axios from '../../Assets/config/axiosConfig';
 
 const Wrapper = styled('section')({
@@ -18,8 +15,8 @@ const Wrapper = styled('section')({
   padding: '2vh',
 });
 
-const Button = styled('button')({
-  backgroundColor: '#437FC7',
+const Button = styled('button')(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
   color: 'white',
   height: '5vh',
   width: '10vh',
@@ -31,14 +28,12 @@ const Button = styled('button')({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-});
+}));
 
 const ProductPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState({});
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState('');
   const [index, setIndex] = useState(0);
   const params = useParams();
   useEffect(() => {
@@ -58,27 +53,6 @@ const ProductPage = () => {
     fetchProduct();
   }, []);
 
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
-  };
-
-  const action = (
-    <React.Fragment>
-      <IconButton
-        size='small'
-        aria-label='close'
-        color='inherit'
-        onClick={handleClose}
-      >
-        <CloseIcon fontSize='small' />
-      </IconButton>
-    </React.Fragment>
-  );
-
   return (
     <React.Fragment>
       <Banner />
@@ -91,20 +65,11 @@ const ProductPage = () => {
           <Caraousel product={product} index={index} setIndex={setIndex} />
           <ProductDescription
             product={product}
-            setOpen={setOpen}
-            setMessage={setMessage}
             index={index}
             setIndex={setIndex}
           />
         </Wrapper>
       )}
-      <Snackbar
-        open={open}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        message={message}
-        action={action}
-      />
     </React.Fragment>
   );
 };
