@@ -1,5 +1,4 @@
 const express = require("express");
-// const { getJobsList, getJob, applyJob } = require("../controllers/careers.controller");
 const {
   getBlogList,
   getBlog,

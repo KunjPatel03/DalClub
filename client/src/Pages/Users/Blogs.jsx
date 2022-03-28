@@ -5,7 +5,6 @@ import {
   Typography,
   Button,
   CardActionArea,
-  CardMedia,
   CardActions,
   Card,
   CardContent,
@@ -66,57 +65,63 @@ const Blogs = () => {
         <Grid item xs={12} sm={6} md={4} mb={3}>
           {blogs
             ? blogs.length > 0
-              ? blogs.map((blog) => {
-                  return (
-                    <Card
-                      key={blog.blog_id}
-                      sx={{ mb: 3 }}
-                      onClick={() => handleClick(blog.blog_id)}
-                    >
-                      <CardActionArea>
-                        <CardContent>
-                          <Typography gutterBottom variant="h5" component="h2">
-                            {blog.title}
-                          </Typography>
-                          <Typography
-                            variant="body2"
-                            color="textSecondary"
-                            component="p"
-                          >
-                            {blog.description}
-                          </Typography>
-                        </CardContent>
+              ? blogs
+                  .filter((x) => x.isVisible)
+                  .map((blog) => {
+                    return (
+                      <Card
+                        key={blog.blog_id}
+                        sx={{ mb: 3 }}
+                        onClick={() => handleClick(blog.blog_id)}
+                      >
+                        <CardActionArea>
+                          <CardContent>
+                            <Typography
+                              gutterBottom
+                              variant="h5"
+                              component="h2"
+                            >
+                              {blog.title}
+                            </Typography>
+                            <Typography
+                              variant="body2"
+                              color="textSecondary"
+                              component="p"
+                            >
+                              {blog.description}
+                            </Typography>
+                          </CardContent>
 
-                        <CardActions>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "row",
-                              p: 1,
-                              m: 1,
-                              bgcolor: "background.paper",
-                              borderRadius: 1,
-                            }}
-                          >
-                            <Avatar src="" />
-                            <Box ml={2}>
-                              <Typography variant="subtitle2" component="p">
-                                Guy Clemons
-                              </Typography>
-                              <Typography
-                                variant="subtitle2"
-                                color="textSecondary"
-                                component="p"
-                              >
-                                {blog.createdAt}
-                              </Typography>
+                          <CardActions>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                flexDirection: "row",
+                                p: 1,
+                                m: 1,
+                                bgcolor: "background.paper",
+                                borderRadius: 1,
+                              }}
+                            >
+                              <Avatar src="" />
+                              <Box ml={2}>
+                                <Typography variant="subtitle2" component="p">
+                                  Guy Clemons
+                                </Typography>
+                                <Typography
+                                  variant="subtitle2"
+                                  color="textSecondary"
+                                  component="p"
+                                >
+                                  {blog.createdAt}
+                                </Typography>
+                              </Box>
                             </Box>
-                          </Box>
-                        </CardActions>
-                      </CardActionArea>
-                    </Card>
-                  );
-                })
+                          </CardActions>
+                        </CardActionArea>
+                      </Card>
+                    );
+                  })
               : "No results found."
             : "Fetching blogs."}
         </Grid>
