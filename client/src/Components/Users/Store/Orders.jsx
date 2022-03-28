@@ -78,7 +78,7 @@ const Orders = ({ orderList }) => {
                   <b>Order Date:</b> {order.created_at.split('T')[0]}
                 </OrderDetail>
                 <OrderDetail>
-                  <b>Order Total:</b> {order.order_total} CAD
+                  <b>Order Total:</b> {order.order_total / 100} CAD
                 </OrderDetail>
                 <OrderDetail>
                   <b>Order Status:</b> {order.order_status}
@@ -99,7 +99,7 @@ const Orders = ({ orderList }) => {
                           <b>Product Name:</b> {item.order_product_name}
                         </ProductDetail>
                         <ProductDetail>
-                          <b>Product Price:</b> {item.order_product_price}
+                          <b>Product Price:</b> {item.order_product_price} CAD
                         </ProductDetail>
                       </Details>
                     </LeftContainer>

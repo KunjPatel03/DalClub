@@ -169,7 +169,13 @@ const ProductDescription = ({ product, setIndex }) => {
             }}
           />
           <Amount>{quantity}</Amount>
-          <AddOutlinedIcon onClick={() => setQuantity(quantity + 1)} />
+          <AddOutlinedIcon
+            onClick={() => {
+              if (quantity < product.product_quantity) {
+                setQuantity(quantity + 1);
+              }
+            }}
+          />
         </AmountContainer>
         <Button
           disabled={disabled}

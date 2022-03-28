@@ -43,6 +43,7 @@ const ProductPage = () => {
         const response = await axios.get(`/products/${params.id}`);
         if (response.status === 200) {
           setProduct(response.data);
+          console.log(response.data);
         }
       } catch (error) {
         console.error(error.message);
