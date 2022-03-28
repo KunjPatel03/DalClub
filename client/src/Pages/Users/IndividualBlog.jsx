@@ -18,28 +18,27 @@ import BlogBanner from "../../Assets/images/BlogBanner.jpg";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const Blogs = () => {
-  const navigate = useNavigate();
-  const [blogs, setBlogs] = useState([]);
+const IndivdualBlog = () => {
+    const navigate = useNavigate();
+    let { jobId } = useParams();
+    const [blog, setBlog] = useState({});
   useEffect(() => {
-    axios
-      .get("/blogs")
-      .then((response) => {
-        setBlogs(response.data.success ? response.data.blogs : []);
-      })
-      .catch((err) => {
-        setBlogs([]);
-        toast.error(err?.response?.data?.message || "Something went wrong");
-      });
-  }, []);
+    axios.get(`/careers/${jobId}`)
+        .then(response => {
+            setBlogs(response.data.success ? response.data.blog : {});
+        }).catch(err => {
+            setBlog([]);
+            toast.error(err?.response?.data?.message || "Something went wrong")
+        })
+}, [jobId])
 
   // const handleClick = job => {
   //     setActiveJob(job);
   // };
 
-  const handleClick = (blogId) => {
-    navigate(`/blogs/${blogId}`);
-  };
+  // const handleSubmit = (jobId) => {
+  //     navigate(`/careers/application/${jobId}`)
+  // }
 
   return (
     <div>
@@ -66,16 +65,8 @@ const Blogs = () => {
           </Button>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4} mb={3}>
-          {blogs
-            ? blogs.length > 0
-              ? blogs.map((blog) => {
-                  return (
-                    <Card
-                      key={blog.blog_id}
-                      sx={{ mb: 3 }}
-                      onClick={() => handleClick(blog.blog_id)}
-                    >
+        <Grid item xs={12} sm={6} md={4} mb ={3}>
+        <Card key={blog.blog_id} sx={{ mb: 3 }}>
                       <CardActionArea>
                         <CardMedia
                           image="https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
@@ -83,14 +74,14 @@ const Blogs = () => {
                         />
                         <CardContent>
                           <Typography gutterBottom variant="h5" component="h2">
-                            {blog.title}
+                          {blog.title}
                           </Typography>
                           <Typography
                             variant="body2"
                             color="textSecondary"
                             component="p"
                           >
-                            {blog.description}
+                          {blog.description}
                           </Typography>
                         </CardContent>
                       </CardActionArea>
@@ -121,14 +112,10 @@ const Blogs = () => {
                         </Box>
                       </CardActions>
                     </Card>
-                  );
-                })
-              : "No results found."
-            : "Fetching blogs."}
         </Grid>
       </Box>
     </div>
   );
 };
 
-export default Blogs;
+export default IndivdualBlog;
