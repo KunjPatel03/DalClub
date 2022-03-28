@@ -1,3 +1,4 @@
+// @Author: Kishan Thakkar
 import { Box, Typography } from "@mui/material";
 
 const PageBanner = ({ title = "Banner", bannerImage }) => {

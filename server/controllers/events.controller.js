@@ -1,19 +1,28 @@
+// @Author: Kishan Thakkar
 const { EventsModel, EventBookingsModel, PaymentDetailsModel } = require("../models");
 const { Op } = require('sequelize')
-const { format, parseISO, add, isBefore, isAfter } = require("date-fns");
+const { format, parseISO, add, isBefore } = require("date-fns");
 const DBConnection = require("../config/dbConfig");
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const getEventList = (req, res) => {
-  const {category, searchText} = req.body
+  const {category, searchText, featured = false} = req.body
+  
+  // Create where condition object and add dynamic conditions if parameters are present
   const conditionObject = {
-    eventDate: { [Op.gte]: new Date() },
-    allowBookingDate: { [Op.lte]: new Date() },
-    isActive: true
+    where: {
+      eventDate: { [Op.gte]: new Date() },
+      allowBookingDate: { [Op.lte]: new Date() },
+      isActive: true
+    }
   }
-  if(category) conditionObject["category"] = category
-  if(searchText) conditionObject["name"] = { [Op.like]: `%${searchText}%` }
-  EventsModel.findAll({ where: conditionObject })
+
+  // Add limit of 5 for event carousel at homepage
+  if(featured) conditionObject["limit"] = 5
+  if(category) conditionObject["where"]["category"] = category
+  if(searchText) conditionObject["where"]["name"] = { [Op.like]: `%${searchText}%` }
+  
+  EventsModel.findAll(conditionObject)
     .then((events) => {
       res.send({ success: true, events });
     })
@@ -26,12 +35,14 @@ const getEventList = (req, res) => {
 const getBookedEvents = (req, res) => {
   const { eventType } = req.body
   const whereObj = { userId: req.params.userId }
+
   if(eventType === "All"){
   } else if(eventType === "Past") {
     whereObj["$event.event_date$"] = { [Op.lt]: new Date() }
   } else {
     whereObj["$event.event_date$"] = { [Op.gte]: new Date() }
   }
+
   EventBookingsModel.findAll({
     where: whereObj,
     include: {
@@ -51,13 +62,18 @@ const getBookedEvents = (req, res) => {
 
 const bookEvent = async (req, res) => {
   const { userId, paymentIntent, ticketType } = req.body;
+  // Retrieve intent details and save them to database like amount paid and intent id
+  // which will be used in future to refund tickets.
   const paymentIntentDetails = await stripe.paymentIntents.retrieve(paymentIntent);
   const { metadata: { id, ticketsBooked }, amount } = paymentIntentDetails;
+
   const eventDetails = await EventsModel.findOne({ where: { id } }).then((data) => data).catch(() => null);
   if (eventDetails) {
     const {
       ticketLimit, remainingSilverSeats, remainingGoldSeats, remainingPlatinumSeats,
     } = eventDetails
+
+    // Get total tickets reserved by user for particular event in past
     const userBookedEvents = await EventBookingsModel.findAll({
       where: { userId, eventId: id },
     }).then((bookings) => {
@@ -66,6 +82,8 @@ const bookEvent = async (req, res) => {
       );
       return totalBookings
     }).catch(() => 0);
+
+    // Dont allow to book event if user limit exceeds or no more seats are available
     if (parseInt(userBookedEvents)+parseInt(ticketsBooked) <= parseInt(ticketLimit)) {
       const remainingTickets = ticketType === "Silver" ? remainingSilverSeats
         : ticketType === "Gold" ? remainingGoldSeats
@@ -81,6 +99,8 @@ const bookEvent = async (req, res) => {
         })
         return
       } else {
+
+        // Deduct seats from available count, add payment details and book event for user
         let t = await DBConnection.transaction()
         try {
           const remainingTicketsField = ticketType === "Silver" ? "remainingSilverSeats"
@@ -147,6 +167,7 @@ const getEventDetails = (req, res) => {
   }
   EventsModel.findOne({ where: { id: eventId } }).then(async eventDetails => {
     if(eventDetails) {
+      // Get total number of tickets booked by user for this event, so UI can put required validations
       const userBookedEvents = await EventBookingsModel.findAll({
         where: { userId, eventId },
       }).then((bookings) => {
@@ -175,16 +196,23 @@ const unregisterEvent = (req, res) => {
       },
     })
     eventDetails = { ...eventDetails.dataValues, event: eventDetails.dataValues.event.dataValues }
+    
+    // Dont allow users to unregister from event if event is in less than 1 hour
     if(isBefore(add(new Date(), { hours: 1 }), parseISO(eventDetails.event.eventDate))) {
       res.status(400).send({ success: false, message: "Cannot unregister from event which are due less than hour." })
       return
     }
+
+    // Get amount paid and number of tickets from stripe payment intent
     const paymentIntentDetails = await stripe.paymentIntents.retrieve(details.paymentIntent);
     let { amount, metadata: { ticketsBooked } } = paymentIntentDetails
     if(req.body.tickets < ticketsBooked) {
+      // Calculate amount to refund by tickets to unregister
       let amountToRefund = (amount / ticketsBooked) * req.body.tickets
       let t = await DBConnection.transaction()
       try{
+
+        // Deduct ticket count from event bookings row and delete the row if all tickets are refunded
         if(eventDetails.ticketsBooked === req.body.tickets) {
           await EventBookingsModel.destroy({ where: { id: req.params.bookingId } })
         } else {
@@ -196,7 +224,8 @@ const unregisterEvent = (req, res) => {
             transaction: t
           })
         }
-        // take ticket type from event details and update overall type count
+
+        // Take ticket type from event details and increament overall available ticket count
         const remainingTicketsField = eventDetails.ticketType === "Silver" ? "remainingSilverSeats"
           : ticketType === "Gold" ? "remainingGoldSeats" : "remainingPlatinumSeats"
         EventsModel.update({
@@ -205,6 +234,8 @@ const unregisterEvent = (req, res) => {
           where: { id: eventDetails.event.id },
           transaction: t
         })
+
+        // If above conditions are valid then refund tickets through stripe payment intent
         await stripe.refunds.create({
           amount: amountToRefund, payment_intent: details.paymentIntent
         })
@@ -212,6 +243,8 @@ const unregisterEvent = (req, res) => {
         res.send({ success: true, message: "Event unregistered successfully." })
         return
       } catch (error) {
+
+        // Rollback all the changes if any operation fails to maintain database consistency
         console.log(error);
         t.rollback()
         res.status(500).send({ success: false, message: "Something went wrong, please try again later." })

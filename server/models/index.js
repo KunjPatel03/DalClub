@@ -1,3 +1,4 @@
+// @Author: Kishan Thakkar
 const { DataTypes } = require('sequelize');
 const DBConnection = require('../config/dbConfig');
 const Events = require("./events.model")

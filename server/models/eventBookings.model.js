@@ -1,3 +1,4 @@
+// @Author: Kishan Thakkar
 module.exports = (sequelize, DataTypes) => {
   const EventBookings = sequelize.define("eventBookings", {
     id: {

@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { Box, Grid, Typography, Menu, MenuItem } from '@mui/material';
-import { Link, Outlet } from 'react-router-dom';
+// @Author: Kishan Thakkar
+import { useState } from "react"
+import { Box, Grid, Typography, Menu, MenuItem } from "@mui/material";
+import { Link, Outlet } from "react-router-dom";
 import { Badge } from '@mui/material';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';

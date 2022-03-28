@@ -1,2 +1,3 @@
-export const BACKEND_URL = "http://localhost:3005/api"
-export const FRONTEND_URL = "http://localhost:3000/"
+// @Author: Kishan Thakkar
+export const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+export const FRONTEND_URL = process.env.REACT_APP_FRONTEND_URL

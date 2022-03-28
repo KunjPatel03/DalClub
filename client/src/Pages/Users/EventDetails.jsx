@@ -1,3 +1,4 @@
+// @Author: Kishan Thakkar
 import PageBanner from "../../Components/Users/PageBanner"
 import EventDetailsBanner from "../../Assets/images/eventdetails-banner.jpg";
 import { Box, Typography, Chip, Select, MenuItem, Button, FormControl, InputLabel } from "@mui/material";
