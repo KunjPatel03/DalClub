@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { styled } from '@mui/system'
 import axios from "../../Assets/config/axiosConfig";
@@ -7,7 +7,7 @@ import CareersBanner from "../../Assets/images/careers-banner.jpeg";
 import { Box, Grid, TextField, Button, Typography } from "@mui/material";
 import FileUpload from "react-material-file-upload";
 import { toast } from "react-toastify"
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const FormTab = styled('div')(({ theme }) => ({
     margin: "10px",
@@ -57,20 +57,20 @@ const JobApplication = () => {
         event.preventDefault();
         if (!resume || resume.length === 0) {
             toast.error("Upload the resume!")
-        }else{
-            formValues["resume"] = resume
+        } else {
+            formValues["resume"] = resume[0]
             formValues["jobId"] = jobId
             axios.post("/careers/applyJob", formValues).then((res) => {
-                if(res.data.success) {
-                  toast("Application Submitted!")
-                  navigate("/careers")
+                if (res.data.success) {
+                    toast("Application Submitted!")
+                    navigate("/careers")
                 } else {
-                  toast.error(res?.data?.message || "Cannot submit Application")
+                    toast.error(res?.data?.message || "Cannot submit Application")
                 }
-              })
-              .catch((err) => {
-                toast.error(err?.response?.data?.message || "Cannot submit Application")
-              });
+            })
+                .catch((err) => {
+                    toast.error(err?.response?.data?.message || "Cannot submit Application")
+                });
         }
     };
 

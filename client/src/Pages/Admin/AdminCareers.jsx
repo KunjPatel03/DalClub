@@ -133,7 +133,7 @@ const AdminCareers = () => {
             renderCell: (params) => {
                 return (
                     <>
-                        <Link to={"/admin/editJob/" + params.row.job_id}>
+                        <Link to={`/admin/careers/update/${params.row.job_id}`}>
                             <EditButton primary>Edit</EditButton>
                         </Link>
                         <MyDeleteOutline
@@ -149,7 +149,7 @@ const AdminCareers = () => {
             <TheList>
                 <ItemTitleContainer>
                     <h1>Jobs Catalogue</h1>
-                    <Link to="/admin/careers/add">
+                    <Link to="/admin/careers/new">
                         <ItemAddButton>Create</ItemAddButton>
                     </Link>
                 </ItemTitleContainer>

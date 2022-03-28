@@ -83,10 +83,22 @@ const deleteJob = (req, res) => {
   });
 };
 
+const updateJob = (req, res) => {
+  CareersModel.update(req.body, { where: { job_id: req.params.jobId } })
+  .then((data) => {
+    res.send({ success: true});
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(500).send({ success: false });
+  });
+}
+
 module.exports = {
   getJobsList,
   getJob,
   applyJob,
   addJob,
-  deleteJob
+  deleteJob,
+  updateJob
 };
