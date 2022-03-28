@@ -18,6 +18,9 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import Careers from '../Pages/Users/Careers';
 import JobApplication from '../Pages/Users/JobApplication';
+import Blogs from '../Pages/Users/Blogs';
+import NewBlog from '../Pages/Users/NewBlog';
+import IndividualBlog from '../Pages/Users/IndividualBlog';
 
 const AppRoutes = () => {
   const loadStripeKey = loadStripe(
@@ -56,6 +59,9 @@ const AppRoutes = () => {
           <Route path='/store/orders' element={<OrdersPage />} />
           <Route path='/careers' element={<Careers />} />
           <Route path='/careers/application/:jobId' element={<JobApplication />} />
+          <Route path='/blogs' element={<Blogs />} />
+          <Route path='/blogs/new' element={<NewBlog />} />
+          <Route path='/blogs/:blogId' element={<IndividualBlog />} />
         </Route>
       </Routes>
     </BrowserRouter>
