@@ -33,9 +33,9 @@ const Blogs = () => {
       });
   }, []);
 
-  // const handleClick = job => {
-  //     setActiveJob(job);
-  // };
+  const handleNew = () => {
+    navigate(`/blogs/new`);
+  };
 
   const handleClick = (blogId) => {
     navigate(`/blogs/${blogId}`);
@@ -58,10 +58,7 @@ const Blogs = () => {
             borderRadius: 1,
           }}
         >
-          <Button
-            variant="contained"
-            // onClick={() => handleSubmit(activeJob.job_id)}
-          >
+          <Button variant="contained" onClick={() => handleNew()}>
             New
           </Button>
         </Grid>
@@ -77,10 +74,6 @@ const Blogs = () => {
                       onClick={() => handleClick(blog.blog_id)}
                     >
                       <CardActionArea>
-                        <CardMedia
-                          image="https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                          title="Contemplative Reptile"
-                        />
                         <CardContent>
                           <Typography gutterBottom variant="h5" component="h2">
                             {blog.title}
@@ -93,33 +86,34 @@ const Blogs = () => {
                             {blog.description}
                           </Typography>
                         </CardContent>
-                      </CardActionArea>
-                      <CardActions>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            flexDirection: "row",
-                            p: 1,
-                            m: 1,
-                            bgcolor: "background.paper",
-                            borderRadius: 1,
-                          }}
-                        >
-                          <Avatar src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
-                          <Box ml={2}>
-                            <Typography variant="subtitle2" component="p">
-                              Guy Clemons
-                            </Typography>
-                            <Typography
-                              variant="subtitle2"
-                              color="textSecondary"
-                              component="p"
-                            >
-                              {blog.createdAt}
-                            </Typography>
+
+                        <CardActions>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              flexDirection: "row",
+                              p: 1,
+                              m: 1,
+                              bgcolor: "background.paper",
+                              borderRadius: 1,
+                            }}
+                          >
+                            <Avatar src="" />
+                            <Box ml={2}>
+                              <Typography variant="subtitle2" component="p">
+                                Guy Clemons
+                              </Typography>
+                              <Typography
+                                variant="subtitle2"
+                                color="textSecondary"
+                                component="p"
+                              >
+                                {blog.createdAt}
+                              </Typography>
+                            </Box>
                           </Box>
-                        </Box>
-                      </CardActions>
+                        </CardActions>
+                      </CardActionArea>
                     </Card>
                   );
                 })

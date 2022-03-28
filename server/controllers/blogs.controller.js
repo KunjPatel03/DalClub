@@ -11,25 +11,24 @@ const getBlogList = (req, res) => {
     });
 };
 
-// const getJob = (req, res) => {
-//   CareersModel.findOne({ where: { job_id: req.params.jobId } })
-//     .then((job) => {
-//       res.send({ success: true, job });
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       res.status(500).send({ success: false });
-//     });
-// };
+const getBlog = (req, res) => {
+  BlogsModel.findOne({ where: { blog_id: req.params.blogId } })
+    .then((blog) => {
+      res.send({ success: true, blog });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send({ success: false });
+    });
+};
 
 const postBlog = (req, res) => {
   const blogPost = {
-    blog_id: req.body.blogId,
     userId: req.body.userId,
     title: req.body.title,
     description: req.body.description,
     content: req.body.content,
-    isVisible: req.body.isVisible
+    isVisible: req.body.isVisible,
   };
   BlogsModel.create(blogPost)
     .then((data) => {
@@ -49,4 +48,5 @@ const postBlog = (req, res) => {
 module.exports = {
   getBlogList,
   postBlog,
+  getBlog,
 };
