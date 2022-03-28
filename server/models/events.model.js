@@ -1,3 +1,4 @@
+// @Author: Kishan Thakkar
 module.exports = (sequelize, DataTypes) => {
   const UserModel = sequelize.define("events", {
     id: {

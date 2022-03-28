@@ -1,7 +1,10 @@
-import React from "react";
+// @Author: Kishan Thakkar
+import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import Slider from "react-slick";
 import EventCard from "../Events/EventCard";
+import axios from "../../../Assets/config/axiosConfig";
+import { toast } from "react-toastify";
 
 const NextArrow = (props) => {
   const { style, onClick } = props;
@@ -31,16 +34,52 @@ const PrevArrow = (props) => {
   );
 };
 
-const settings = {
-  infinite: true,
-  speed: 500,
-  slidesToShow: 4,
-  slidesToScroll: 1,
-  nextArrow: <NextArrow />,
-  prevArrow: <PrevArrow />,
-};
-
 const EventCarousel = () => {
+  const [eventList, setEventList] = useState(null)
+  const getSettings = () => {
+    return ({
+      infinite: true,
+      speed: 500,
+      slidesToShow: eventList.length < 4 ? eventList.length : 4,
+      slidesToScroll: 1,
+      nextArrow: <NextArrow />,
+      prevArrow: <PrevArrow />,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: eventList.length < 4 ? eventList.length : 4,
+          }
+        },
+        {
+          breakpoint: 900,
+          settings: {
+            slidesToShow: eventList.length < 3 ? eventList.length : 3,
+          }
+        },
+        {
+          breakpoint: 700,
+          settings: {
+            slidesToShow: eventList.length < 2 ? eventList.length : 2,
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: eventList.length < 1 ? eventList.length : 1,
+          }
+        }
+      ]
+    })
+  }
+  useEffect(() => {
+    axios.post("/events", { featured: true }).then(response => {
+      setEventList(response.data.success ? response.data.events : [])
+    }).catch(err => {
+      console.log(err);
+      toast.error(err?.response?.data?.message || "Something went wrong")
+    })
+  }, [])
   return (
     <>
       <Typography
@@ -51,14 +90,20 @@ const EventCarousel = () => {
       >
         Events to participate
       </Typography>
-      <Slider {...settings}>
-        <EventCard />
-        <EventCard />
-        <EventCard />
-        <EventCard />
-        <EventCard />
-        <EventCard />
+      {eventList ? eventList.length > 0 ? 
+      <Slider {...getSettings()}>
+        {eventList.map(({ id, name, coverImage, eventDate, silverMemberPrice }) => (
+          <EventCard
+            id={id}
+            key={id}
+            name={name}
+            coverImage={coverImage}
+            eventDate={eventDate}
+            price={silverMemberPrice}
+          />
+        ))}
       </Slider>
+      : "No results found." : "Fetching events."}
     </>
   );
 };

@@ -1,3 +1,4 @@
+// @Author: Kishan Thakkar
 const { body, validationResult } = require("express-validator")
 
 const bookEventSchema = [
@@ -6,6 +7,7 @@ const bookEventSchema = [
   body("ticketType").exists().withMessage("Ticket type is required.").isIn(["Silver", "Gold", "Platinum"]).withMessage("Invalid ticket type."),
 ]
 
+// Add last layer which will throw error if data is invalid
 const validator = (req, res, next) => {
   let errors = validationResult(req)
   if(errors.isEmpty()) {
