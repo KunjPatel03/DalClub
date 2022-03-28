@@ -66,6 +66,14 @@ const Header = () => {
               {' '}
               <Link to={'/careers'}>Careers</Link>
             </Typography>
+            <Typography
+              color={'white'}
+              className='cursor-pointer'
+              marginLeft={2}
+            >
+              {' '}
+              <Link to={'/blogs'}>Blogs</Link>
+            </Typography>
           </Grid>
         </Box>
         <Box py={2} px={3} className='cursor-pointer'>
