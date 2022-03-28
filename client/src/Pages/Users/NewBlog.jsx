@@ -39,7 +39,7 @@ const NewBlog = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("/blog/new", blogValues)
+      .post("/blogs/new", blogValues)
       .then((res) => {
         if (res.data.success) {
           toast("BlogSubmitted!");
