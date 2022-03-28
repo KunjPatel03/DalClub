@@ -91,7 +91,7 @@ const Careers = () => {
                         </Stack>
                     </Grid>
                     <Grid item xs>
-                        <ActiveJobTab >{(() => {
+                        <ActiveJobTab style={{height: '97.5%'}}>{(() => {
                             if (activeJob) {
                                 return (
                                     <div>

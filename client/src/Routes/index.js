@@ -18,6 +18,8 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import Careers from '../Pages/Users/Careers';
 import JobApplication from '../Pages/Users/JobApplication';
+import AdminCareers from '../Pages/Admin/AdminCareers';
+import AddJobs from '../Pages/Admin/AddJobs';
 
 const AppRoutes = () => {
   const loadStripeKey = loadStripe(
@@ -30,8 +32,10 @@ const AppRoutes = () => {
         {/* Admin routes without layout */}
         <Route path='/admin/login' element={<AdminLogin />} />
         {/* Admin routes with layout */}
-        <Route path='/admin/dashboard' element={<AdminDashboard />}>
-          <Route path='' element={<Home />} />
+        <Route path='/admin' element={<AdminDashboard />}>
+          <Route path='dashboard' element={<Home />} />
+          <Route path='careers' element={<AdminCareers />} />
+          <Route path='careers/add' element={<AddJobs />} />
         </Route>
 
         {/* User routes without header */}

@@ -38,7 +38,6 @@ const applyJob = (req, res) => {
   JobApplicationsModel.create(jobApplication, { 
     include: [{ model: CareersModel}]})
     .then((data) => {
-      console.log(data)
       res.send({ success: true })
     })
     .catch((err) => {
@@ -50,8 +49,44 @@ const applyJob = (req, res) => {
   
 };
 
+const addJob = (req, res) => {
+  const job = {
+    title: req.body.title,
+    description: req.body.description,
+    details: req.body.details,
+    job_type: req.body.job_type,
+    salary: req.body.salary,
+    vacancies: req.body.vacancies,
+    status: "open"
+  }
+
+  CareersModel.create(job, {})
+    .then((data) => {
+      res.send({ success: true })
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send({
+        message: err.message || 'Some error occurred while creating the Job Posting.',
+      });
+    });
+};
+
+const deleteJob = (req, res) => {
+  CareersModel.destroy({ where: { job_id: req.params.jobId } })
+  .then((data) => {
+    res.send({ success: true});
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(500).send({ success: false });
+  });
+};
+
 module.exports = {
   getJobsList,
   getJob,
-  applyJob
+  applyJob,
+  addJob,
+  deleteJob
 };

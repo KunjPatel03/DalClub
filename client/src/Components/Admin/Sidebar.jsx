@@ -8,6 +8,7 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import HailIcon from '@mui/icons-material/Hail';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { styled } from '@mui/system';
+import { Link } from 'react-router-dom';
 
 const SidebarContainer = styled('div')({
   flex: '2',
@@ -47,10 +48,12 @@ const Sidebar = () => {
       <SidebarWrapper>
         <SidebarMenu>
           <SidebarList>
+          <Link to={"/admin/dashboard"}>
             <SidebarListItem>
               <DashboardIcon sx={{ marginRight: '2vh' }} />
               Dashboard
             </SidebarListItem>
+            </Link>
             <SidebarListItem>
               <PeopleIcon sx={{ marginRight: '2vh' }} />
               Users
@@ -71,10 +74,12 @@ const Sidebar = () => {
               <LocalShippingIcon sx={{ marginRight: '2vh' }} />
               Merchandise Orders
             </SidebarListItem>
-            <SidebarListItem>
-              <HailIcon sx={{ marginRight: '2vh' }} />
-              Jobs
-            </SidebarListItem>
+            <Link to={"/admin/careers"}>
+              <SidebarListItem>
+                <HailIcon sx={{ marginRight: '2vh' }} />
+                Jobs
+              </SidebarListItem>
+            </Link>
             <SidebarListItem>
               <AssignmentIcon sx={{ marginRight: '2vh' }} />
               Blogs
