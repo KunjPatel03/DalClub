@@ -92,14 +92,12 @@ const JobApplication = () => {
                             {(() => {
                                 if (activeJob) {
                                     return (
-                                        <div>
+                                        <>
                                             <Grid item xs container direction="column" spacing={2}>
                                                 <Grid item xs>
                                                     <Grid item xs container>
                                                         <Grid item xs>
-                                                            <Typography fontSize={"1.2rem"} fontWeight="bold" gutterBottom>
-                                                                {activeJob.title}
-                                                            </Typography>
+                                                            <Box sx={{ fontSize:'1.2rem', fontWeight: 'bold' , mb: 2}} >{activeJob.title}</Box>
                                                         </Grid>
                                                         <Grid item xs>
                                                             <Typography variant="body2" color="text.secondary" align="right">
@@ -120,7 +118,7 @@ const JobApplication = () => {
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
-                                        </div>
+                                        </>
                                     )
                                 }
                             })()}
@@ -203,13 +201,6 @@ const JobApplication = () => {
                                             useChipsForPreview={true}
                                         />
                                     </Box>
-                                    {/* <FileUpload
-                                        required
-                                        value={resume}
-                                        onChange={setResume}
-                                        sx={{ m: 1, width: '30ch' }}
-                                        label="Resume" title="Drag 'n' drop resume, or click to select from files"
-                                        buttonText="Upload Resume" /> */}
                                     <Button variant="contained" sx={{ m: 1, width: '25ch' }} type="submit"> Submit Application </Button>
                                 </Box>
                             </form>
