@@ -7,6 +7,27 @@ import CareersBanner from "../../Assets/images/careers-banner.jpeg";
 import { toast } from "react-toastify"
 import {useNavigate } from "react-router-dom";
 
+const JobTab = styled('div')(({ theme }) => ({
+    padding: theme.spacing(1),
+    cursor: "pointer",
+    "&:hover": {
+        boxShadow: "0 0 10px -1px",
+    },
+    borderRadius: "10px",
+    border: "1px solid lightgray",
+    textAlign: 'left',
+    color: theme.palette.secondary.main
+}))
+
+const ActiveJobTab = styled('div')(({ theme }) => ({
+    padding: theme.spacing(1),
+    borderRadius: "10px",
+    border: "1px solid lightgray",
+    boxShadow: "0 0 5px -1px",
+    textAlign: 'left',
+    color: theme.palette.secondary.main
+}))
+
 const Careers = () => {
     const navigate = useNavigate();
 
@@ -23,27 +44,6 @@ const Careers = () => {
                 toast.error(err?.response?.data?.message || "Something went wrong")
             })
     }, [])
-
-    const JobTab = styled('div')(({ theme }) => ({
-        padding: theme.spacing(1),
-        cursor: "pointer",
-        "&:hover": {
-            boxShadow: "0 0 10px -1px",
-        },
-        borderRadius: "10px",
-        border: "1px solid lightgray",
-        textAlign: 'left',
-        color: theme.palette.secondary.main
-    }))
-
-    const ActiveJobTab = styled('div')(({ theme }) => ({
-        padding: theme.spacing(1),
-        borderRadius: "10px",
-        border: "1px solid lightgray",
-        boxShadow: "0 0 5px -1px",
-        textAlign: 'left',
-        color: theme.palette.secondary.main
-    }))
 
     const handleClick = job => {
         setActiveJob(job);

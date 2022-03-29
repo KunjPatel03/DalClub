@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { DataGrid } from "@material-ui/data-grid";
 import axios from "../../Assets/config/axiosConfig";
 import { Link } from "react-router-dom";
 import { styled } from '@mui/system';
 import { DeleteOutline } from "@material-ui/icons";
-import { toast } from "react-toastify"
+import { toast } from "react-toastify";
 
 
 const JobsContainer = styled('div')({
@@ -25,19 +25,20 @@ const ListItem = styled('div')({
     alignItems: 'center'
 });
 
-const EditButton = styled('button')(({ theme }) => ({
+const CustomButton = styled('button')(({ theme }) => ({
     border: 'none',
     borderRadius: '10px',
     padding: '5px 10px',
     backgroundColor: theme.palette.primary.main,
     color: 'white',
     cursor: 'pointer',
-    marginRight: '20px',
+    marginRight: '20px'
 }));
 
 const MyDeleteOutline = styled(DeleteOutline)({
     color: 'red',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    marginRight: '20px'
 });
 
 const ItemAddButton = styled('button')(({ theme }) => ({
@@ -62,19 +63,30 @@ const ItemTitleContainer = styled('div')({
 const AdminCareers = () => {
 
     const [jobs, setJobs] = useState([]);
+    const [applicants, SetApplicants] = useState({})
+
     useEffect(() => {
         axios.get("/careers")
-            .then(response => {
-                setJobs(response.data.success ? response.data.jobs : [])
+            .then(response1 => {
+                setJobs(response1.data.success ? response1.data.jobs : [])
             }).catch((err) => {
                 setJobs([])
-                toast.error(err?.response?.data?.message || "Something went wrong")
+                toast.error(err?.response1?.data?.message || "Something went wrong")
             });
+
+        axios.get("/careers/applications")
+            .then(response2 => {
+                SetApplicants(response2.data.success ? response2.data.applicantsMap : {})
+            }).catch((err) => {
+                SetApplicants({})
+                toast.error(err?.response2?.data?.message || "Something went wrong")
+            });
+            
     }, []);
 
     const handleDelete = (id) => {
-        
-        axios.get(`/careers/deleteJob/${id}`)
+
+        axios.delete(`/careers/${id}`)
             .then(response => {
                 setJobs(jobs.filter((item) => item.job_id !== id));
                 toast("Job Posting Deleted")
@@ -84,13 +96,22 @@ const AdminCareers = () => {
     };
 
     const columns = [
-        { field: "job_id", 
-        headerName: "Job ID", 
-        width: 120 },
+        {
+            field: "job_id",
+            headerName: "#",
+            width: 90,
+            renderCell: (params) => {
+                return (
+                    <ListItem>
+                        {params.row.job_id}
+                    </ListItem>
+                );
+            },
+        },
         {
             field: "title",
             headerName: "Title",
-            width: 200,
+            width: 240,
             renderCell: (params) => {
                 return (
                     <ListItem>
@@ -98,11 +119,6 @@ const AdminCareers = () => {
                     </ListItem>
                 );
             },
-        },
-        {
-            field: "job_type",
-            headerName: "Job Type",
-            width: 160,
         },
         {
             field: "vacancies",
@@ -113,10 +129,10 @@ const AdminCareers = () => {
             field: "applicants",
             headerName: "# Applicants",
             width: 160,
-            renderCell: () => {
+            renderCell: (params) => {
                 return (
                     <ListItem>
-                        1
+                        {applicants[params.row.job_id]}
                     </ListItem>
                 );
             },
@@ -129,16 +145,19 @@ const AdminCareers = () => {
         {
             field: "action",
             headerName: "Action",
-            width: 150,
+            width: 240,
             renderCell: (params) => {
                 return (
                     <>
                         <Link to={`/admin/careers/update/${params.row.job_id}`}>
-                            <EditButton primary>Edit</EditButton>
+                            <CustomButton primary>Edit</CustomButton>
                         </Link>
                         <MyDeleteOutline
                             onClick={() => handleDelete(params.row.job_id)}
                         />
+                        <Link to={`/admin/careers/applications/${params.row.job_id}`}>
+                            <CustomButton primary>View Applications</CustomButton>
+                        </Link>
                     </>
                 );
             },
@@ -164,4 +183,5 @@ const AdminCareers = () => {
         </JobsContainer>
     )
 }
-export default AdminCareers
+
+export default AdminCareers;

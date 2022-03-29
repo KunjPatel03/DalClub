@@ -1,4 +1,4 @@
-const OrderHeader = require('./orderheader.model');
+// @Author: Rahul Kherajani
 module.exports = (sequelize, DataTypes) => {
   const OrderLine = sequelize.define(
     'order_line',

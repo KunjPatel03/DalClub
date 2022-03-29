@@ -1,3 +1,4 @@
+// @Author: Rahul Kherajani
 import { styled } from '@mui/system';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
@@ -6,6 +7,8 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import PinterestIcon from '@mui/icons-material/Pinterest';
+import { useNavigate, Link } from 'react-router-dom';
+import { Typography } from '@mui/material';
 
 const Container = styled('div')({ display: 'flex' });
 
@@ -28,7 +31,7 @@ const Right = styled('div')({
   padding: '2vh',
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
+  alignItems: 'flex-start',
   justifyContent: 'center',
 });
 
@@ -49,11 +52,12 @@ const Icon = styled('div')({
   height: '5vh',
   borderRadius: '50%',
   margin: '2vh',
+  cursor: 'pointer',
 });
 
 const ListContainer = styled('div')({
   display: 'flex',
-  justifyContent: 'space-evenly',
+  justifyContent: 'flex-start',
 });
 
 const List = styled('ul')({
@@ -61,7 +65,11 @@ const List = styled('ul')({
   listStyle: 'none',
 });
 
-const ListItem = styled('li')({ width: '100%', marginBottom: '2vh' });
+const ListItem = styled('li')({
+  width: '100%',
+  marginBottom: '2vh',
+  cursor: 'pointer',
+});
 
 const Title = styled('h3')({ marginBottom: '3vh' });
 
@@ -73,6 +81,7 @@ const ContactItem = styled('div')({
 });
 
 const Footer = () => {
+  const navigate = useNavigate();
   return (
     <Container>
       <Left>
@@ -95,38 +104,46 @@ const Footer = () => {
       <Center>
         <ListContainer>
           <List>
-            <ListItem style={{ fontWeight: 700, margin: '25px 0px' }}>
-              Support Links
-            </ListItem>
-            <ListItem>FAQ</ListItem>
-            <ListItem>Gift Cards</ListItem>
-            <ListItem>Student Discounts</ListItem>
-            <ListItem>COVID-19 Updates</ListItem>
+            <Title>Links</Title>
+            <Typography sx={{ cursor: 'pointer', margin: '2vh 0vh' }}>
+              <Link to={'/'}>Home</Link>
+            </Typography>
+            <Typography sx={{ cursor: 'pointer', margin: '2vh 0vh' }}>
+              <Link to={'/events'}>Events</Link>
+            </Typography>
+            <Typography sx={{ cursor: 'pointer', margin: '2vh 0vh' }}>
+              <Link to={'/store/products'}>Merchandise Store</Link>
+            </Typography>
+            <Typography sx={{ cursor: 'pointer', margin: '2vh 0vh' }}>
+              <Link to={'/careers'}>Careers</Link>
+            </Typography>
           </List>
           <List>
-            <ListItem style={{ fontWeight: 700, margin: '25px 0px' }}>
-              About Us
-            </ListItem>
-            <ListItem>Our Story</ListItem>
-            <ListItem>Store Locator</ListItem>
-            <ListItem>Careers</ListItem>
-            <ListItem>Terms of Use</ListItem>
+            <Title>More Links</Title>
+            <Typography sx={{ cursor: 'pointer', margin: '2vh 0vh' }}>
+              <Link to={'/blogs'}>Blogs</Link>
+            </Typography>
+            <Typography sx={{ cursor: 'pointer', margin: '2vh 0vh' }}>
+              <Link to={'/store/cart'}>Cart</Link>
+            </Typography>
+            <Typography sx={{ cursor: 'pointer', margin: '2vh 0vh' }}>
+              <Link to={'/store/orders'}>Orders</Link>
+            </Typography>
           </List>
         </ListContainer>
       </Center>
       <Right>
         <Title>Contact</Title>
         <ContactItem>
-          <LocationOnOutlinedIcon style={{ marginRight: '10px' }} /> 6299 South
+          <LocationOnOutlinedIcon style={{ marginRight: '1vh' }} /> 6299 South
           St, Halifax, NS, Canada - B3H 3R2
         </ContactItem>
         <ContactItem>
-          <LocalPhoneOutlinedIcon style={{ marginRight: '10px' }} /> +1 234 567
+          <LocalPhoneOutlinedIcon style={{ marginRight: '1vh' }} /> +1 234 567
           8900
         </ContactItem>
         <ContactItem>
-          <MailOutlinedIcon style={{ marginRight: '10px' }} />{' '}
-          contact@dalclub.ca
+          <MailOutlinedIcon style={{ marginRight: '1vh' }} /> contact@dalclub.ca
         </ContactItem>
       </Right>
     </Container>

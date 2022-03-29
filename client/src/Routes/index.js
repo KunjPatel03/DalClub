@@ -1,4 +1,4 @@
-// @Author: Kishan Thakkar
+// @Author: Kishan Thakkar, Rahul Kherajani
 import React from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import AdminDashboard from '../Pages/Admin/AdminHome';
@@ -22,6 +22,7 @@ import JobApplication from '../Pages/Users/JobApplication';
 import AdminCareers from '../Pages/Admin/AdminCareers';
 import AddJobs from '../Pages/Admin/AddJobs';
 import UpdateJobs from '../Pages/Admin/UpdateJobs';
+import JobApplicants from '../Pages/Admin/JobApplicants';
 import Blogs from '../Pages/Users/Blogs';
 import NewBlog from '../Pages/Users/NewBlog';
 import IndividualBlog from '../Pages/Users/IndividualBlog';
@@ -51,6 +52,7 @@ const AppRoutes = () => {
           <Route path='blogs/update/:blogId' element={<UpdateBlog />} />
 
 
+          <Route path='careers/applications/:jobId' element={<JobApplicants />} />
         </Route>
 
         {/* User routes without header */}
@@ -74,7 +76,10 @@ const AppRoutes = () => {
           <Route path='/store/cart' element={<CartPage />} />
           <Route path='/store/orders' element={<OrdersPage />} />
           <Route path='/careers' element={<Careers />} />
-          <Route path='/careers/application/:jobId' element={<JobApplication />} />
+          <Route
+            path='/careers/application/:jobId'
+            element={<JobApplication />}
+          />
           <Route path='/blogs' element={<Blogs />} />
           <Route path='/blogs/new' element={<NewBlog />} />
           <Route path='/blogs/:blogId' element={<IndividualBlog />} />

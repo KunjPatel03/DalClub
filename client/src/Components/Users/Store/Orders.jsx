@@ -1,3 +1,4 @@
+// @Author: Rahul Kherajani
 import React from 'react';
 import { styled } from '@mui/system';
 
@@ -100,6 +101,9 @@ const Orders = ({ orderList }) => {
                         </ProductDetail>
                         <ProductDetail>
                           <b>Product Price:</b> {item.order_product_price} CAD
+                        </ProductDetail>
+                        <ProductDetail>
+                          <b>Product Quantity:</b> {item.order_product_quantity}
                         </ProductDetail>
                       </Details>
                     </LeftContainer>

@@ -1,8 +1,6 @@
+// @Author: Rahul Kherajani
 import React from 'react';
 import { styled } from '@mui/system';
-import Banner from '../../Components/Users/Store/Banner';
-import KeyboardBackspaceOutlined from '@mui/icons-material/KeyboardBackspaceOutlined';
-import { useNavigate } from 'react-router-dom';
 import Orders from '../../Components/Users/Store/Orders';
 import { useState, useEffect } from 'react';
 import axios from '../../Assets/config/axiosConfig';
@@ -19,25 +17,11 @@ const Title = styled('h1')({
   marginTop: '5vh',
 });
 
-const Button = styled('button')(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
-  color: 'white',
-  height: '5vh',
-  width: '10vh',
-  border: 'none',
-  borderRadius: '4px',
-  fontWeight: 500,
-  margin: '50px 20px',
-  cursor: 'pointer',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
 const OrdersPage = () => {
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [orderList, setOrderList] = useState([]);
+
+  //Fetches Order Details from API
   useEffect(() => {
     const fetchOrderList = async () => {
       setLoading(true);
@@ -58,12 +42,8 @@ const OrdersPage = () => {
 
   return (
     <Container>
-      <Banner />
       <Wrapper>
         <Title>YOUR ORDERS</Title>
-        <Button onClick={() => navigate(-1)}>
-          <KeyboardBackspaceOutlined />
-        </Button>
         {loading && <div>Loading</div>}
         {!loading && <Orders orderList={orderList} />}
       </Wrapper>

@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         resume: {
-            type: "BLOB",
+            type:DataTypes.STRING(45),
             allowNull: false
         },
         status: {

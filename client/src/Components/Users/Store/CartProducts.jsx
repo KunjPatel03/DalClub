@@ -1,5 +1,7 @@
+// @Author: Rahul Kherajani
 import React from 'react';
 import { styled } from '@mui/system';
+import { toast } from 'react-toastify';
 
 const CartContainer = styled('div')({
   display: 'flex',
@@ -22,12 +24,10 @@ const NoProductsContainer = styled('div')({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  backgroundColor: '',
 });
 
 const Title = styled('h1')({
-  fontSize: '48px',
-  marginBottom: '20px',
+  fontSize: '2em',
 });
 
 const Product = styled('div')({
@@ -105,10 +105,12 @@ const OrderDetailContainer = styled('div')(({ theme }) => ({
 }));
 
 const CartProducts = ({ cartList, setCartList, total }) => {
+  //Removes an item from Cart
   const handleRemove = (index) => {
     const cart = [...cartList];
     cart.splice(index, 1);
     setCartList(cart);
+    toast.success('Product Removed from Cart');
   };
 
   return (

@@ -1,3 +1,4 @@
+// @Author: Rahul Kherajani
 const {
   OrderHeaderModel,
   OrderLineModel,
@@ -8,6 +9,7 @@ const Sequelize = require('sequelize');
 const DBConnection = require('../config/dbConfig');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
+//Function to handle Order Creation
 exports.createOrder = async (req, res) => {
   const order_header = {
     order_user_id: req.body.order_user_id,
@@ -17,8 +19,10 @@ exports.createOrder = async (req, res) => {
     order_line: req.body.order_line,
   };
 
+  //Initiate a Transcation
   let t = await DBConnection.transaction();
   try {
+    //Create an Order Header
     let order = await OrderHeaderModel.create(
       order_header,
       {
@@ -27,6 +31,7 @@ exports.createOrder = async (req, res) => {
       { transaction: t }
     );
 
+    //Create All Order Lines
     const promises = order_header.order_line.map((line) => {
       return ProductModel.update(
         {
@@ -41,6 +46,7 @@ exports.createOrder = async (req, res) => {
 
     await Promise.all(promises);
 
+    //Create a Payment Detail
     await PaymentDetailsModel.create(
       {
         paymentIntent: req.body.order_payment_intent_id,
@@ -51,13 +57,15 @@ exports.createOrder = async (req, res) => {
       { transaction: t }
     );
 
+    //Commit a Transaction
     await t.commit();
-
     res.send({ success: true, message: 'Order Booked Successfully.' });
   } catch (error) {
     console.log(error);
+    //Rollback a Transaction
     t.rollback();
 
+    //Initiate a Refund
     await stripe.refunds.create({
       amount: req.body.order_total,
       payment_intent: req.body.order_payment_intent_id,
@@ -68,6 +76,7 @@ exports.createOrder = async (req, res) => {
   }
 };
 
+//Function to return all Order Details
 exports.findAllOrders = (req, res) => {
   OrderHeaderModel.findAll({
     where: { order_user_id: req.query.order_user_id },
