@@ -57,7 +57,7 @@ const applyJob = (req, res) => {
               Key: `resumes/${data.dataValues.application_id}/${formData.resume[0].originalFilename}`,
               Body: fileContent,
               ContentDisposition: "inline",
-              ContentType:"application/pdf"
+              ContentType: "application/pdf"
             };
 
             s3.upload(params, function (err, data) {
@@ -143,6 +143,25 @@ const getApplications = (req, res) => {
     });
 }
 
+const getAllApplications = (req, res) => {
+  JobApplicationsModel.count({
+    attributes: ['job_id'],
+    distinct: 'job_id',
+    group: 'job_id'
+  })
+    .then((applicants) => {
+      applicantsMap = {}
+      applicants.forEach(function (job) {
+        applicantsMap[job['job_id']] = job['count'];
+      })
+      res.send({ success: true, applicantsMap });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send({ success: false });
+    });
+}
+
 module.exports = {
   getJobsList,
   getJob,
@@ -150,5 +169,6 @@ module.exports = {
   addJob,
   deleteJob,
   updateJob,
-  getApplications
+  getApplications,
+  getAllApplications
 };

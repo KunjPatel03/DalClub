@@ -47,10 +47,21 @@ const JobApplication = () => {
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
-        setFormValues(prevState => ({
-            ...prevState,
-            [id]: value
-        }))
+
+        if (id === 'firstName' || id === 'lastName') {
+            const onlyText = /^[A-Za-z ]+$/;
+            if (value === "" || onlyText.test(value)) {
+                setFormValues(prevState => ({
+                    ...prevState,
+                    [id]: value
+                }))
+            }
+        } else {
+            setFormValues(prevState => ({
+                ...prevState,
+                [id]: value
+            }))
+        }
     };
 
     const handleSubmit = (event) => {
@@ -58,7 +69,7 @@ const JobApplication = () => {
 
         let formData = new FormData();
         Object.keys(formValues).map(function (keyName, keyIndex) {
-            formData.append(keyName, formValues[keyName]);
+            return (formData.append(keyName, formValues[keyName]))
         })
         formData.append('jobId', jobId);
 
@@ -97,7 +108,7 @@ const JobApplication = () => {
                                                 <Grid item xs>
                                                     <Grid item xs container>
                                                         <Grid item xs>
-                                                            <Box sx={{ fontSize:'1.2rem', fontWeight: 'bold' , mb: 2}} >{activeJob.title}</Box>
+                                                            <Box sx={{ fontSize: '1.2rem', fontWeight: 'bold', mb: 2 }} >{activeJob.title}</Box>
                                                         </Grid>
                                                         <Grid item xs>
                                                             <Typography variant="body2" color="text.secondary" align="right">
