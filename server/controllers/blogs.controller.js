@@ -1,6 +1,7 @@
 // @Author: Kunj Vijaykumar Patel
 const { BlogsModel } = require("../models");
 
+//This function is used to call the model to fetch all the blogs
 const getBlogList = (req, res) => {
   BlogsModel.findAll()
     .then((blogs) => {
@@ -12,6 +13,7 @@ const getBlogList = (req, res) => {
     });
 };
 
+//This function is used to call the model to fetch the selected blogs
 const getBlog = (req, res) => {
   BlogsModel.findOne({ where: { blog_id: req.params.blogId } })
     .then((blog) => {
@@ -22,7 +24,7 @@ const getBlog = (req, res) => {
       res.status(500).send({ success: false });
     });
 };
-
+//This function is used to update the model to submit the blog
 const postBlog = (req, res) => {
   const blogPost = {
     userId: req.body.userId,
@@ -45,7 +47,7 @@ const postBlog = (req, res) => {
       });
     });
 };
-
+//This function is used to update the model to the delete the blog
 const deleteBlog = (req, res) => {
   BlogsModel.destroy({ where: { blog_id: req.params.blogId } })
   .then((data) => {
@@ -56,7 +58,7 @@ const deleteBlog = (req, res) => {
     res.status(500).send({ success: false });
   });
 };
-
+//This function is used to update the model to update the blog
 const updateBlog = (req, res) => {
   BlogsModel.update(req.body, { where: { blog_id: req.params.blogId } })
   .then((data) => {

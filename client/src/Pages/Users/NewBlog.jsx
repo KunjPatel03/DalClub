@@ -28,7 +28,7 @@ const NewBlog = () => {
   };
 
   const [blogValues, setFormValues] = useState(blogDefaultValues);
-
+//This function is used to handle the changes in form
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormValues((prevState) => ({
@@ -36,7 +36,7 @@ const NewBlog = () => {
       [name]: value,
     }));
   };
-
+//This function used to submit the form. It calls the post API.
   const handleSubmit = (event) => {
     event.preventDefault();
     axios

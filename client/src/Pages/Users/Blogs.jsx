@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 const Blogs = () => {
   const navigate = useNavigate();
   const [blogs, setBlogs] = useState([]);
+  //Get blog API is called to show the blogs when the page is rendered
   useEffect(() => {
     axios
       .get("/blogs")
@@ -33,10 +34,12 @@ const Blogs = () => {
       });
   }, []);
 
+  //This function is used to navigate the user to new page when new button is clicked
   const handleNew = () => {
     navigate(`/blogs/new`);
   };
 
+  //This function is used to show the selected blog
   const handleClick = (blogId) => {
     navigate(`/blogs/${blogId}`);
   };
