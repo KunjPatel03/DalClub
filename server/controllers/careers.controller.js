@@ -1,4 +1,7 @@
+const multiparty = require('multiparty');
 const { CareersModel, JobApplicationsModel } = require("../models");
+const { s3 } = require("../config/awsConfig")
+const fs = require('fs');
 
 const getJobsList = (req, res) => {
 
@@ -23,30 +26,74 @@ const getJob = (req, res) => {
     });
 };
 
+const uploadFile = (buffer, name, type) => {
+  const params = {
+    ACL: 'public-read',
+    Body: buffer,
+    Bucket: process.env.AWS_S3_BUCKET_NAME,
+    ContentType: type.mime,
+    Key: `${name}.${type.ext}`,
+  };
+  return s3.upload(params).promise();
+};
+
 const applyJob = (req, res) => {
-  const jobApplication = {
-    job_id: req.body.jobId,
-    first_name: req.body.firstName,
-    last_name: req.body.lastName,
-    dob: req.body.dob,
-    phone_no: req.body.phNumber,
-    email: req.body.email,
-    address: req.body.address,
-    resume: req.body.resume,
-    status: "applied"
-  }
-  JobApplicationsModel.create(jobApplication, { 
-    include: [{ model: CareersModel}]})
-    .then((data) => {
-      res.send({ success: true })
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send({
-        message: err.message || 'Some error occurred while creating the Job Application.',
-      });
-    });
-  
+
+  const form = new multiparty.Form();
+
+  form.parse(req, async (error, fields, formData) => {
+    if (error) {
+      return response.status(500).send(error);
+    };
+    try {
+      const jobApplication = {
+        job_id: fields.jobId[0],
+        first_name: fields.firstName[0],
+        last_name: fields.lastName[0],
+        dob: fields.dob[0],
+        phone_no: fields.phNumber[0],
+        email: fields.email[0],
+        address: fields.address[0],
+        resume: formData.resume[0].originalFilename,
+        status: "applied"
+      }
+      JobApplicationsModel.create(jobApplication, {
+        include: [{ model: CareersModel }]
+      })
+        .then((data) => {
+          try {
+            const fileContent = fs.readFileSync(formData.resume[0].path);
+            const params = {
+              Bucket: process.env.AWS_S3_BUCKET_NAME,
+              Key: `resumes/${data.dataValues.application_id}/${formData.resume[0].originalFilename}`,
+              Body: fileContent
+            };
+
+            s3.upload(params, function (err, data) {
+              if (err) {
+                throw err;
+              }
+              console.log(`File uploaded successfully. ${data.Location}`);
+            });
+          } catch (err) {
+            console.log(err)
+            return res.status(500).send({
+              message: err.message || 'Some error occurred while creating the Job Application.',
+            });
+          }
+          return res.send({ success: true })
+        })
+        .catch((err) => {
+          console.log(err);
+          return res.status(500).send({
+            message: err.message || 'Some error occurred while creating the Job Application.',
+          });
+        });
+    } catch (err) {
+      return response.status(500).send(err);
+    }
+  });
+
 };
 
 const addJob = (req, res) => {
@@ -74,24 +121,24 @@ const addJob = (req, res) => {
 
 const deleteJob = (req, res) => {
   CareersModel.destroy({ where: { job_id: req.params.jobId } })
-  .then((data) => {
-    res.send({ success: true});
-  })
-  .catch((err) => {
-    console.log(err);
-    res.status(500).send({ success: false });
-  });
+    .then((data) => {
+      res.send({ success: true });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send({ success: false });
+    });
 };
 
 const updateJob = (req, res) => {
   CareersModel.update(req.body, { where: { job_id: req.params.jobId } })
-  .then((data) => {
-    res.send({ success: true});
-  })
-  .catch((err) => {
-    console.log(err);
-    res.status(500).send({ success: false });
-  });
+    .then((data) => {
+      res.send({ success: true });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send({ success: false });
+    });
 }
 
 module.exports = {

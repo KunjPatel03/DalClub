@@ -5,7 +5,7 @@ import axios from "../../Assets/config/axiosConfig";
 import PageBanner from "../../Components/Users/PageBanner";
 import CareersBanner from "../../Assets/images/careers-banner.jpeg";
 import { Box, Grid, TextField, Button, Typography } from "@mui/material";
-import FileUpload from "react-material-file-upload";
+import { DropzoneArea } from 'material-ui-dropzone';
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom";
 
@@ -55,12 +55,20 @@ const JobApplication = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
+        let formData = new FormData();
+        Object.keys(formValues).map(function (keyName, keyIndex) {
+            formData.append(keyName, formValues[keyName]);
+        })
+        formData.append('jobId', jobId);
+
         if (!resume || resume.length === 0) {
             toast.error("Upload the resume!")
         } else {
-            formValues["resume"] = resume[0]
-            formValues["jobId"] = jobId
-            axios.post("/careers/applyJob", formValues).then((res) => {
+            formData.append('resume', resume);
+            axios.post("/careers/applyJob", formData, {
+                headers: { 'content-type': 'multipart/form-data' }
+            }).then((res) => {
                 if (res.data.success) {
                     toast("Application Submitted!")
                     navigate("/careers")
@@ -80,7 +88,7 @@ const JobApplication = () => {
             <Box sx={{ flexGrow: 1, m: 1 }}>
                 <Grid container>
                     <Grid item xs>
-                        <FormTab>
+                        <FormTab style={{ height: '93.5%' }}>
                             {(() => {
                                 if (activeJob) {
                                     return (
@@ -186,13 +194,22 @@ const JobApplication = () => {
                                             onChange={handleInputChange}
                                         />
                                     </Box>
-                                    <FileUpload
+                                    <Box sx={{ m: 1, width: '62ch' }}>
+                                        <DropzoneArea
+                                            acceptedFiles={['application/pdf']}
+                                            filesLimit={1}
+                                            dropzoneText={"Drag and drop the resume here or click"}
+                                            onChange={(files) => setResume(files[0])}
+                                            useChipsForPreview={true}
+                                        />
+                                    </Box>
+                                    {/* <FileUpload
                                         required
                                         value={resume}
                                         onChange={setResume}
                                         sx={{ m: 1, width: '30ch' }}
                                         label="Resume" title="Drag 'n' drop resume, or click to select from files"
-                                        buttonText="Upload Resume" />
+                                        buttonText="Upload Resume" /> */}
                                     <Button variant="contained" sx={{ m: 1, width: '25ch' }} type="submit"> Submit Application </Button>
                                 </Box>
                             </form>
