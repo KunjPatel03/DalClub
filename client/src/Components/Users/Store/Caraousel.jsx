@@ -1,3 +1,4 @@
+// @Author: Rahul Kherajani
 import { styled } from '@mui/system';
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
@@ -15,8 +16,8 @@ const Container = styled('div')(({ theme }) => ({
 }));
 
 const ArrowButton = styled('div')((props) => ({
-  width: '50px',
-  height: '50px',
+  width: '5vh',
+  height: '5vh',
   backgroundColor: 'white',
   borderRadius: '50%',
   display: 'flex',
@@ -26,8 +27,8 @@ const ArrowButton = styled('div')((props) => ({
   top: 0,
   bottom: 0,
   margin: 'auto',
-  left: props.direction === 'left' && '10px',
-  right: props.direction === 'right' && '10px',
+  left: props.direction === 'left' && '1vh',
+  right: props.direction === 'right' && '1vh',
   cursor: 'pointer',
   opacity: 1,
   zIndex: 2,
@@ -53,6 +54,7 @@ const Image = styled('img')({
 });
 
 const Caraousel = ({ product, index, setIndex }) => {
+  //Handles Slide Change in the Caraousel
   const handleClick = (direction) => {
     if (direction === 'left') {
       setIndex(index > 0 ? index - 1 : product.product_color.length - 1);

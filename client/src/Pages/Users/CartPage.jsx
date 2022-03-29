@@ -1,8 +1,7 @@
+// @Author: Rahul Kherajani
 import React from 'react';
 import { styled } from '@mui/system';
 import Banner from '../../Components/Users/Store/Banner';
-import KeyboardBackspaceOutlined from '@mui/icons-material/KeyboardBackspaceOutlined';
-import { useNavigate } from 'react-router-dom';
 import CartProducts from '../../Components/Users/Store/CartProducts';
 import { StateContext } from '../../State';
 import { useContext, useEffect, useState } from 'react';
@@ -33,7 +32,6 @@ const Button = styled('button')(({ theme }) => ({
   border: 'none',
   borderRadius: '4px',
   fontWeight: 700,
-  margin: '50px 20px',
   cursor: 'pointer',
   display: 'flex',
   alignItems: 'center',
@@ -41,17 +39,10 @@ const Button = styled('button')(({ theme }) => ({
 }));
 
 const ButtonsContainer = styled('div')({
-  padding: '10px',
+  padding: '1vh',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-});
-
-const LeftContainer = styled('div')({
-  flex: 1,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-start',
 });
 
 const RightContainer = styled('div')({
@@ -62,27 +53,28 @@ const RightContainer = styled('div')({
 });
 
 const Cart = () => {
-  const navigate = useNavigate();
   const { cartList, setCartList } = useContext(StateContext);
   const [total, setTotal] = useState(0);
   const [name, setName] = useState('');
   const [showPaymentModel, setShowPaymentModal] = useState(false);
   const [stripeSecret, setStripeSecret] = useState('');
 
+  //Calculates Total & Payment Name
   useEffect(() => {
     let totalAmount = 0;
-    let entities = '';
+    let entities = [];
     cartList.forEach((product) => {
       totalAmount += product.product_subtotal;
-      entities += product.product_name + ',';
+      entities.push(product.product_name);
     });
-    setTotal(totalAmount);
-    setName(entities);
+    setTotal(totalAmount.toFixed(2));
+    setName(entities.join('+'));
     console.log(cartList);
   });
 
+  //Opens Up a Payment Form & Initates a Payment Intent on Stripe
   const togglePaymentModal = () => {
-    if (cartList.length == 0) {
+    if (cartList.length === 0) {
       toast.error('Add Products to Place your Order');
       return;
     } else {
@@ -109,6 +101,8 @@ const Cart = () => {
   };
 
   const closePaymentModal = () => setShowPaymentModal(false);
+
+  //Stripe Public Client Key
   const loadStripeKey = loadStripe(
     'pk_test_51KgEo1GMutfkjZDFgZN4zTuVLFDNLlUzae99RhzKMjWXlcBg6y0dIFKSRg3AMPZKaJLGuvUGT8MeDqe6tAzcCbfb00Ko70FnbZ'
   );
@@ -119,11 +113,6 @@ const Cart = () => {
       <Wrapper>
         <Title>YOUR BAG</Title>
         <ButtonsContainer>
-          <LeftContainer>
-            <Button onClick={() => navigate(-1)}>
-              <KeyboardBackspaceOutlined />
-            </Button>
-          </LeftContainer>
           <RightContainer>
             <Button sx={{ padding: '0vh 5vh' }} onClick={togglePaymentModal}>
               PROCEED TO CHECKOUT

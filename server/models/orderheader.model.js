@@ -1,3 +1,4 @@
+// @Author: Rahul Kherajani
 module.exports = (sequelize, DataTypes) => {
   const OrderHeader = sequelize.define(
     'order_header',

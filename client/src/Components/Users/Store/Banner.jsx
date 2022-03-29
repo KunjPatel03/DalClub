@@ -1,13 +1,14 @@
+// @Author: Rahul Kherajani
 import { styled } from '@mui/system';
 
 const Container = styled('section')(({ theme }) => ({
-  height: '30px',
+  height: '5vh',
   backgroundColor: theme.palette.secondary.main,
   color: 'white',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  fontSize: '16px',
+  fontSize: '1em',
   fontWeight: 400,
 }));
 
