@@ -1,3 +1,4 @@
+// @Author: Vishwanath Suresh
 import { useState, useEffect } from "react"
 import { Grid, Box, Stack, Typography, Button } from "@mui/material";
 import PageBanner from "../../Components/Users/PageBanner";
@@ -34,6 +35,7 @@ const Careers = () => {
     const [jobs, setJobs] = useState([]);
     const [activeJob, setActiveJob] = useState({})
 
+    // Fetches all available jobs
     useEffect(() => {
         axios.get("/careers")
             .then(response => {
@@ -45,10 +47,12 @@ const Careers = () => {
             })
     }, [])
 
+    // Sets the user clicked job to active
     const handleClick = job => {
         setActiveJob(job);
     };
 
+    // Redirects to Job Application Page
     const handleSubmit = (jobId) => {
         navigate(`/careers/application/${jobId}`)
     }

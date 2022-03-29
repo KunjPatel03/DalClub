@@ -1,3 +1,4 @@
+// @Author: Vishwanath Suresh
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { styled } from '@mui/system';
@@ -5,7 +6,6 @@ import { Box, TextField, Button } from "@mui/material";
 import axios from "../../Assets/config/axiosConfig";
 import { toast } from "react-toastify";
 import {useNavigate } from "react-router-dom";
-
 
 const JobsContainer = styled('div')({
     flex: '8',
@@ -33,6 +33,7 @@ const UpdateJobs = () => {
     const [activeJob, setActiveJob] = useState({})
     const [formValues, setFormValues] = useState({});
 
+    // Fetches existing job data to preload the update form
     useEffect(() => {
         axios.get(`/careers/${jobId}`)
             .then(response => {
@@ -44,6 +45,7 @@ const UpdateJobs = () => {
             })
     }, [jobId])
 
+    // Handles update form input changes
     const handleInputChange = (e) => {
         const { id, value } = e.target;
         setFormValues(prevState => ({
@@ -52,6 +54,7 @@ const UpdateJobs = () => {
         }))
     };
 
+    // Handles update form submission
     const handleSubmit = (event) => {
         event.preventDefault();
         axios.post(`/careers/updateJob/${jobId}`, formValues).then((res) => {

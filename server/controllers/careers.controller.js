@@ -1,10 +1,11 @@
+// @Author: Vishwanath Suresh
 const multiparty = require('multiparty');
 const { CareersModel, JobApplicationsModel } = require("../models");
 const { s3 } = require("../config/awsConfig")
 const fs = require('fs');
 
+// Function to fetch all exisitng job postings
 const getJobsList = (req, res) => {
-
   CareersModel.findAll()
     .then((jobs) => {
       res.send({ success: true, jobs });
@@ -15,6 +16,7 @@ const getJobsList = (req, res) => {
     });
 };
 
+// Function to get job posting based on job id
 const getJob = (req, res) => {
   CareersModel.findOne({ where: { job_id: req.params.jobId } })
     .then((job) => {
@@ -26,10 +28,10 @@ const getJob = (req, res) => {
     });
 };
 
+// Function to hanlde created of job application
 const applyJob = (req, res) => {
-
   const form = new multiparty.Form();
-
+  // Parsing the multipart form data
   form.parse(req, async (error, fields, formData) => {
     if (error) {
       return response.status(500).send(error);
@@ -46,11 +48,13 @@ const applyJob = (req, res) => {
         resume: formData.resume[0].originalFilename,
         status: "applied"
       }
+      // Adding application to DB
       JobApplicationsModel.create(jobApplication, {
         include: [{ model: CareersModel }]
       })
         .then((data) => {
           try {
+            // Adding resume to AWS S3 bucket
             const fileContent = fs.readFileSync(formData.resume[0].path);
             const params = {
               Bucket: process.env.AWS_S3_BUCKET_NAME,
@@ -59,7 +63,7 @@ const applyJob = (req, res) => {
               ContentDisposition: "inline",
               ContentType: "application/pdf"
             };
-
+            // Uploading to AWS S3 bucket
             s3.upload(params, function (err, data) {
               if (err) {
                 throw err;
@@ -84,9 +88,9 @@ const applyJob = (req, res) => {
       return response.status(500).send(err);
     }
   });
-
 };
 
+// Function to add a new job
 const addJob = (req, res) => {
   const job = {
     title: req.body.title,
@@ -97,7 +101,6 @@ const addJob = (req, res) => {
     vacancies: req.body.vacancies,
     status: "open"
   }
-
   CareersModel.create(job, {})
     .then((data) => {
       res.send({ success: true })
@@ -110,6 +113,7 @@ const addJob = (req, res) => {
     });
 };
 
+// Function to delete a job
 const deleteJob = (req, res) => {
   CareersModel.destroy({ where: { job_id: req.params.jobId } })
     .then((data) => {
@@ -121,6 +125,7 @@ const deleteJob = (req, res) => {
     });
 };
 
+// Function to update a job
 const updateJob = (req, res) => {
   CareersModel.update(req.body, { where: { job_id: req.params.jobId } })
     .then((data) => {
@@ -132,6 +137,7 @@ const updateJob = (req, res) => {
     });
 }
 
+// Function to get applications for a job id
 const getApplications = (req, res) => {
   JobApplicationsModel.findAll({ where: { job_id: req.params.jobId } })
     .then((applicants) => {
@@ -143,7 +149,8 @@ const getApplications = (req, res) => {
     });
 }
 
-const getAllApplications = (req, res) => {
+// Function to get application count. Return a map of job id to application count.
+const getApplicationsCount = (req, res) => {
   JobApplicationsModel.count({
     attributes: ['job_id'],
     distinct: 'job_id',
@@ -170,5 +177,5 @@ module.exports = {
   deleteJob,
   updateJob,
   getApplications,
-  getAllApplications
+  getApplicationsCount
 };

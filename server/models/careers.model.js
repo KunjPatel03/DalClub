@@ -1,3 +1,4 @@
+// @Author: Vishwanath Suresh
 module.exports = (sequelize, DataTypes) => {
     const Careers = sequelize.define("jobs", {
       job_id: {

@@ -1,4 +1,4 @@
-// @Author: Kishan Thakkar
+// @Authors: Kishan Thakkar, Rahul Kherajani, Vishwanath Suresh
 const { DataTypes } = require('sequelize');
 const DBConnection = require('../config/dbConfig');
 const Events = require("./events.model")
