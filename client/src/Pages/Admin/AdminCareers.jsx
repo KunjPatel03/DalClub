@@ -63,14 +63,25 @@ const ItemTitleContainer = styled('div')({
 const AdminCareers = () => {
 
     const [jobs, setJobs] = useState([]);
+    const [applicants, SetApplicants] = useState({})
+
     useEffect(() => {
         axios.get("/careers")
-            .then(response => {
-                setJobs(response.data.success ? response.data.jobs : [])
+            .then(response1 => {
+                setJobs(response1.data.success ? response1.data.jobs : [])
             }).catch((err) => {
                 setJobs([])
-                toast.error(err?.response?.data?.message || "Something went wrong")
+                toast.error(err?.response1?.data?.message || "Something went wrong")
             });
+
+        axios.get("/careers/applications")
+            .then(response2 => {
+                SetApplicants(response2.data.success ? response2.data.applicantsMap : {})
+            }).catch((err) => {
+                SetApplicants({})
+                toast.error(err?.response2?.data?.message || "Something went wrong")
+            });
+            
     }, []);
 
     const handleDelete = (id) => {
@@ -121,7 +132,7 @@ const AdminCareers = () => {
             renderCell: (params) => {
                 return (
                     <ListItem>
-                        1
+                        {applicants[params.row.job_id]}
                     </ListItem>
                 );
             },
