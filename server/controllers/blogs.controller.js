@@ -1,3 +1,4 @@
+// @Author: Kunj Vijaykumar Patel
 const { BlogsModel } = require("../models");
 
 const getBlogList = (req, res) => {
@@ -45,8 +46,32 @@ const postBlog = (req, res) => {
     });
 };
 
+const deleteBlog = (req, res) => {
+  BlogsModel.destroy({ where: { blog_id: req.params.blogId } })
+  .then((data) => {
+    res.send({ success: true});
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(500).send({ success: false });
+  });
+};
+
+const updateBlog = (req, res) => {
+  BlogsModel.update(req.body, { where: { blog_id: req.params.blogId } })
+  .then((data) => {
+    res.send({ success: true});
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(500).send({ success: false });
+  });
+}
+
 module.exports = {
   getBlogList,
   postBlog,
   getBlog,
+  deleteBlog,
+  updateBlog
 };
