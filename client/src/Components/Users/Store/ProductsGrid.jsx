@@ -1,3 +1,4 @@
+// @Author: Rahul Kherajani
 import { Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import React from 'react';
@@ -29,11 +30,6 @@ const Image = styled('img')({
   height: '70%',
   zIndex: 2,
   padding: '20px 0px',
-});
-
-const ProductDetails = styled('h3')({
-  fontSize: '16px',
-  fontWeight: 500,
 });
 
 const ProductsGrid = ({ productList }) => {

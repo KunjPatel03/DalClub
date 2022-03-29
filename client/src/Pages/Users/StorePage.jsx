@@ -1,9 +1,10 @@
+// @Author: Rahul Kherajani
 import React from 'react';
 import Banner from '../../Components/Users/Store/Banner';
 import ProductsGrid from '../../Components/Users/Store/ProductsGrid';
 import Filters from '../../Components/Users/Store/Filters';
 import { useEffect, useState } from 'react';
-import axios from "../../Assets/config/axiosConfig";
+import axios from '../../Assets/config/axiosConfig';
 
 const StorePage = () => {
   const [loading, setLoading] = useState(true);
@@ -12,14 +13,15 @@ const StorePage = () => {
   const [category, setCategory] = useState('All');
   const [sort, setSort] = useState('LowToHigh');
 
+  //Filters & Sorts Products on Store Page
   const filterSort = (category, sort, productList) => {
     let filteredProducts = productList;
-    
+
     if (category !== 'All') {
       filteredProducts = productList.filter(
         (product) => product.product_category === category
       );
-    } 
+    }
 
     if (sort === 'LowToHigh') {
       filteredProducts.sort((p1, p2) =>
@@ -33,6 +35,7 @@ const StorePage = () => {
     setFilteredProductList(filteredProducts);
   };
 
+  //Fetches Products from API
   useEffect(() => {
     const fetchProductList = async () => {
       try {
@@ -57,7 +60,7 @@ const StorePage = () => {
         setCategory={setCategory}
         setSort={setSort}
         filterSort={filterSort}
-        productList = {productList}
+        productList={productList}
       />
       {loading && <div>Loading</div>}
       {!loading && <ProductsGrid productList={filteredProductList} />}

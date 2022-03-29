@@ -1,3 +1,4 @@
+// @Author: Rahul Kherajani
 import { styled } from '@mui/system';
 import { useState } from 'react';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
@@ -10,8 +11,8 @@ import { toast } from 'react-toastify';
 
 const Container = styled('div')({
   flex: 1,
-  padding: '0px 50px',
-  marginRight: '20px',
+  padding: '0vh 5vh',
+  marginRight: '5vh',
 });
 
 const Title = styled('h1')({
@@ -23,14 +24,14 @@ const Price = styled('h1')({
 });
 
 const Description = styled('p')({
-  margin: '20px 0px',
+  margin: '2vh 0vh',
   fontWeight: '300',
-  fontSize: '16px',
+  fontSize: '1.2em',
 });
 
 const FilterContainer = styled('div')({
   width: '100%',
-  margin: '30px 0px',
+  margin: '3vh 0vh',
   display: 'flex',
 });
 
@@ -41,23 +42,14 @@ const Filter = styled('div')({
 });
 
 const Color = styled('div')((props) => ({
-  width: '20px',
-  height: '20px',
+  width: '3vh',
+  height: '3vh',
   borderRadius: '50%',
   backgroundColor: props.color,
-  margin: '10px',
+  margin: '1vh',
   cursor: 'pointer',
   border: '1px solid black',
 }));
-
-const Select = styled('select')({
-  margin: '10px',
-  padding: '10px',
-  border: 'none',
-  fontSize: '16px',
-});
-
-const Option = styled('option')({});
 
 const AddContainer = styled('div')({
   width: '100%',
@@ -71,25 +63,25 @@ const AmountContainer = styled('div')({
 });
 
 const Amount = styled('span')(({ theme }) => ({
-  width: '50px',
-  height: '50px',
+  width: '10vh',
+  height: '10vh',
   borderRadius: '30%',
   border: `1px solid ${theme.palette.primary.main}`,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  margin: '0px 5px',
+  margin: '0vh 1vh',
 }));
 
 const Button = styled('button')((props) => ({
   backgroundColor: !props.disabled ? props.theme.palette.primary.main : 'white',
   color: !props.disabled ? 'white' : 'black',
-  height: '50px',
-  width: '50px',
+  height: '5vh',
+  width: '5vh',
   border: 'none',
-  borderRadius: '4px',
+  borderRadius: '5px',
   fontWeight: 700,
-  margin: '20px',
+  margin: '3vh',
   cursor: 'pointer',
 }));
 
@@ -101,6 +93,7 @@ const ProductDescription = ({ product, setIndex }) => {
   const [disabled, setDisabled] = useState(false);
   const [text, setText] = useState('ADD TO CART');
 
+  //Adds an item to the Cart
   const handleAddToCart = () => {
     if (size !== '' && quantity !== 0) {
       const cartProduct = {
@@ -116,7 +109,7 @@ const ProductDescription = ({ product, setIndex }) => {
       setCartList([...cartList, cartProduct]);
       setDisabled(true);
       setText('ADDED TO CART');
-      toast.error('Product Added to Cart');
+      toast.success('Product Added to Cart');
     } else {
       toast.error('Please Select Color, Size & Quantity');
     }
@@ -144,19 +137,21 @@ const ProductDescription = ({ product, setIndex }) => {
           })}
         </Filter>
         <Filter>
-          <Select
-            defaultValue={'DEFAULT'}
+          <TextField
+            select
+            value={size}
+            label='Size'
+            sx={{ width: '20vh', marginLeft: '5vh' }}
             onChange={(e) => setSize(e.target.value)}
           >
-            <Option value='DEFAULT' disabled>
-              Size
-            </Option>
             {product.product_size.map((item) => {
               return (
-                <Option key={item.product_size_id}>{item.product_size}</Option>
+                <MenuItem key={item.product_size_id} value={item.product_size}>
+                  {item.product_size}
+                </MenuItem>
               );
             })}
-          </Select>
+          </TextField>
         </Filter>
       </FilterContainer>
       <AddContainer>

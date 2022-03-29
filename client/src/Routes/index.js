@@ -1,4 +1,4 @@
-// @Author: Kishan Thakkar
+// @Author: Kishan Thakkar, Rahul Kherajani
 import React from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import AdminDashboard from '../Pages/Admin/AdminHome';
@@ -65,7 +65,10 @@ const AppRoutes = () => {
           <Route path='/store/cart' element={<CartPage />} />
           <Route path='/store/orders' element={<OrdersPage />} />
           <Route path='/careers' element={<Careers />} />
-          <Route path='/careers/application/:jobId' element={<JobApplication />} />
+          <Route
+            path='/careers/application/:jobId'
+            element={<JobApplication />}
+          />
           <Route path='/blogs' element={<Blogs />} />
           <Route path='/blogs/new' element={<NewBlog />} />
           <Route path='/blogs/:blogId' element={<IndividualBlog />} />

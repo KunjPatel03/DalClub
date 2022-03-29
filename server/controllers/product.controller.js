@@ -1,3 +1,4 @@
+// @Author: Rahul Kherajani
 const {
   ProductModel,
   ProductSizeModel,
@@ -6,6 +7,7 @@ const {
 
 const { Op } = require('sequelize');
 
+//Function to return all Product Details
 exports.findAllProducts = (req, res) => {
   ProductModel.findAll({
     where: { product_isactive: true, product_quantity: { [Op.gt]: 0 } },
@@ -25,6 +27,7 @@ exports.findAllProducts = (req, res) => {
     });
 };
 
+//Function to return Product Details of a specific product
 exports.findAProduct = (req, res) => {
   const product_id = req.params.id;
   console.log(product_id);

@@ -1,3 +1,4 @@
+// @Author: Rahul Kherajani
 module.exports = (sequelize, DataTypes) => {
   const ProductColor = sequelize.define(
     'product_color',

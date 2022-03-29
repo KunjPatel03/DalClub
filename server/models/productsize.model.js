@@ -1,3 +1,4 @@
+// @Author: Rahul Kherajani
 module.exports = (sequelize, DataTypes) => {
   const ProductSize = sequelize.define(
     'product_size',
