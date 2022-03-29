@@ -1,3 +1,4 @@
+// @Author: Vishwanath Suresh
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { styled } from '@mui/system'
@@ -23,6 +24,7 @@ const JobApplication = () => {
     let { jobId } = useParams();
     const [activeJob, setActiveJob] = useState({})
 
+    // Fetches user selected job details
     useEffect(() => {
         axios.get(`/careers/${jobId}`)
             .then(response => {
@@ -45,6 +47,7 @@ const JobApplication = () => {
     const [formValues, setFormValues] = useState(defaultValues);
     const [resume, setResume] = useState(null);
 
+    // Handles job application form inputs
     const handleInputChange = (e) => {
         const { id, value } = e.target;
 
@@ -64,6 +67,7 @@ const JobApplication = () => {
         }
     };
 
+    // Handles job application submission
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -77,6 +81,7 @@ const JobApplication = () => {
             toast.error("Upload the resume!")
         } else {
             formData.append('resume', resume);
+            // Multipart data sent to handle file
             axios.post("/careers/applyJob", formData, {
                 headers: { 'content-type': 'multipart/form-data' }
             }).then((res) => {
@@ -182,7 +187,6 @@ const JobApplication = () => {
                                             onChange={handleInputChange}
                                         />
                                     </Box>
-
                                     <Box>
                                         <TextField
                                             required
@@ -218,7 +222,6 @@ const JobApplication = () => {
                         </FormTab></Grid>
                 </Grid>
             </Box>
-
         </div>
     );
 };

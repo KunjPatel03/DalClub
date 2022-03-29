@@ -1,4 +1,4 @@
-// @Author: Kishan Thakkar, Rahul Kherajani
+// @Authors: Kishan Thakkar, Rahul Kherajani, Vishwanath Suresh
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
