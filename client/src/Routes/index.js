@@ -22,6 +22,7 @@ import JobApplication from '../Pages/Users/JobApplication';
 import AdminCareers from '../Pages/Admin/AdminCareers';
 import AddJobs from '../Pages/Admin/AddJobs';
 import UpdateJobs from '../Pages/Admin/UpdateJobs';
+import JobApplicants from '../Pages/Admin/JobApplicants';
 import Blogs from '../Pages/Users/Blogs';
 import NewBlog from '../Pages/Users/NewBlog';
 import IndividualBlog from '../Pages/Users/IndividualBlog';
@@ -42,6 +43,7 @@ const AppRoutes = () => {
           <Route path='careers' element={<AdminCareers />} />
           <Route path='careers/new' element={<AddJobs />} />
           <Route path='careers/update/:jobId' element={<UpdateJobs />} />
+          <Route path='careers/applications/:jobId' element={<JobApplicants />} />
         </Route>
 
         {/* User routes without header */}

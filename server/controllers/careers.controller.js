@@ -26,17 +26,6 @@ const getJob = (req, res) => {
     });
 };
 
-const uploadFile = (buffer, name, type) => {
-  const params = {
-    ACL: 'public-read',
-    Body: buffer,
-    Bucket: process.env.AWS_S3_BUCKET_NAME,
-    ContentType: type.mime,
-    Key: `${name}.${type.ext}`,
-  };
-  return s3.upload(params).promise();
-};
-
 const applyJob = (req, res) => {
 
   const form = new multiparty.Form();
@@ -66,7 +55,9 @@ const applyJob = (req, res) => {
             const params = {
               Bucket: process.env.AWS_S3_BUCKET_NAME,
               Key: `resumes/${data.dataValues.application_id}/${formData.resume[0].originalFilename}`,
-              Body: fileContent
+              Body: fileContent,
+              ContentDisposition: "inline",
+              ContentType:"application/pdf"
             };
 
             s3.upload(params, function (err, data) {
@@ -141,11 +132,23 @@ const updateJob = (req, res) => {
     });
 }
 
+const getApplications = (req, res) => {
+  JobApplicationsModel.findAll({ where: { job_id: req.params.jobId } })
+    .then((applicants) => {
+      res.send({ success: true, applicants });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send({ success: false });
+    });
+}
+
 module.exports = {
   getJobsList,
   getJob,
   applyJob,
   addJob,
   deleteJob,
-  updateJob
+  updateJob,
+  getApplications
 };
