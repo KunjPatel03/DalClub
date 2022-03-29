@@ -1,3 +1,4 @@
+// @Author: Vishwanath Suresh
 import { useState } from "react"
 import { styled } from '@mui/system';
 import { Box, TextField, Button } from "@mui/material";
@@ -28,6 +29,7 @@ const AddJobs = () => {
 
     const navigate = useNavigate();
 
+    // Handles add job form input changes
     const handleInputChange = (e) => {
         const { id, value } = e.target;
         setFormValues(prevState => ({
@@ -36,6 +38,7 @@ const AddJobs = () => {
         }))
     };
 
+    // Handles add job submit
     const handleSubmit = (event) => {
         event.preventDefault();
         axios.post("/careers/addJob", formValues).then((res) => {

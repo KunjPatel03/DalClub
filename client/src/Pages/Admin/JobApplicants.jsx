@@ -1,10 +1,10 @@
+// @Author: Vishwanath Suresh
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { DataGrid } from "@material-ui/data-grid";
 import axios from "../../Assets/config/axiosConfig";
 import { styled } from '@mui/system';
 import { toast } from "react-toastify"
-
 
 const JobsContainer = styled('div')({
     flex: '8',
@@ -40,12 +40,12 @@ const ItemTitleContainer = styled('div')({
     justifyContent: 'space-between'
 });
 
-
 const JobApplicants = () => {
 
     let { jobId } = useParams();
     const [applications, setApplications] = useState([]);
 
+    // Fetches all applicantions for the selected job
     useEffect(() => {
         axios.get(`/careers/applications/${jobId}`)
             .then(response => {
@@ -56,6 +56,7 @@ const JobApplicants = () => {
             });
     }, [jobId]);
 
+    // Applicants data and header to be loaded to the data grid
     const columns = [
         {
             field: "application_id",
@@ -147,13 +148,14 @@ const JobApplicants = () => {
             width: 240,
             renderCell: (params) => {
                 return (
-                    <a href={`https://webproject5709.s3.amazonaws.com/resumes/${params.row.application_id}/${params.row.resume}`} target="_blank"> 
+                    <a href={`https://webproject5709.s3.amazonaws.com/resumes/${params.row.application_id}/${params.row.resume}`} target="_blank" rel="noopener noreferrer"> 
                         <CustomButton primary>View Resume</CustomButton>
                     </a>
                 );
             },
         },
     ];
+
     return (
         <JobsContainer>
             <TheList>
@@ -171,4 +173,5 @@ const JobApplicants = () => {
         </JobsContainer>
     )
 }
+
 export default JobApplicants;

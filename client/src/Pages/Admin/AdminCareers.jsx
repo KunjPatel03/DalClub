@@ -1,3 +1,4 @@
+// @Author: Vishwanath Suresh
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from "@material-ui/data-grid";
 import axios from "../../Assets/config/axiosConfig";
@@ -5,7 +6,6 @@ import { Link } from "react-router-dom";
 import { styled } from '@mui/system';
 import { DeleteOutline } from "@material-ui/icons";
 import { toast } from "react-toastify";
-
 
 const JobsContainer = styled('div')({
     flex: '8',
@@ -35,7 +35,7 @@ const CustomButton = styled('button')(({ theme }) => ({
     marginRight: '20px'
 }));
 
-const MyDeleteOutline = styled(DeleteOutline)({
+const CustomDeleteOutline = styled(DeleteOutline)({
     color: 'red',
     cursor: 'pointer',
     marginRight: '20px'
@@ -59,12 +59,12 @@ const ItemTitleContainer = styled('div')({
     justifyContent: 'space-between'
 });
 
-
 const AdminCareers = () => {
 
     const [jobs, setJobs] = useState([]);
     const [applicants, SetApplicants] = useState({})
 
+    // Fetches existing jobs and job application count
     useEffect(() => {
         axios.get("/careers")
             .then(response1 => {
@@ -73,7 +73,6 @@ const AdminCareers = () => {
                 setJobs([])
                 toast.error(err?.response1?.data?.message || "Something went wrong")
             });
-
         axios.get("/careers/applications")
             .then(response2 => {
                 SetApplicants(response2.data.success ? response2.data.applicantsMap : {})
@@ -81,11 +80,10 @@ const AdminCareers = () => {
                 SetApplicants({})
                 toast.error(err?.response2?.data?.message || "Something went wrong")
             });
-            
     }, []);
 
+    // Handles deleting a job posting
     const handleDelete = (id) => {
-
         axios.delete(`/careers/${id}`)
             .then(response => {
                 setJobs(jobs.filter((item) => item.job_id !== id));
@@ -95,6 +93,7 @@ const AdminCareers = () => {
             });
     };
 
+    // Column headers and data to be displayed in the data grid.
     const columns = [
         {
             field: "job_id",
@@ -132,7 +131,7 @@ const AdminCareers = () => {
             renderCell: (params) => {
                 return (
                     <ListItem>
-                        {applicants[params.row.job_id]}
+                        {applicants[params.row.job_id] ? applicants[params.row.job_id]: 0}
                     </ListItem>
                 );
             },
@@ -152,7 +151,7 @@ const AdminCareers = () => {
                         <Link to={`/admin/careers/update/${params.row.job_id}`}>
                             <CustomButton primary>Edit</CustomButton>
                         </Link>
-                        <MyDeleteOutline
+                        <CustomDeleteOutline
                             onClick={() => handleDelete(params.row.job_id)}
                         />
                         <Link to={`/admin/careers/applications/${params.row.job_id}`}>
