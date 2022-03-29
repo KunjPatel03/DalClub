@@ -25,6 +25,10 @@ import UpdateJobs from '../Pages/Admin/UpdateJobs';
 import Blogs from '../Pages/Users/Blogs';
 import NewBlog from '../Pages/Users/NewBlog';
 import IndividualBlog from '../Pages/Users/IndividualBlog';
+import AdminBlogs from '../Pages/Admin/AdminBlogs';
+import AddBlog from '../Pages/Admin/AddBlog';
+import UpdateBlog from '../Pages/Admin/UpdateBlog';
+
 
 const AppRoutes = () => {
   const loadStripeKey = loadStripe(
@@ -42,6 +46,11 @@ const AppRoutes = () => {
           <Route path='careers' element={<AdminCareers />} />
           <Route path='careers/new' element={<AddJobs />} />
           <Route path='careers/update/:jobId' element={<UpdateJobs />} />
+          <Route path='blogs' element={<AdminBlogs />} />
+          <Route path='blogs/new' element={<AddBlog />} />
+          <Route path='blogs/update/:blogId' element={<UpdateBlog />} />
+
+
         </Route>
 
         {/* User routes without header */}

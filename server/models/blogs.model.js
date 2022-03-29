@@ -1,3 +1,4 @@
+// @Author: Kunj Vijaykumar Patel
 module.exports = (sequelize, DataTypes) => {
     const Blogs = sequelize.define("blogs", {
       blog_id: {

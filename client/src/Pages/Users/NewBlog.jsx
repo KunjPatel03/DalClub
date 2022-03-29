@@ -1,3 +1,4 @@
+// @Author: Kunj Vijaykumar Patel
 import { useState, useEffect } from "react";
 import {
   Grid,
@@ -102,7 +103,7 @@ const NewBlog = () => {
                         type="text"
                         multiline
                         rows={4}
-                        rowsMax={6}
+                        rowsmax={6}
                         sx={{ mb: 3 }}
                         value={blogValues.description}
                         onChange={handleInputChange}
@@ -116,7 +117,7 @@ const NewBlog = () => {
                         type="text"
                         multiline
                         rows={7}
-                        rowsMax={10}
+                        rowsmax={10}
                         sx={{ mb: 3 }}
                         value={blogValues.content}
                         onChange={handleInputChange}

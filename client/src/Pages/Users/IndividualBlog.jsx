@@ -1,12 +1,11 @@
+// @Author: Kunj Vijaykumar Patel
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
   Grid,
   Box,
   Typography,
-  Button,
   CardActionArea,
-  CardMedia,
   CardActions,
   Card,
   CardContent,
@@ -20,7 +19,6 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const IndivdualBlog = () => {
-  const navigate = useNavigate();
   let { blogId } = useParams();
   const [blog, setBlog] = useState({});
   useEffect(() => {
@@ -34,14 +32,6 @@ const IndivdualBlog = () => {
         toast.error(err?.response?.data?.message || "Something went wrong");
       });
   }, [blogId]);
-
-  // const handleClick = job => {
-  //     setActiveJob(job);
-  // };
-
-  // const handleSubmit = (jobId) => {
-  //     navigate(`/careers/application/${jobId}`)
-  // }
 
   return (
     <div>

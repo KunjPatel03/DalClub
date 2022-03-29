@@ -80,10 +80,12 @@ const Sidebar = () => {
                 Jobs
               </SidebarListItem>
             </Link>
+            <Link to={"/admin/blogs"}>
             <SidebarListItem>
               <AssignmentIcon sx={{ marginRight: '2vh' }} />
               Blogs
             </SidebarListItem>
+            </Link>
           </SidebarList>
         </SidebarMenu>
       </SidebarWrapper>
