@@ -49,7 +49,7 @@ const ItemTitleContainer = styled("div")({
 
 const AdminBlogs = () => {
   const [blogs, setBlogs] = useState([]);
-
+  //Get blog API is called when the page is rendered to display them when the page is rendered
   useEffect(() => {
     axios
       .get("/blogs")
@@ -61,7 +61,7 @@ const AdminBlogs = () => {
         toast.error(err?.response?.data?.message || "Something went wrong");
       });
   }, []);
-
+  //This function is used to call the delete api to delete the blog
   const handleDelete = (id) => {
     axios
       .delete(`/blogs/delete/${id}`)

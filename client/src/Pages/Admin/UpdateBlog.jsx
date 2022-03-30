@@ -33,6 +33,7 @@ const UpdateBlog = () => {
   const [activeBlog, setActiveBlog] = useState({});
   const [blogValues, setBlogValues] = useState({});
 
+  //Get API is called to get the details of selected blog
   useEffect(() => {
     axios
       .get(`/blogs/${blogId}`)
@@ -54,7 +55,7 @@ const UpdateBlog = () => {
       [name]: value,
     }));
   };
-
+  //This fucntion is used to handle the form submission. It calls the post API to submit the form.
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
@@ -120,7 +121,6 @@ const UpdateBlog = () => {
                 shrink: true,
               }}
             />
-
             <TextField
               fullWidth
               required

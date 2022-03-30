@@ -16,11 +16,11 @@ import PageBanner from "../../Components/Users/PageBanner";
 import axios from "../../Assets/config/axiosConfig";
 import BlogBanner from "../../Assets/images/BlogBanner.jpg";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 
 const IndivdualBlog = () => {
   let { blogId } = useParams();
   const [blog, setBlog] = useState({});
+  //API is called to show the selected blog
   useEffect(() => {
     axios
       .get(`/blogs/${blogId}`)

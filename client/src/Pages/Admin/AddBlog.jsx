@@ -38,6 +38,7 @@ const AddBlog = () => {
 
   const [blogValues, setFormValues] = useState(blogDefaultValues);
 
+  //This function is used to handle the changes in form fields
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormValues((prevState) => ({
@@ -45,7 +46,7 @@ const AddBlog = () => {
       [name]: value,
     }));
   };
-
+// This function is used to handle the form submission
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
@@ -117,7 +118,6 @@ const AddBlog = () => {
                           value={blogValues.description}
                           onChange={handleInputChange}
                         />
-
                         <TextField
                           fullWidth
                           required
