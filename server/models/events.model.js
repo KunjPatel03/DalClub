@@ -25,12 +25,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     eventDate: {
       type: "TIMESTAMP",
-      allowNull: false,
+      allowNull: true,
       field: "event_date"
     },
     allowBookingDate: {
       type: "TIMESTAMP",
-      allowNull: false,
+      allowNull: true,
       field: "allow_booking_date"
     },
     isActive: {
