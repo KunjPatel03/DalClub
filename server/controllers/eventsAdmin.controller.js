@@ -1,3 +1,4 @@
+// @Author: Vishnu Sumanth
 const { EventsModel, EventBookingsModel } = require("../models");
 const DBConnection = require("../config/dbConfig");
 const eventsModel = require("../models/events.model");
@@ -5,7 +6,7 @@ const { sequelize } = require("sequelize");
 const { Result } = require("express-validator");
 const { format, formatISO } = require("date-fns");
 const read = require("body-parser/lib/read");
-
+//fetch all events regardless of all the of the active status
 const getEvents = (req, res) => {
   // EventsModel.findAll({attributes: ["name","id","silverMemberSeats","goldMemberSeats","platinumMemberSeats","remainingSilverSeats","remainingGoldSeats","remainingPlatinumSeats"]
   EventsModel.findAll({
@@ -20,6 +21,18 @@ const getEvents = (req, res) => {
         ),
         "Total_bookings",
       ],
+      [
+        DBConnection.literal(
+          "(SUM(gold_member_seats)-SUM(remaining_gold_seats))"
+        ),
+        "Total_gold_bookings",
+      ],
+      [
+        DBConnection.literal(
+          "(SUM(platinum_member_seats)-SUM(remaining_platinum_seats))"
+        ),
+        "Total_bookings",
+      ],
     ],
     group: ["id"],
   })
@@ -30,7 +43,7 @@ const getEvents = (req, res) => {
       res.status(500).send(err);
     });
 };
-
+//adding new events
 const addEvents = async (req, res) => {
   console.log(req.body);
   console.log(format(new Date(req.body.date2), "dd/MM/yyyy hh:mm "));
@@ -62,7 +75,7 @@ const addEvents = async (req, res) => {
       res.status(500).send(err);
     });
 };
-
+// retrive users that registered the events
 const showUsers = (req, res) => {
   EventBookingsModel.findAll({
     where: { eventId: req.body.id },
@@ -81,7 +94,7 @@ const showUsers = (req, res) => {
       res.status(500).send({ success: false, users: [] });
     });
 };
-
+// deactiabetteh event
 const deactivateEvent = (req, res) => {
   console.log(req.body.id);
   EventsModel.update({ isActive: 0 }, { where: { id: req.body.id } })
@@ -94,7 +107,7 @@ const deactivateEvent = (req, res) => {
       //   res.send(500)
     );
 };
-
+//activate the event
 const activateEvent = (req, res) => {
   EventsModel.update({ isActive: 1 }, { where: { id: req.body.id } })
     .then(
@@ -107,13 +120,14 @@ const activateEvent = (req, res) => {
     );
 };
 
+// delete event
 const deleteEvent = (req, res) => {
   console.log(req.body.id);
   EventsModel.destroy({ where: { id: req.body.id } })
     .then((result) => console.log(result))
     .catch((err) => console.log(err));
 };
-
+// get event status
 const eventStatus = (req, res) => {
   EventsModel.findAll({
     attributes: ["is_active"],

@@ -1,4 +1,4 @@
-// @Authors: Rahul Kherajani, Vishwanath Suresh
+// @Authors: Rahul Kherajani, Vishwanath Suresh, Vishnu Sumanth
 import React from 'react';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
