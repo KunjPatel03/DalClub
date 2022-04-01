@@ -1,4 +1,8 @@
-// @Authors: Kishan Thakkar, Rahul Kherajani, Vishwanath Suresh, Anamika Ahmed
+<<<<<<< server/index.js
+// @Authors: Kishan Thakkar, Rahul Kherajani, Vishwanath Suresh, Anamika Ahmed,  Vishnu Sumanth
+=======
+// @Authors: Kishan Thakkar, Rahul Kherajani, Vishwanath Suresh, Vishnu Sumanth
+>>>>>>> server/index.js
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
