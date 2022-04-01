@@ -1,11 +1,12 @@
-// @Authors: Kishan Thakkar, Rahul Kherajani, Vishwanath Suresh, Kunj Vijaykumar Patel,Vishnu Sumanth
+// @Authors: Kishan Thakkar, Rahul Kherajani, Vishwanath Suresh, Kunj Vijaykumar Patel,Vishnu Sumanth, Anamika Ahmed
 import React from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import AdminDashboard from '../Pages/Admin/AdminHome';
 import AdminLogin from '../Pages/Admin/AdminLogin';
 import UserHeader from '../Components/Users/Header';
 import Homepage from '../Pages/Users/Homepage';
-import UserLogin from '../Pages/Users/UserLogin';
+import UserLogin from '../Pages/Users/Login';
+import UserRegister from '../Pages/Users/Register';
 import EventList from '../Pages/Users/EventList';
 import EventDetails from '../Pages/Users/EventDetails';
 import StorePage from '../Pages/Users/StorePage';
@@ -62,12 +63,11 @@ const AppRoutes = () => {
         <Route path="/admin/dashboard/addevent" element={<EventForm />} />
         <Route path="/admin/dashboard/event/viewusers" element={<ListUsers />} />
 
-        
-
-
-
+    
         {/* User routes without header */}
-        <Route path="/user/login" element={<UserLogin />} />
+        <Route path="/user/login" element={<UserLogin/>} />
+        <Route path="/user/register" element={<UserRegister/>} />
+
         <Route path="/" element={<UserHeader />}>
           {/* User routes with header */}
           <Route index element={<Homepage />} />

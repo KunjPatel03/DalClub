@@ -7,7 +7,9 @@ import './App.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import 'react-toastify/dist/ReactToastify.min.css';
+
 import { State } from './State';
+
 
 function App() {
   return (
