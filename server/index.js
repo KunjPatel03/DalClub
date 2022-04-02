@@ -33,6 +33,7 @@ app.use('/api/products', ProductRouter);
 app.use('/api/blogs', BlogsRouter);
 app.use("/api/careers", CareersRouter)
 app.use("/api/events", EventAdminRouter)
+app.use("/api/payments", PaymentRouter)
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
