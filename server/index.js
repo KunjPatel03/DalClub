@@ -1,4 +1,6 @@
-// @Authors: Kishan Thakkar, Rahul Kherajani, Vishwanath Suresh, Vishnu Sumanth
+
+// @Authors: Kishan Thakkar, Rahul Kherajani, Vishwanath Suresh, Vishnu Sumanth, Anamika Ahmed
+
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
@@ -11,6 +13,7 @@ const ProductRouter = require('./routes/product.routes');
 const CareersRouter = require('./routes/careers');
 const BlogsRouter = require('./routes/blogs');
 const EventAdminRouter = require("./routes/eventsAdmin");
+const UserRouter = require('./routes/users')
 
 const PORT = process.env.PORT || 3005;
 const app = express();
@@ -23,13 +26,13 @@ app.get('/api/status', (req, res) => {
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
+app.use("/api/users", UserRouter);
 app.use('/api/events', EventRouter);
 app.use('/api/orders', OrderRouter);
 app.use('/api/products', ProductRouter);
 app.use('/api/blogs', BlogsRouter);
 app.use("/api/careers", CareersRouter)
 app.use("/api/events", EventAdminRouter)
-
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
