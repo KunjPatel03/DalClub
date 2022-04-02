@@ -1,8 +1,7 @@
 // @Author: Vishnu Sumanth
-
+import axios from "../../../Assets/config/axiosConfig";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -13,6 +12,7 @@ import Paper from "@mui/material/Paper";
 function ListUsers() {
   const location = useLocation();
   const { id } = location.state;
+  const [eid, updateId] = useState(id);
   const [lists, setUsers] = useState({ data: { users: [{ userId: 2 }] } });
   React.useEffect(() => {
     const users = async () => {
@@ -20,12 +20,12 @@ function ListUsers() {
       //     .then((result) => result.json())
       //     .then((body) => setUsers(body));
       axios
-        .post("/events/booked-users", {
-          id: id,
+        .post("events/booked-users", {
+          id: eid,
         })
         .then(function (response) {
           setUsers(response);
-          //   console.log(response);
+          console.log(eid);
         })
         .catch(function (error) {
           console.log(error);
@@ -37,22 +37,26 @@ function ListUsers() {
 
   return (
     <div>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>User Id</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {lists.data.users.map((list) => (
+      {lists.data.users.length === 0 ? (
+        <h2>No users registered</h2>
+      ) : (
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
               <TableRow>
-                <TableCell align="left">{list.userId}</TableCell>
+                <TableCell>User Id</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {lists.data.users.map((list) => (
+                <TableRow>
+                  <TableCell align="left">{list.userId}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </div>
   );
 }

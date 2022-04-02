@@ -31,7 +31,7 @@ const getEvents = (req, res) => {
         DBConnection.literal(
           "(SUM(platinum_member_seats)-SUM(remaining_platinum_seats))"
         ),
-        "Total_bookings",
+        "Total_platinum_bookings",
       ],
     ],
     group: ["id"],
