@@ -30,52 +30,62 @@ import IndividualBlog from '../Pages/Users/IndividualBlog';
 import AdminBlogs from '../Pages/Admin/AdminBlogs';
 import AddBlog from '../Pages/Admin/AddBlog';
 import UpdateBlog from '../Pages/Admin/UpdateBlog';
-import Ctable from "../Components/Admin/Event/Ctable";
-import EventForm from "../Components/Admin/Event/EventForm";
-import ListUsers from "../Components/Admin/Event/ListUsers";
-
-
+import Ctable from '../Components/Admin/Event/Ctable';
+import EventForm from '../Components/Admin/Event/EventForm';
+import ListUsers from '../Components/Admin/Event/ListUsers';
+import AdminProducts from '../Pages/Admin/AdminProducts';
+import AdminNewProduct from '../Pages/Admin/AdminNewProduct';
+import AdminEditProduct from '../Pages/Admin/AdminEditProduct';
 
 const AppRoutes = () => {
   const loadStripeKey = loadStripe(
-    "pk_test_51KgEo1GMutfkjZDFgZN4zTuVLFDNLlUzae99RhzKMjWXlcBg6y0dIFKSRg3AMPZKaJLGuvUGT8MeDqe6tAzcCbfb00Ko70FnbZ"
+    'pk_test_51KgEo1GMutfkjZDFgZN4zTuVLFDNLlUzae99RhzKMjWXlcBg6y0dIFKSRg3AMPZKaJLGuvUGT8MeDqe6tAzcCbfb00Ko70FnbZ'
   );
 
   return (
     <BrowserRouter>
       <Routes>
         {/* Admin routes without layout */}
-        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path='/admin/login' element={<AdminLogin />} />
         {/* Admin routes with layout */}
         <Route path='/admin' element={<AdminDashboard />}>
           <Route path='dashboard' element={<Home />} />
+
           <Route path='careers' element={<AdminCareers />} />
           <Route path='careers/new' element={<AddJobs />} />
           <Route path='careers/update/:jobId' element={<UpdateJobs />} />
+          <Route
+            path='careers/applications/:jobId'
+            element={<JobApplicants />}
+          />
+
           <Route path='blogs' element={<AdminBlogs />} />
           <Route path='blogs/new' element={<AddBlog />} />
           <Route path='blogs/update/:blogId' element={<UpdateBlog />} />
 
-
-          <Route path='careers/applications/:jobId' element={<JobApplicants />} />
+          <Route path='products' element={<AdminProducts />} />
+          <Route path='products/new' element={<AdminNewProduct />} />
+          <Route path='products/update/:id' element={<AdminEditProduct />} />
         </Route>
-        <Route path="/admin/dashboard/events" element={<Ctable />} />
-        <Route path="/admin/dashboard/addevent" element={<EventForm />} />
-        <Route path="/admin/dashboard/event/viewusers" element={<ListUsers />} />
+        <Route path='/admin/dashboard/events' element={<Ctable />} />
+        <Route path='/admin/dashboard/addevent' element={<EventForm />} />
+        <Route
+          path='/admin/dashboard/event/viewusers'
+          element={<ListUsers />}
+        />
 
-    
         {/* User routes without header */}
-        <Route path="/user/login" element={<UserLogin/>} />
-        <Route path="/user/register" element={<UserRegister/>} />
+        <Route path='/user/login' element={<UserLogin />} />
+        <Route path='/user/register' element={<UserRegister />} />
 
-        <Route path="/" element={<UserHeader />}>
+        <Route path='/' element={<UserHeader />}>
           {/* User routes with header */}
           <Route index element={<Homepage />} />
-          <Route path="/events" element={<EventList />} />
-          <Route path="/eventDetails/:eventId" element={<EventDetails />} />
-          <Route path="/registeredEvents" element={<RegisteredEvents />} />
+          <Route path='/events' element={<EventList />} />
+          <Route path='/eventDetails/:eventId' element={<EventDetails />} />
+          <Route path='/registeredEvents' element={<RegisteredEvents />} />
           <Route
-            path="/paymentStatus"
+            path='/paymentStatus'
             element={
               <Elements stripe={loadStripeKey}>
                 <PaymentStatus />
