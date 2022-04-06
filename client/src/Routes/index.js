@@ -39,6 +39,8 @@ import ListUsers from "../Components/Admin/Event/ListUsers";
 import AdminProducts from "../Pages/Admin/AdminProducts";
 import AdminNewProduct from "../Pages/Admin/AdminNewProduct";
 import AdminEditProduct from "../Pages/Admin/AdminEditProduct";
+import AdminOrders from '../Pages/Admin/AdminOrders';
+import AdminOrderDetails from '../Pages/Admin/AdminOrderDetails';
 
 const AppRoutes = () => {
   const loadStripeKey = loadStripe(
@@ -75,6 +77,9 @@ const AppRoutes = () => {
           <Route path="products" element={<AdminProducts />} />
           <Route path="products/new" element={<AdminNewProduct />} />
           <Route path="products/update/:id" element={<AdminEditProduct />} />
+
+          <Route path='orders' element={<AdminOrders />} />
+          <Route path='orders/:id' element={<AdminOrderDetails />}/>
         </Route>
         <Route path="/admin/dashboard/events" element={<Ctable />} />
         <Route path="/admin/dashboard/addevent" element={<EventForm />} />
