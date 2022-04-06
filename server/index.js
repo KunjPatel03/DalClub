@@ -10,6 +10,7 @@ const OrderRouter = require('./routes/order.routes');
 const ProductRouter = require('./routes/product.routes');
 const CareersRouter = require('./routes/careers');
 const BlogsRouter = require('./routes/blogs');
+const PackagesRouter = require('./routes/packages');
 
 const PORT = process.env.PORT || 3005;
 const app = express();
@@ -27,6 +28,7 @@ app.use('/api/orders', OrderRouter);
 app.use('/api/products', ProductRouter);
 app.use('/api/careers', CareersRouter);
 app.use('/api/blogs', BlogsRouter);
+app.use('/api/packages', PackagesRouter);
 app.use('/api/payments', PaymentRouter);
 
 app.get('*', (req, res) => {
