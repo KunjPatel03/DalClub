@@ -31,26 +31,25 @@ const UpdatePackage = () => {
   const navigate = useNavigate();
   let { packageId } = useParams();
   const [currentPackage, setCurrentPackage] = useState({});
-  const [packageValues, setBlogValues] = useState({});
+  const [packageValues, setPackageValues] = useState({});
 
   //Get API is called to get the details of selected blog
   useEffect(() => {
     axios
-      .get(`/blogs/${blogId}`)
+      .get(`/packages/${packageId}`)
       .then((response) => {
         setCurrentPackage(response.data.subscriptionPackage);
-        setBlogValues(response.data.subscriptionPackage);
+        setPackageValues(response.data.subscriptionPackage);
       })
       .catch((err) => {
         setCurrentPackage({});
         toast.error(err?.response?.data?.message || "Something went wrong");
       });
-  }, [blogId]);
+  }, [packageId]);
   const handleInputChange = (event) => {
     let { name, value } = event.target;
-    if (event.target.name == "isVisible") value = event.target.checked;
-    console.log(1000, value);
-    setBlogValues((prevState) => ({
+    if (event.target.name == "isActive") value = event.target.checked;
+    setPackageValues((prevState) => ({
       ...prevState,
       [name]: value,
     }));
@@ -59,19 +58,17 @@ const UpdatePackage = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post(`/packages/update/${packageId}`, blogValues)
+      .post(`/packages/update/${packageId}`, packageValues)
       .then((res) => {
         if (res.data.success) {
-          toast("Blog Posting Updated!");
-          navigate("/admin/blogs");
+          toast("Package Updated!");
+          navigate("/admin/packages");
         } else {
-          toast.error(res?.data?.message || "Cannot Update Blog Posting");
+          toast.error(res?.data?.message || "Cannot Update Package");
         }
       })
       .catch((err) => {
-        toast.error(
-          err?.response?.data?.message || "Cannot Update Blog Posting"
-        );
+        toast.error(err?.response?.data?.message || "Cannot Update Package");
       });
   };
 
@@ -93,12 +90,12 @@ const UpdatePackage = () => {
             <TextField
               fullWidth
               required
-              label="Title"
-              name="title"
+              label="Name"
+              name="name"
               type="text"
               sx={{ mb: 3 }}
-              defaultValue={currentPackage.title}
-              value={blogValues.title}
+              defaultValue={currentPackage.name}
+              value={packageValues.name}
               onChange={handleInputChange}
               InputLabelProps={{
                 shrink: true,
@@ -107,15 +104,12 @@ const UpdatePackage = () => {
             <TextField
               fullWidth
               required
-              label="Description"
-              name="description"
+              label="Price"
+              name="price"
               type="text"
-              multiline
-              rows={4}
-              rowsmax={6}
               sx={{ mb: 3 }}
-              defaultValue={currentPackage.description}
-              value={blogValues.description}
+              defaultValue={currentPackage.price}
+              value={packageValues.price}
               onChange={handleInputChange}
               InputLabelProps={{
                 shrink: true,
@@ -124,15 +118,12 @@ const UpdatePackage = () => {
             <TextField
               fullWidth
               required
-              label="Content"
-              name="content"
+              label="Type"
+              name="type"
               type="text"
-              multiline
-              rows={7}
-              rowsmax={10}
               sx={{ mb: 3 }}
-              defaultValue={currentPackage.content}
-              value={blogValues.content}
+              defaultValue={currentPackage.type}
+              value={packageValues.type}
               onChange={handleInputChange}
               InputLabelProps={{
                 shrink: true,
@@ -142,8 +133,10 @@ const UpdatePackage = () => {
               Visible
             </Typography>
             <Switch
-              name="isVisible"
-              checked={blogValues.isVisible ? blogValues.isVisible : false}
+              name="isActive"
+              checked={
+                packageValues.isActive ? packageValues.isActive : false
+              }
               onClick={handleInputChange}
             />
 

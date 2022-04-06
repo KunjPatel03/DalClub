@@ -31,6 +31,8 @@ import AddBlog from '../Pages/Admin/AddBlog';
 import UpdateBlog from '../Pages/Admin/UpdateBlog';
 import AdminSubscriptionPackages from '../Pages/Admin/AdminSubscriptionPackages';
 import AddPackage from '../Pages/Admin/AddPackage';
+import UpdatePackage from '../Pages/Admin/UpdatePackage';
+
 
 
 const AppRoutes = () => {
@@ -54,7 +56,7 @@ const AppRoutes = () => {
           <Route path='blogs/update/:blogId' element={<UpdateBlog />} />
           <Route path='packages' element={<AdminSubscriptionPackages />} />
           <Route path='packages/new' element={<AddPackage />} />
-
+          <Route path='packages/update/:packageId' element={<UpdatePackage />} />
 
 
           <Route path='careers/applications/:jobId' element={<JobApplicants />} />
