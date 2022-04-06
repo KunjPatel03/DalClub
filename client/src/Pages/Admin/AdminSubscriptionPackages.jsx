@@ -8,7 +8,7 @@ import { Grid, Button, Typography } from "@mui/material";
 import { DeleteOutline } from "@material-ui/icons";
 import { toast } from "react-toastify";
 
-const BlogsContainer = styled("div")({
+const PackagesContainer = styled("div")({
   flex: "8",
   width: "100%",
   display: "grid",
@@ -16,12 +16,12 @@ const BlogsContainer = styled("div")({
   gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
 });
 
-const TheList = styled("div")({
+const PackageList = styled("div")({
   width: "100%",
   flex: "4",
 });
 
-const ListItem = styled("div")({
+const Package = styled("div")({
   display: "flex",
   alignItems: "center",
 });
@@ -47,63 +47,58 @@ const ItemTitleContainer = styled("div")({
   justifyContent: "space-between",
 });
 
-const AdminBlogs = () => {
-  const [blogs, setBlogs] = useState([]);
-  //Get blog API is called when the page is rendered to display them when the page is rendered
+const AdminSubscriptionPackages = () => {
+  const [packages, setPackages] = useState([]);
+  //Get package API is called when the page is rendered to display them when the page is rendered
   useEffect(() => {
     axios
-      .get("/blogs")
+      .get("/packages")
       .then((response) => {
-        setBlogs(response.data.success ? response.data.blogs : []);
+        setPackages(response.data.success ? response.data.subscriptionPackages : []);
       })
       .catch((err) => {
-        setBlogs([]);
+        setPackages([]);
         toast.error(err?.response?.data?.message || "Something went wrong");
       });
   }, []);
-  //This function is used to call the delete api to delete the blog
+  //This function is used to call the delete api to delete the package
   const handleDelete = (id) => {
     axios
-      .delete(`/blogs/delete/${id}`)
+      .delete(`/packages/delete/${id}`)
       .then((response) => {
-        setBlogs(blogs.filter((item) => item.blog_id !== id));
-        toast("Blog Posting Deleted");
+        setPackages(packages.filter((item) => item.package_id !== id));
+        toast("Package Deleted");
       })
       .catch((err) => {
         toast.error(
-          err?.response?.data?.message || "Could not delete Blog Posting"
+          err?.response?.data?.message || "Could not delete Package"
         );
       });
   };
 
   const columns = [
-    { field: "blog_id", headerName: "Blog ID", width: 120 },
+    { field: "package_id", headerName: "Package ID", width: 120 },
     {
-      field: "title",
-      headerName: "Title",
+      field: "name",
+      headerName: "Name",
       width: 200,
       renderCell: (params) => {
-        return <ListItem>{params.row.title}</ListItem>;
+        return <Package>{params.row.name}</Package>;
       },
     },
 
     {
-      field: "description",
-      headerName: "Description",
+      field: "price",
+      headerName: "Price",
       width: 160,
     },
     {
-      field: "content",
-      headerName: " Content",
+      field: "type",
+      headerName: "Type",
       width: 160,
     },
     {
-      field: "userId",
-      headerName: "User ID",
-      width: 120,
-    },
-    {
-      field: "isVisible",
+      field: "isActive",
       headerName: "Visible",
       width: 160,
     },
@@ -114,22 +109,22 @@ const AdminBlogs = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={`/admin/blogs/update/${params.row.blog_id}`}>
+            <Link to={`/admin/packages/update/${params.row.package_id}`}>
               <EditButton primary>Edit</EditButton>
             </Link>
-            <MyDeleteOutline onClick={() => handleDelete(params.row.blog_id)} />
+            <MyDeleteOutline onClick={() => handleDelete(params.row.package_id)} />
           </>
         );
       },
     },
   ];
   return (
-    <BlogsContainer>
-      <TheList>
+    <PackagesContainer>
+      <PackageList>
         <ItemTitleContainer>
-          <h1>Blogs Catalogue</h1>
+          <h1>Packages Catalogue</h1>
 
-          <Link to="/admin/blogs/new">
+          <Link to="/admin/packages/new">
             <Grid
               sx={{
                 display: "flex",
@@ -145,14 +140,14 @@ const AdminBlogs = () => {
           </Link>
         </ItemTitleContainer>
         <DataGrid
-          rows={blogs}
-          getRowId={(row) => row.blog_id}
+          rows={packages}
+          getRowId={(row) => row.package_id}
           disableSelectionOnClick
           columns={columns}
           pageSize={5}
         />
-      </TheList>
-    </BlogsContainer>
+      </PackageList>
+    </PackagesContainer>
   );
 };
-export default AdminBlogs;
+export default AdminSubscriptionPackages;

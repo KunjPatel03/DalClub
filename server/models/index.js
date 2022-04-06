@@ -12,6 +12,7 @@ const ProductColor = require('./productcolor.model.js');
 const Careers= require("./careers.model");
 const JobApplications = require("./jobApplication.model")
 const Blogs = require("./blogs.model")
+const Packages = require("./packages.model")
 
 
 const EventsModel = Events(DBConnection, DataTypes);
@@ -25,6 +26,7 @@ const ProductColorModel = ProductColor(DBConnection, DataTypes);
 const CareersModel = Careers(DBConnection, DataTypes);
 const JobApplicationsModel = JobApplications(DBConnection, DataTypes);
 const BlogsModel = Blogs(DBConnection,DataTypes);
+const PackagesModel = Packages(DBConnection,DataTypes);
 
 
 EventsModel.hasMany(EventBookingsModel, {
@@ -86,5 +88,6 @@ module.exports = {
   ProductSizeModel,
   CareersModel,
   JobApplicationsModel,
-  BlogsModel
+  BlogsModel,
+  PackagesModel
 };

@@ -1,5 +1,5 @@
 
-// @Authors: Kishan Thakkar, Rahul Kherajani, Vishwanath Suresh, Vishnu Sumanth, Anamika Ahmed
+// @Authors: Kishan Thakkar, Rahul Kherajani, Vishwanath Suresh, Vishnu Sumanth, Anamika Ahmed, Kunj Vijaykumar Patel
 
 require('dotenv').config();
 const express = require('express');
@@ -12,6 +12,7 @@ const OrderRouter = require('./routes/order.routes');
 const ProductRouter = require('./routes/product.routes');
 const CareersRouter = require('./routes/careers');
 const BlogsRouter = require('./routes/blogs');
+const PackagesRouter = require('./routes/packages');
 const EventAdminRouter = require("./routes/eventsAdmin");
 const UserRouter = require('./routes/users')
 
@@ -31,6 +32,8 @@ app.use('/api/events', EventRouter);
 app.use('/api/orders', OrderRouter);
 app.use('/api/products', ProductRouter);
 app.use('/api/blogs', BlogsRouter);
+app.use('/api/packages', PackagesRouter);
+app.use('/api/payments', PaymentRouter);
 app.use("/api/careers", CareersRouter)
 app.use("/api/events", EventAdminRouter)
 app.use("/api/payments", PaymentRouter)
