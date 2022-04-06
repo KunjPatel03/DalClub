@@ -1,15 +1,15 @@
-// @Authors: Rahul Kherajani, Vishwanath Suresh
-import React from "react";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import PeopleIcon from "@mui/icons-material/People";
-import EventIcon from "@mui/icons-material/Event";
-import RedeemIcon from "@mui/icons-material/Redeem";
-import InventoryIcon from "@mui/icons-material/Inventory";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import HailIcon from "@mui/icons-material/Hail";
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import { styled } from "@mui/system";
-import { Link } from "react-router-dom";
+// @Authors: Rahul Kherajani, Vishwanath Suresh, Vishnu Sumanth, Kunj Vijaykumar Patel
+import React from 'react';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import PeopleIcon from '@mui/icons-material/People';
+import EventIcon from '@mui/icons-material/Event';
+import RedeemIcon from '@mui/icons-material/Redeem';
+import InventoryIcon from '@mui/icons-material/Inventory';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import HailIcon from '@mui/icons-material/Hail';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import { styled } from '@mui/system';
+import { Link } from 'react-router-dom';
 
 const SidebarContainer = styled("div")({
   flex: "2",
@@ -48,9 +48,9 @@ const Sidebar = () => {
       <SidebarWrapper>
         <SidebarMenu>
           <SidebarList>
-            <Link to={"/admin/dashboard"}>
+            <Link to={'/admin/dashboard'}>
               <SidebarListItem>
-                <DashboardIcon sx={{ marginRight: "2vh" }} />
+                <DashboardIcon sx={{ marginRight: '2vh' }} />
                 Dashboard
               </SidebarListItem>
             </Link>
@@ -59,8 +59,8 @@ const Sidebar = () => {
               Users
             </SidebarListItem>
             <SidebarListItem>
-              <EventIcon sx={{ marginRight: "2vh" }} />
-              Events
+              <EventIcon sx={{ marginRight: '2vh' }} />
+              <Link to='/admin/dashboard/events'>Events </Link>
             </SidebarListItem>
             <Link to={"/admin/packages"}>
               <SidebarListItem>
@@ -69,22 +69,28 @@ const Sidebar = () => {
               </SidebarListItem>
             </Link>
             <SidebarListItem>
-              <InventoryIcon sx={{ marginRight: "2vh" }} />
-              Merchandise Products
+              <RedeemIcon sx={{ marginRight: '2vh' }} />
+              Membership Packages
             </SidebarListItem>
+            <Link to={'/admin/products'}>
+              <SidebarListItem>
+                <InventoryIcon sx={{ marginRight: '2vh' }} />
+                Merchandise Products
+              </SidebarListItem>
+            </Link>
             <SidebarListItem>
               <LocalShippingIcon sx={{ marginRight: "2vh" }} />
               Merchandise Orders
             </SidebarListItem>
-            <Link to={"/admin/careers"}>
+            <Link to={'/admin/careers'}>
               <SidebarListItem>
                 <HailIcon sx={{ marginRight: "2vh" }} />
                 Jobs
               </SidebarListItem>
             </Link>
-            <Link to={"/admin/blogs"}>
+            <Link to={'/admin/blogs'}>
               <SidebarListItem>
-                <AssignmentIcon sx={{ marginRight: "2vh" }} />
+                <AssignmentIcon sx={{ marginRight: '2vh' }} />
                 Blogs
               </SidebarListItem>
             </Link>

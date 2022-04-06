@@ -1,4 +1,4 @@
-// @Authors: Kishan Thakkar, Rahul Kherajani, Vishwanath Suresh
+// @Authors: Kishan Thakkar, Rahul Kherajani, Vishwanath Suresh, Anamika Ahmed
 import { useState } from 'react';
 import { Box, Grid, Typography, Menu, MenuItem } from '@mui/material';
 import { Link, Outlet } from 'react-router-dom';
