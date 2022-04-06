@@ -33,7 +33,7 @@ const UpdatePackage = () => {
   const [currentPackage, setCurrentPackage] = useState({});
   const [packageValues, setPackageValues] = useState({});
 
-  //Get API is called to get the details of selected blog
+  //Get API is called to get the details of selected package
   useEffect(() => {
     axios
       .get(`/packages/${packageId}`)
@@ -76,7 +76,7 @@ const UpdatePackage = () => {
     <PackageContainer>
       <TheBox>
         <ContentTitle>
-          <h1>Update the package</h1>
+          <h1>Update Package</h1>
         </ContentTitle>
         <form onSubmit={handleSubmit}>
           <Box
@@ -84,7 +84,10 @@ const UpdatePackage = () => {
               display: "flex",
               flexDirection: "column",
               m: 1,
+              p: 2,
               alignItems: "left",
+              boxShadow: 3,
+              mx: "auto",
             }}
           >
             <TextField
@@ -118,7 +121,7 @@ const UpdatePackage = () => {
             <TextField
               fullWidth
               required
-              label="Type"
+              label="Type {silver, gold, platinum}"
               name="type"
               type="text"
               sx={{ mb: 3 }}
@@ -134,9 +137,7 @@ const UpdatePackage = () => {
             </Typography>
             <Switch
               name="isActive"
-              checked={
-                packageValues.isActive ? packageValues.isActive : false
-              }
+              checked={packageValues.isActive ? packageValues.isActive : false}
               onClick={handleInputChange}
             />
 

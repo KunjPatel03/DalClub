@@ -79,7 +79,7 @@ const UpdateBlog = () => {
     <BlogContainer>
       <TheBox>
         <ContentTitle>
-          <h1>Update a Job Posting</h1>
+          <h1>Update Blog Posting</h1>
         </ContentTitle>
         <form onSubmit={handleSubmit}>
           <Box
@@ -87,7 +87,10 @@ const UpdateBlog = () => {
               display: "flex",
               flexDirection: "column",
               m: 1,
+              p: 2,
               alignItems: "left",
+              boxShadow: 3,
+              mx: "auto",
             }}
           >
             <TextField
