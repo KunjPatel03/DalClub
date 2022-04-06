@@ -72,10 +72,12 @@ const Sidebar = () => {
                 Merchandise Products
               </SidebarListItem>
             </Link>
+            <Link to={'/admin/orders'}>
             <SidebarListItem>
               <LocalShippingIcon sx={{ marginRight: '2vh' }} />
               Merchandise Orders
             </SidebarListItem>
+            </Link>
             <Link to={'/admin/careers'}>
               <SidebarListItem>
                 <HailIcon sx={{ marginRight: '2vh' }} />

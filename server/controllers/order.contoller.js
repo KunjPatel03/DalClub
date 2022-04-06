@@ -76,8 +76,8 @@ exports.createOrder = async (req, res) => {
   }
 };
 
-//Function to return all Order Details
-exports.findAllOrders = (req, res) => {
+//Function to return all Order Details for a user
+exports.findUserOrders = (req, res) => {
   OrderHeaderModel.findAll({
     where: { order_user_id: req.query.order_user_id },
     include: [
@@ -94,6 +94,54 @@ exports.findAllOrders = (req, res) => {
       res.status(500).send({
         message:
           err.message || 'Some error occurred while retrieving products.',
+      });
+    });
+};
+
+// Function ro return all order details of all users
+exports.findAllOrders = (req, res) => {
+  OrderHeaderModel.findAll({})
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || 'Some error occurred while retrieving products.',
+      });
+    });
+};
+
+// Function ro return all order details for an order
+exports.findOrderDetails = (req, res) => {
+  OrderHeaderModel.findOne({ where: { order_header_id: req.params.orderId },
+    include: [
+      {
+        model: OrderLineModel,
+        as: 'order_line',
+      },
+    ], })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || 'Some error occurred while retrieving products.',
+      });
+    });
+};
+
+// Function to update the status of an order
+exports.updateOrders = (req, res) => {
+  OrderHeaderModel.update({ order_status: req.body.order_status }, { where: { order_header_id: req.body.order_header_id } })
+    .then((data) => {
+      res.send({ success: true, message: 'Order Updated' });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        success: false,
+        message: err.message || 'Internal server error while upadting the order.'
       });
     });
 };
