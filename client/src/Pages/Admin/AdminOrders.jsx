@@ -1,3 +1,4 @@
+// @Author: Vishwanath Suresh
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import axios from '../../Assets/config/axiosConfig';
@@ -46,6 +47,7 @@ const AdminOrders = () => {
     const [orders, setOrders] = useState([]);
     const [update, setUpdate] = useState(true);
 
+    // Fetches all the existing user orders 
     useEffect(() => {
         axios
             .get('/orders/all')
@@ -59,6 +61,7 @@ const AdminOrders = () => {
             });
     }, [update]);
 
+    // Method to update the status of order
     const handleUpdate = (orderId, status) => {
         axios
             .put('/orders/update', { order_header_id: orderId, order_status: status })
@@ -74,7 +77,6 @@ const AdminOrders = () => {
                 toast.error('Could not update order status');
             });
     }
-
 
     const columns = [
         {

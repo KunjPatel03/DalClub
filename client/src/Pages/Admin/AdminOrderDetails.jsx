@@ -1,3 +1,4 @@
+// @Author: Vishwanath Suresh
 import React, { useState, useEffect } from 'react';
 import axios from '../../Assets/config/axiosConfig';
 import { styled } from '@mui/system';
@@ -81,6 +82,7 @@ const AdminOrderDetails = () => {
     const [order, setOrder] = useState({})
     const orderId = useParams();
 
+    // Fetches the order details for the selected order
     useEffect(() => {
         axios.get(`/orders/${orderId.id}`)
             .then((response) => {
@@ -91,6 +93,7 @@ const AdminOrderDetails = () => {
                 toast.error('Something went wrong');
             });
     }, [orderId]);
+    
     return (
         <OrderOuterContainer>
             <ItemTitleContainer>
