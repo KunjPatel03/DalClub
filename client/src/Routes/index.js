@@ -7,6 +7,7 @@ import UserHeader from '../Components/Users/Header';
 import Homepage from '../Pages/Users/Homepage';
 import UserLogin from '../Pages/Users/Login';
 import UserRegister from '../Pages/Users/Register';
+import UserProfile from '../Pages/Users/UpdateProfile';
 import EventList from '../Pages/Users/EventList';
 import EventDetails from '../Pages/Users/EventDetails';
 import StorePage from '../Pages/Users/StorePage';
@@ -28,6 +29,8 @@ import Blogs from '../Pages/Users/Blogs';
 import NewBlog from '../Pages/Users/NewBlog';
 import IndividualBlog from '../Pages/Users/IndividualBlog';
 import AdminBlogs from '../Pages/Admin/AdminBlogs';
+import AdminListUsers from '../Pages/Admin/AdminListUsers';
+
 import AddBlog from '../Pages/Admin/AddBlog';
 import UpdateBlog from '../Pages/Admin/UpdateBlog';
 import AdminSubscriptionPackages from '../Pages/Admin/AdminSubscriptionPackages';
@@ -81,7 +84,10 @@ const AppRoutes = () => {
           <Route path='orders' element={<AdminOrders />} />
           <Route path='orders/:id' element={<AdminOrderDetails />} />
         </Route>
+        <Route path='/admin/listUsers' element={<AdminListUsers />} />
+
         <Route path='/admin/dashboard/events' element={<Ctable />} />
+
         <Route path='/admin/dashboard/addevent' element={<EventForm />} />
         <Route
           path='/admin/dashboard/event/viewusers'
@@ -89,8 +95,9 @@ const AppRoutes = () => {
         />
 
         {/* User routes without header */}
-        <Route path='/user/login' element={<UserLogin />} />
-        <Route path='/user/register' element={<UserRegister />} />
+        <Route path="/user/login" element={<UserLogin/>} />
+        <Route path="/user/register" element={<UserRegister/>} />
+        <Route path="/user/profile/:user_id" element={<UserProfile/>} />
 
         <Route path='/' element={<UserHeader />}>
           {/* User routes with header */}

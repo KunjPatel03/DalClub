@@ -12,7 +12,7 @@ const BlogsRouter = express.Router();
 
 BlogsRouter.get("/", getBlogList);
 BlogsRouter.get("/:blogId", getBlog);
-BlogsRouter.post("/new", postBlog);
+BlogsRouter.post("/new/:userId", postBlog);
 BlogsRouter.delete("/delete/:blogId", deleteBlog);
 BlogsRouter.post("/update/:blogId", updateBlog);
 

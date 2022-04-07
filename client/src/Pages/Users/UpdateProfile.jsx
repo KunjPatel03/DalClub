@@ -1,6 +1,7 @@
 // @Author: Anamika Ahmed
 import { useState } from "react"
 import { styled } from '@mui/system';
+import { useParams } from "react-router-dom";
 import { Box, TextField, Button } from "@mui/material";
 import axios from "../../Assets/config/axiosConfig";
 import { toast } from "react-toastify"
@@ -25,14 +26,15 @@ const ItemTitleContainer = styled('div')({
     justifyContent: 'space-between'
 });
 
-const AdminLogin = () => {
+const UpdateProfile = () => {
 
     const navigate = useNavigate();
+    let { user_id } = useParams();
 
-  
-    // Handles add login form input changes
+
+
+    // Handles add job form input changes
     const handleInputChange = (e) => {
-        
         const { id, value } = e.target;
         setFormValues(prevState => ({
             ...prevState,
@@ -40,27 +42,28 @@ const AdminLogin = () => {
         }))
     };
 
-    // Handles add job submit
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log("The form values are",formValues);
-    
-        axios.post("/admin/login", formValues).then((res) => {
-            console.log("The result is ",res.data.success);
-            if(res.data.success==1) {
-              toast("Logged in Successfully!")
+        axios
+          .post(`/users/profile/update/${user_id}`, formValues)
+          .then((res) => {
+            if (res.data.success) {
+              toast("User Profile Updated!");
             } else {
-              toast.error(res?.data?.message || "Please enter your admin credentials correctly")
+              toast.error(res?.data?.message || "Cannot Update User Profile");
             }
           })
           .catch((err) => {
-            toast.error("Invalid Admin Credentials. Please enter email and password correctly.")
+            toast.error(
+              err?.response?.data?.message || "Cannot Update User Profile"
+            );
           });
-    };
+      };
 
     const defaultValues = {
-        admin_email: "",
-        admin_password: ""
+        user_name: "",
+        user_email: "",
+        user_password: ""
     }
 
     const [formValues, setFormValues] = useState(defaultValues);
@@ -69,40 +72,46 @@ const AdminLogin = () => {
         <JobsContainer>
             <TheList>
                 <ItemTitleContainer>
-                    <h1>Admin Sign-in Form</h1>
+                    <h1>Update Profile</h1>
                 </ItemTitleContainer>
-
-                <form onSubmit={handleSubmit}
-
-                >
+                <form onSubmit={handleSubmit}>
                     <Box sx={{ display: 'flex', flexDirection: 'column', m: 1, alignItems: 'left' }}>
-                        <TextField
-                            required
-                            label="Enter your email address"
-                            id="admin_email"
-                            type="email"
+                    <TextField
+                           
+                            label="Edit your username"
+                            id="user_name"
+                            type="text"
                             sx={{ m: 1 }}
-                            value={formValues.admin_email}
+                            value={formValues.user_name}
                             onChange={handleInputChange}
                         />
                         <TextField
-                            required
-                            label="Enter your password"
-                            id="admin_password"
+                           
+                            label="Edit your email address"
+                            id="user_email"
+                            type="user_email"
+                            sx={{ m: 1 }}
+                            value={formValues.user_email}
+                            onChange={handleInputChange}
+                        />
+                        <TextField
+                           
+                            label="Edit your password"
+                            id="user_password"
                             type="password"
                             sx={{ m: 1 }}
-                            value={formValues.admin_password}
+                            value={formValues.user_password}
                             onChange={handleInputChange}
-                        />                    
-                        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)' }}> 
-                               
+                        />
+                
+                        <Box sx={{ margin:'auto', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)' }}>                
                         </Box>
-                        <Button variant="contained" sx={{ m: 1, width: '25ch' }} type="submit"> Login </Button>
+                        <Button variant="contained" sx={{ m: 1, width: '35ch' }} type="submit"> Update Profile </Button>
                     </Box>
+                   
                 </form>
             </TheList>
         </JobsContainer>
     )
 }
-
-export default AdminLogin;
+export default UpdateProfile;

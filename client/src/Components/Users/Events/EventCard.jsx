@@ -4,7 +4,7 @@ import { format, parseISO } from "date-fns";
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 import { Link } from "react-router-dom"
 
-const EventCard = ({ id, name="", coverImage, eventDate, price }) => {
+const EventCard = ({ id, name="", coverImage, eventDate, price, redirectLink="" }) => {
   return (
     <Box
       key={id}
@@ -19,7 +19,7 @@ const EventCard = ({ id, name="", coverImage, eventDate, price }) => {
         },
       }}
     >
-      <Link to={`/eventDetails/${id}`}>
+      <Link to={`${redirectLink}/eventDetails/${id}`}>
         <img
           src={coverImage || `https://via.placeholder.com/600x400?text=${name.replace(" ", "+")}`}
           alt={name}

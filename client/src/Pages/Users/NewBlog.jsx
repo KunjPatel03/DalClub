@@ -1,5 +1,5 @@
 // @Author: Kunj Vijaykumar Patel
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import {
   Grid,
   Box,
@@ -15,9 +15,13 @@ import axios from "../../Assets/config/axiosConfig";
 import BlogBanner from "../../Assets/images/BlogBanner.jpg";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { StateContext } from "../../State"
+
 
 const NewBlog = () => {
   const navigate = useNavigate();
+
+  const { siteAuth } = useContext(StateContext);
 
   const blogDefaultValues = {
     userId: 1,
@@ -40,7 +44,7 @@ const NewBlog = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("/blogs/new", blogValues)
+      .post(`/blogs/new/${siteAuth?.userDetails?.userId}`, blogValues)
       .then((res) => {
         if (res.data.success) {
           toast("BlogSubmitted!");
