@@ -8,13 +8,13 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { StateContext } from '../../State';
 import { useContext } from 'react';
 import Footer from './Footer';
-import { toast } from "react-toastify"
-import axios from "../../Assets/config/axiosConfig"
+import { toast } from 'react-toastify';
+import Tooltip from '@mui/material/Tooltip';
 
 const Header = () => {
   const [eventElement, setEventElement] = useState(null);
-  const location = useLocation()
-  const navigate = useNavigate()
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const openEventMenu = (e) => setEventElement(e.currentTarget);
   const closeEventMenu = () => setEventElement(null);
@@ -22,18 +22,18 @@ const Header = () => {
   const { cartList, siteAuth, modifySiteAuth } = useContext(StateContext);
 
   useEffect(() => {
-    if(location.pathname !== "/" && !siteAuth.isLoggedIn) {
-      toast.error("Please login first.")
-      navigate(`/user/login?redirect=${location.pathname}`)
+    if (location.pathname !== '/' && !siteAuth.isLoggedIn) {
+      toast.error('Please login first.');
+      navigate(`/user/login?redirect=${location.pathname}`);
     }
-  }, [])
+  }, []);
 
   const logout = () => {
-    modifySiteAuth("userDetails", {})
-    modifySiteAuth("isLoggedIn", false)
-    modifySiteAuth("token", "")
-    navigate("/")
-  }
+    modifySiteAuth('userDetails', {});
+    modifySiteAuth('isLoggedIn', false);
+    modifySiteAuth('token', '');
+    navigate('/');
+  };
 
   return (
     <Box position={'relative'}>
@@ -76,7 +76,13 @@ const Header = () => {
               className='cursor-pointer'
               marginLeft={2}
             >
-              <Link to={`${siteAuth?.isLoggedIn ? "" : "/user/login?redirect="}/store/products`}>Merchandise Store</Link>
+              <Link
+                to={`${
+                  siteAuth?.isLoggedIn ? '' : '/user/login?redirect='
+                }/store/products`}
+              >
+                Merchandise Store
+              </Link>
             </Typography>
             <Typography
               color={'white'}
@@ -84,47 +90,84 @@ const Header = () => {
               marginLeft={2}
             >
               {' '}
-              <Link to={`${siteAuth?.isLoggedIn ? "" : "/user/login?redirect="}/careers`}>Careers</Link>
+              <Link
+                to={`${
+                  siteAuth?.isLoggedIn ? '' : '/user/login?redirect='
+                }/blogs`}
+              >
+                Blogs
+              </Link>
             </Typography>
-            <Typography
-              color={'white'}
-              className='cursor-pointer'
-              marginLeft={2}
-            >
-              {' '}
-              <Link to={`${siteAuth?.isLoggedIn ? "" : "/user/login?redirect="}/blogs`}>Blogs</Link>
-            </Typography>
+            {!siteAuth.isLoggedIn ? (
+              <Typography
+                color={'white'}
+                className='cursor-pointer'
+                marginLeft={2}
+              >
+                <Link to='/careers'>Careers</Link>
+              </Typography>
+            ) : null}
           </Grid>
         </Box>
-        {siteAuth?.isLoggedIn ? <Box py={2} px={3} className='cursor-pointer'>
-          <Grid container width={'fit-content'}>
-            <Typography
-              color={'white'}
-              className='cursor-pointer'
-              marginLeft={2}
-            >
-              <Link to={`${siteAuth?.isLoggedIn ? "" : "/user/login?redirect="}/store/orders`}>My Orders</Link>
-            </Typography>
-            <Box color={'white'} className='cursor-pointer' marginLeft={2}>
-              <Badge badgeContent={cartList.length ? cartList.length : '0'}>
-                <Link to={`${siteAuth?.isLoggedIn ? "" : "/user/login?redirect="}/store/cart`}>
-                  <ShoppingCartOutlinedIcon />
+        {siteAuth?.isLoggedIn ? (
+          <Box py={2} px={3} className='cursor-pointer'>
+            <Grid container width={'fit-content'}>
+              <Typography
+                color={'white'}
+                className='cursor-pointer'
+                marginLeft={2}
+              >
+                <Link
+                  to={`${
+                    siteAuth?.isLoggedIn ? '' : '/user/login?redirect='
+                  }/store/orders`}
+                >
+                  My Orders
                 </Link>
-              </Badge>
-            </Box>
-            <Typography
-              color={'white'}
-              className='cursor-pointer'
-              marginLeft={2}
-              onClick={logout}
-            >
-              <LogoutIcon />
-            </Typography>
-          </Grid>
-        </Box> : (
+              </Typography>
+              <Box color={'white'} className='cursor-pointer' marginLeft={2}>
+                <Badge
+                  badgeContent={cartList.length ? cartList.length : '0'}
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Link
+                    to={`${
+                      siteAuth?.isLoggedIn ? '' : '/user/login?redirect='
+                    }/store/cart`}
+                  >
+                    <Tooltip title='Cart'>
+                      <ShoppingCartOutlinedIcon />
+                    </Tooltip>
+                  </Link>
+                </Badge>
+              </Box>
+              <Typography
+                color={'white'}
+                className='cursor-pointer'
+                marginLeft={2}
+                onClick={logout}
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Tooltip title='Logout'>
+                  <LogoutIcon />
+                </Tooltip>
+              </Typography>
+            </Grid>
+          </Box>
+        ) : (
           <Box py={2} px={3}>
-            <Link to={"/user/login"}>Login</Link>&emsp;
-            <Link to={"/user/register"}>Sign Up</Link>
+            <Link to={'/user/login'}>Login</Link>&emsp;
+            <Link to={'/user/register'}>Sign Up</Link>
           </Box>
         )}
       </Grid>
@@ -133,10 +176,16 @@ const Header = () => {
         open={!!eventElement}
         onClose={closeEventMenu}
       >
-        <Link to={`${siteAuth?.isLoggedIn ? "" : "/user/login?redirect="}/events`}>
+        <Link
+          to={`${siteAuth?.isLoggedIn ? '' : '/user/login?redirect='}/events`}
+        >
           <MenuItem onClick={closeEventMenu}>Events</MenuItem>
         </Link>
-        <Link to={`${siteAuth?.isLoggedIn ? "" : "/user/login?redirect="}/registeredEvents`}>
+        <Link
+          to={`${
+            siteAuth?.isLoggedIn ? '' : '/user/login?redirect='
+          }/registeredEvents`}
+        >
           <MenuItem onClick={closeEventMenu}>Registered Events</MenuItem>
         </Link>
       </Menu>
