@@ -29,6 +29,8 @@ import Blogs from '../Pages/Users/Blogs';
 import NewBlog from '../Pages/Users/NewBlog';
 import IndividualBlog from '../Pages/Users/IndividualBlog';
 import AdminBlogs from '../Pages/Admin/AdminBlogs';
+import AdminListUsers from '../Pages/Admin/AdminListUsers';
+
 import AddBlog from '../Pages/Admin/AddBlog';
 import UpdateBlog from '../Pages/Admin/UpdateBlog';
 import AdminSubscriptionPackages from '../Pages/Admin/AdminSubscriptionPackages';
@@ -82,7 +84,10 @@ const AppRoutes = () => {
           <Route path='orders' element={<AdminOrders />} />
           <Route path='orders/:id' element={<AdminOrderDetails />} />
         </Route>
+        <Route path='/admin/listUsers' element={<AdminListUsers />} />
+
         <Route path='/admin/dashboard/events' element={<Ctable />} />
+
         <Route path='/admin/dashboard/addevent' element={<EventForm />} />
         <Route
           path='/admin/dashboard/event/viewusers'

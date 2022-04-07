@@ -13,7 +13,20 @@ const updateUserProfile = (req, res) => {
   });
 }
 
+// Function to fetch all exisitng packages
+const getAllUsers = (req, res) => {
+  Users_ProfileModel.findAll()
+    .then((data) => {
+      res.send({ success: true, data });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send({ success: false });
+    });
+};
+
 module.exports = {
   
-  updateUserProfile
+  updateUserProfile,
+  getAllUsers
 };
