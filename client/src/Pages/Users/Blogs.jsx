@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 const Blogs = () => {
   const navigate = useNavigate();
   const [blogs, setBlogs] = useState([]);
+  
   //Get blog API is called to show the blogs when the page is rendered
   useEffect(() => {
     axios
