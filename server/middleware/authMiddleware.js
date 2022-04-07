@@ -1,6 +1,7 @@
 const { User, AuthToken } = require('../models');
 
-module.exports = async function(req, res, next) {
+module.exports ={
+  checkToken: async function(req, res, next) {
 
   // look for an authorization header or auth_token in the cookies
   const token =
@@ -21,7 +22,12 @@ module.exports = async function(req, res, next) {
     // user to the req object so we can use it in our routes
     if (authToken) {
       req.user = authToken.User;
+      next();
+    } else {
+      res.status(401).send({ success: false, message: "Unauthorized request." })
     }
+  } else {
+    res.status(401).send({ success: false, message: "Unauthorized request." })
   }
-  next();
+}
 }

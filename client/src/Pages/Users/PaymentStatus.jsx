@@ -11,7 +11,7 @@ import { useContext } from 'react';
 const PaymentStatus = () => {
   const stripe = useStripe();
   const navigate = useNavigate();
-  const { cartList, setCartList } = useContext(StateContext);
+  const { cartList, setCartList, siteAuth } = useContext(StateContext);
 
   useEffect(() => {
     const clientSecret = new URLSearchParams(window.location.search).get(
@@ -30,7 +30,7 @@ const PaymentStatus = () => {
             axios
               .post('/events/bookEvent', {
                 paymentIntent: paymentIntent.id,
-                userId: 1,
+                userId: siteAuth?.userDetails?.userId,
                 ticketType: 'Silver',
               })
               .then((response) => {
