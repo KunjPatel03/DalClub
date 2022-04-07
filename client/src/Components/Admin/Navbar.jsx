@@ -1,6 +1,8 @@
 // @Author: Rahul Kherajani
-import React from 'react';
+import React, { useContext } from 'react';
 import { styled } from '@mui/system';
+import { StateContext } from "../../State"
+import { useNavigate } from 'react-router-dom';
 
 const NavbarContainer = styled('div')({
   width: '100%',
@@ -38,6 +40,15 @@ const MenuItem = styled('div')({
 });
 
 const Navbar = () => {
+  const navigate = useNavigate()
+  const { modifySiteAuth } = useContext(StateContext)
+
+  const logout = () => {
+    modifySiteAuth("isLoggedIn", false)
+    modifySiteAuth("isAdmin", false)
+    modifySiteAuth("token", "")
+    navigate("/admin/login")
+  }
   return (
     <NavbarContainer>
       <NavbarWrapper>
@@ -45,8 +56,8 @@ const Navbar = () => {
           <Logo>DALClub</Logo>
         </TopLeft>
         <TopRight>
-          <MenuItem>User</MenuItem>
-          <MenuItem>Logout</MenuItem>
+          <MenuItem>Admin</MenuItem>
+          <MenuItem onClick={logout}>Logout</MenuItem>
         </TopRight>
       </NavbarWrapper>
     </NavbarContainer>

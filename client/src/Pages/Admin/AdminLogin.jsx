@@ -1,10 +1,11 @@
 // @Author: Anamika Ahmed
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { styled } from '@mui/system';
 import { Box, TextField, Button } from "@mui/material";
 import axios from "../../Assets/config/axiosConfig";
 import { toast } from "react-toastify"
 import {useNavigate } from "react-router-dom";
+import { StateContext } from "../../State";
 
 const JobsContainer = styled('div')({
     flex: '8',
@@ -28,6 +29,7 @@ const ItemTitleContainer = styled('div')({
 const AdminLogin = () => {
 
     const navigate = useNavigate();
+    const { modifySiteAuth } = useContext(StateContext)
 
   
     // Handles add login form input changes
@@ -48,7 +50,12 @@ const AdminLogin = () => {
         axios.post("/admin/login", formValues).then((res) => {
             console.log("The result is ",res.data.success);
             if(res.data.success==1) {
-              toast("Logged in Successfully!")
+              toast.success("Logged in Successfully!")
+              modifySiteAuth("isLoggedIn", true)
+              modifySiteAuth("isAdmin", true)
+              modifySiteAuth("token", res.data.token)
+              axios.defaults.headers.common["Authorization"] = res.data.token
+              navigate("/admin/dashboard")
             } else {
               toast.error(res?.data?.message || "Please enter your admin credentials correctly")
             }
