@@ -12,7 +12,8 @@ import axios from "../../Assets/config/axiosConfig";
 import { styled } from "@mui/system";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { StateContext } from "../../State";
 
 const BlogsContainer = styled("div")({
   flex: "8",
@@ -27,6 +28,8 @@ const TheBox = styled("div")({
 });
 const AddBlog = () => {
   const navigate = useNavigate();
+
+  const { siteAuth } = useContext(StateContext);
 
   const blogDefaultValues = {
     userId: 1,
@@ -46,11 +49,11 @@ const AddBlog = () => {
       [name]: value,
     }));
   };
-// This function is used to handle the form submission
+  // This function is used to handle the form submission
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("/blogs/new", blogValues)
+      .post(`/blogs/new/${siteAuth?.userDetails?.userId}`, blogValues)
       .then((res) => {
         if (res.data.success) {
           toast("BlogSubmitted!");

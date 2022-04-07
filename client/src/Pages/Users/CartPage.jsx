@@ -69,7 +69,6 @@ const Cart = () => {
     });
     setTotal(totalAmount.toFixed(2));
     setName(entities.join('+'));
-    console.log(cartList);
   });
 
   //Opens Up a Payment Form & Initates a Payment Intent on Stripe

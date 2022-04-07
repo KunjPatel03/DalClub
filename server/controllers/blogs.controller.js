@@ -27,7 +27,7 @@ const getBlog = (req, res) => {
 //This function is used to update the model to submit the blog
 const postBlog = (req, res) => {
   const blogPost = {
-    userId: req.body.userId,
+    userId: req.params.userId,
     title: req.body.title,
     description: req.body.description,
     content: req.body.content,

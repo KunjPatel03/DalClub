@@ -2,6 +2,8 @@
 import React from 'react';
 import { styled } from '@mui/system';
 import { toast } from 'react-toastify';
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 
 const CartContainer = styled('div')({
   display: 'flex',
@@ -56,6 +58,7 @@ const Details = styled('div')({
 
 const ProductDetail = styled('span')({
   textAlign: 'left',
+  margin: '1vh',
 });
 
 const RightContainer = styled('div')({
@@ -104,6 +107,23 @@ const OrderDetailContainer = styled('div')(({ theme }) => ({
   height: '5vh',
 }));
 
+const AmountContainer = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  fontWeight: 700,
+});
+
+const Amount = styled('span')(({ theme }) => ({
+  width: '10vh',
+  height: '10vh',
+  borderRadius: '30%',
+  border: `1px solid ${theme.palette.primary.main}`,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  margin: '0vh 1vh',
+}));
+
 const CartProducts = ({ cartList, setCartList, total }) => {
   //Removes an item from Cart
   const handleRemove = (index) => {
@@ -113,20 +133,31 @@ const CartProducts = ({ cartList, setCartList, total }) => {
     toast.success('Product Removed from Cart');
   };
 
+  const handleAddQuantity = (index) => {
+    const cart = [...cartList];
+    if (cart[index]['product_quantity'] < cart[index]['product_maxquantity']) {
+      cart[index]['product_quantity'] += 1;
+      setCartList(cart);
+    } else {
+      toast.error('Max Available Quantity reached.');
+    }
+  };
+
+  const handleSubtractQuantity = (index) => {
+    const cart = [...cartList];
+    if (cart[index]['product_quantity'] > 1) {
+      cart[index]['product_quantity'] -= 1;
+      setCartList(cart);
+    } else {
+      handleRemove(index);
+    }
+  };
+
   return (
     <CartContainer>
       {cartList.length > 0 ? (
         <OrderDetailContainer>
           <OrderDetails>
-            <OrderDetail>
-              <b>Subtotal:</b> {total} CAD
-            </OrderDetail>
-            <OrderDetail>
-              <b>Shipping:</b> 9.99 CAD
-            </OrderDetail>
-            <OrderDetail>
-              <b>Shipping Discount:</b> 9.99 CAD
-            </OrderDetail>
             <OrderDetail>
               <b>Total:</b> {total} CAD
             </OrderDetail>
@@ -158,16 +189,24 @@ const CartProducts = ({ cartList, setCartList, total }) => {
                     <ProductDetail>
                       <b>Size:</b> {item.product_size}
                     </ProductDetail>
+                    <ProductDetail>
+                      <b>Price:</b> {item.product_price} CAD
+                    </ProductDetail>
                   </Details>
                 </LeftContainer>
                 <RightContainer>
                   <Details>
-                    <ProductDetail>
-                      <b>Quantity:</b> {item.product_quantity}
-                    </ProductDetail>
-                    <ProductDetail>
-                      <b>Price:</b> {item.product_price} CAD
-                    </ProductDetail>
+                    <AmountContainer>
+                      <RemoveOutlinedIcon
+                        sx={{ cursor: 'pointer' }}
+                        onClick={() => handleSubtractQuantity(i)}
+                      />
+                      <Amount>{item.product_quantity}</Amount>
+                      <AddOutlinedIcon
+                        sx={{ cursor: 'pointer' }}
+                        onClick={() => handleAddQuantity(i)}
+                      />
+                    </AmountContainer>
                     <ProductDetail>
                       <b>Subtotal:</b> {item.product_subtotal} CAD
                     </ProductDetail>

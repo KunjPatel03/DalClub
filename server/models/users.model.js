@@ -32,4 +32,18 @@ module.exports = {
       }
     );
   },
+  getUserDetailsAfterLogin: (id, callBack) => {
+    pool.query(
+      `select user_id as userId, user_name as userName, user_email as userEmail, sp.name as packageName, sp.type as packageType
+        from users inner join subscription_package sp on users.package_id = sp.package_id
+        where user_id = ?`,
+      [id],
+      (error, results, fields) => {
+        if (error) {
+          callBack(error);
+        }
+        return callBack(null, results[0]);
+      }
+    );
+  },
 };
