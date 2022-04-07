@@ -1,4 +1,4 @@
-// @Authors: Rahul Kherajani, Vishwanath Suresh, Vishnu Sumanth
+// @Authors: Rahul Kherajani, Vishwanath Suresh, Vishnu Sumanth, Kunj Vijaykumar Patel
 import React from 'react';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
@@ -11,38 +11,35 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import { styled } from '@mui/system';
 import { Link } from 'react-router-dom';
 
-
-
-const SidebarContainer = styled("div")({
-  flex: "2",
-  height: "calc(100vh - 50px)",
-  backgroundColor: "rgb(251, 251, 255)",
-  position: "sticky",
-  top: "50px",
+const SidebarContainer = styled('div')({
+  flex: '2',
+  height: 'calc(100vh - 50px)',
+  position: 'sticky',
+  top: '50px',
 });
-const SidebarWrapper = styled("div")({
-  padding: "20px",
-  color: "#555",
+const SidebarWrapper = styled('div')({
+  padding: '20px',
+  color: '#555',
 });
 
-const SidebarMenu = styled("div")({
-  marginBottom: "10px",
-  fontSize: "1.2em",
+const SidebarMenu = styled('div')({
+  marginBottom: '10px',
+  fontSize: '1.2em',
 });
-const SidebarList = styled("ul")({
-  listStyle: "none",
-  padding: "5px",
+const SidebarList = styled('ul')({
+  listStyle: 'none',
+  padding: '5px',
 });
-const SidebarListItem = styled("li")({
-  padding: "5px",
-  cursor: "pointer",
-  display: "flex",
-  alignItems: "center",
-  borderRadius: "10px",
-  "&:hover": {
-    backgroundColor: "rgb(240, 240, 255)",
+const SidebarListItem = styled('li')({
+  padding: '5px',
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  borderRadius: '10px',
+  '&:hover': {
+    backgroundColor: 'rgb(240, 240, 255)',
   },
-  marginBottom: "3vh",
+  marginBottom: '3vh',
 });
 
 const Sidebar = () => {
@@ -51,43 +48,49 @@ const Sidebar = () => {
       <SidebarWrapper>
         <SidebarMenu>
           <SidebarList>
-          <Link to={"/admin/dashboard"}>
-            <SidebarListItem>
-              <DashboardIcon sx={{ marginRight: "2vh" }} />
-              Dashboard
-            </SidebarListItem>
+            <Link to={'/admin/dashboard'}>
+              <SidebarListItem>
+                <DashboardIcon sx={{ marginRight: '2vh' }} />
+                Dashboard
+              </SidebarListItem>
             </Link>
             <SidebarListItem>
-              <PeopleIcon sx={{ marginRight: "2vh" }} />
+              <PeopleIcon sx={{ marginRight: '2vh' }} />
               Users
             </SidebarListItem>
             <SidebarListItem>
-              <EventIcon sx={{ marginRight: "2vh" }} />
-              <Link to="/admin/dashboard/events">Events </Link>
+              <EventIcon sx={{ marginRight: '2vh' }} />
+              <Link to='/admin/dashboard/events'>Events </Link>
             </SidebarListItem>
-            <SidebarListItem>
-              <RedeemIcon sx={{ marginRight: "2vh" }} />
-              Membership Packages
-            </SidebarListItem>
-            <SidebarListItem>
-              <InventoryIcon sx={{ marginRight: "2vh" }} />
-              Merchandise Products
-            </SidebarListItem>
-            <SidebarListItem>
-              <LocalShippingIcon sx={{ marginRight: "2vh" }} />
-              Merchandise Orders
-            </SidebarListItem>
-            <Link to={"/admin/careers"}>
+            <Link to={'/admin/packages'}>
+              <SidebarListItem>
+                <RedeemIcon sx={{ marginRight: '2vh' }} />
+                Membership Packages
+              </SidebarListItem>
+            </Link>
+            <Link to={'/admin/products'}>
+              <SidebarListItem>
+                <InventoryIcon sx={{ marginRight: '2vh' }} />
+                Merchandise Products
+              </SidebarListItem>
+            </Link>
+            <Link to={'/admin/orders'}>
+              <SidebarListItem>
+                <LocalShippingIcon sx={{ marginRight: '2vh' }} />
+                Merchandise Orders
+              </SidebarListItem>
+            </Link>
+            <Link to={'/admin/careers'}>
               <SidebarListItem>
                 <HailIcon sx={{ marginRight: '2vh' }} />
                 Jobs
               </SidebarListItem>
             </Link>
-            <Link to={"/admin/blogs"}>
-            <SidebarListItem>
-              <AssignmentIcon sx={{ marginRight: "2vh" }} />
-              Blogs
-            </SidebarListItem>
+            <Link to={'/admin/blogs'}>
+              <SidebarListItem>
+                <AssignmentIcon sx={{ marginRight: '2vh' }} />
+                Blogs
+              </SidebarListItem>
             </Link>
           </SidebarList>
         </SidebarMenu>

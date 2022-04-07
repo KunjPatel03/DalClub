@@ -1,5 +1,4 @@
-
-// @Authors: Kishan Thakkar, Rahul Kherajani, Vishwanath Suresh, Vishnu Sumanth, Anamika Ahmed
+// @Authors: Kishan Thakkar, Rahul Kherajani, Vishwanath Suresh, Vishnu Sumanth, Anamika Ahmed, Kunj Vijaykumar Patel
 
 require('dotenv').config();
 const express = require('express');
@@ -8,8 +7,8 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const EventRouter = require('./routes/events');
 const PaymentRouter = require('./routes/payment');
-const OrderRouter = require('./routes/order.routes');
-const ProductRouter = require('./routes/product.routes');
+const OrderRouter = require('./routes/orders');
+const ProductRouter = require('./routes/products');
 const CareersRouter = require('./routes/careers');
 const BlogsRouter = require('./routes/blogs');
 const EventAdminRouter = require("./routes/eventsAdmin");

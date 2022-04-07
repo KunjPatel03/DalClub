@@ -1,7 +1,8 @@
 // @Authors: Rahul Kherajani, Vishwanath Suresh
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/system';
-import { adminDashboardData } from './api';
+import axios from '../../Assets/config/axiosConfig';
+import { toast } from 'react-toastify';
 
 const HomeContainer = styled('div')({
   flex: '8',
@@ -11,14 +12,13 @@ const FeaturedContainer = styled('div')({
   width: '100%',
   display: 'grid',
   gap: '1em',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
 });
 const FeaturedItem = styled('div')({
   flex: '1',
   margin: '0px 20px',
   padding: '30px',
   borderRadius: '10px',
-  cursor: 'pointer',
   boxShadow: '0px 0px 15px -10px rgba(0, 0, 0, 0.75)',
 });
 
@@ -37,22 +37,34 @@ const FeaturesStatsContainer = styled('div')({
     display: 'flex',
     alignItems: 'center',
     marginLeft: '20px',
-  }
+  },
 });
 
-const Dashboard = () => {
+const Home = () => {
+  const [status, setStatus] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get('/dashboard/')
+      .then((response) => {
+        setStatus(response.data.success ? response.data.status : []);
+      })
+      .catch((err) => {
+        setStatus([]);
+        toast.error('Something went wrong');
+      });
+  }, []);
+
   return (
     <HomeContainer>
       <FeaturedContainer>
-        {adminDashboardData &&
-          adminDashboardData.map((item, index) => (
+        {status &&
+          status.map((item, index) => (
             <FeaturedItem key={index}>
               <FeaturedTitle>{item.title}</FeaturedTitle>
               <FeaturesStatsContainer>
                 <span className='stats'>{item.stats}</span>
-                <span className='statMessage'>
-                  {item.message}
-                </span>
+                <span className='statMessage'>{item.message}</span>
               </FeaturesStatsContainer>
             </FeaturedItem>
           ))}
@@ -61,4 +73,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Home;

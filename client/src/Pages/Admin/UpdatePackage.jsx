@@ -8,7 +8,7 @@ import axios from "../../Assets/config/axiosConfig";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const BlogContainer = styled("div")({
+const PackageContainer = styled("div")({
   flex: "8",
   width: "100%",
   display: "grid",
@@ -27,30 +27,29 @@ const ContentTitle = styled("div")({
   justifyContent: "space-between",
 });
 
-const UpdateBlog = () => {
+const UpdatePackage = () => {
   const navigate = useNavigate();
-  let { blogId } = useParams();
-  const [activeBlog, setActiveBlog] = useState({});
-  const [blogValues, setBlogValues] = useState({});
+  let { packageId } = useParams();
+  const [currentPackage, setCurrentPackage] = useState({});
+  const [packageValues, setPackageValues] = useState({});
 
-  //Get API is called to get the details of selected blog
+  //Get API is called to get the details of selected package
   useEffect(() => {
     axios
-      .get(`/blogs/${blogId}`)
+      .get(`/packages/${packageId}`)
       .then((response) => {
-        setActiveBlog(response.data.blog);
-        setBlogValues(response.data.blog);
+        setCurrentPackage(response.data.subscriptionPackage);
+        setPackageValues(response.data.subscriptionPackage);
       })
       .catch((err) => {
-        setActiveBlog({});
+        setCurrentPackage({});
         toast.error(err?.response?.data?.message || "Something went wrong");
       });
-  }, [blogId]);
+  }, [packageId]);
   const handleInputChange = (event) => {
     let { name, value } = event.target;
-    if (event.target.name == "isVisible") value = event.target.checked;
-    console.log(1000, value);
-    setBlogValues((prevState) => ({
+    if (event.target.name == "isActive") value = event.target.checked;
+    setPackageValues((prevState) => ({
       ...prevState,
       [name]: value,
     }));
@@ -59,27 +58,25 @@ const UpdateBlog = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post(`/blogs/update/${blogId}`, blogValues)
+      .post(`/packages/update/${packageId}`, packageValues)
       .then((res) => {
         if (res.data.success) {
-          toast("Blog Posting Updated!");
-          navigate("/admin/blogs");
+          toast("Package Updated!");
+          navigate("/admin/packages");
         } else {
-          toast.error(res?.data?.message || "Cannot Update Blog Posting");
+          toast.error(res?.data?.message || "Cannot Update Package");
         }
       })
       .catch((err) => {
-        toast.error(
-          err?.response?.data?.message || "Cannot Update Blog Posting"
-        );
+        toast.error(err?.response?.data?.message || "Cannot Update Package");
       });
   };
 
   return (
-    <BlogContainer>
+    <PackageContainer>
       <TheBox>
         <ContentTitle>
-          <h1>Update Blog Posting</h1>
+          <h1>Update Package</h1>
         </ContentTitle>
         <form onSubmit={handleSubmit}>
           <Box
@@ -96,12 +93,12 @@ const UpdateBlog = () => {
             <TextField
               fullWidth
               required
-              label="Title"
-              name="title"
+              label="Name"
+              name="name"
               type="text"
               sx={{ mb: 3 }}
-              defaultValue={activeBlog.title}
-              value={blogValues.title}
+              defaultValue={currentPackage.name}
+              value={packageValues.name}
               onChange={handleInputChange}
               InputLabelProps={{
                 shrink: true,
@@ -110,15 +107,12 @@ const UpdateBlog = () => {
             <TextField
               fullWidth
               required
-              label="Description"
-              name="description"
+              label="Price"
+              name="price"
               type="text"
-              multiline
-              rows={4}
-              rowsmax={6}
               sx={{ mb: 3 }}
-              defaultValue={activeBlog.description}
-              value={blogValues.description}
+              defaultValue={currentPackage.price}
+              value={packageValues.price}
               onChange={handleInputChange}
               InputLabelProps={{
                 shrink: true,
@@ -127,15 +121,12 @@ const UpdateBlog = () => {
             <TextField
               fullWidth
               required
-              label="Content"
-              name="content"
+              label="Type {silver, gold, platinum}"
+              name="type"
               type="text"
-              multiline
-              rows={7}
-              rowsmax={10}
               sx={{ mb: 3 }}
-              defaultValue={activeBlog.content}
-              value={blogValues.content}
+              defaultValue={currentPackage.type}
+              value={packageValues.type}
               onChange={handleInputChange}
               InputLabelProps={{
                 shrink: true,
@@ -145,8 +136,8 @@ const UpdateBlog = () => {
               Visible
             </Typography>
             <Switch
-              name="isVisible"
-              checked={blogValues.isVisible ? blogValues.isVisible : false}
+              name="isActive"
+              checked={packageValues.isActive ? packageValues.isActive : false}
               onClick={handleInputChange}
             />
 
@@ -160,8 +151,8 @@ const UpdateBlog = () => {
           </Box>
         </form>
       </TheBox>
-    </BlogContainer>
+    </PackageContainer>
   );
 };
 
-export default UpdateBlog;
+export default UpdatePackage;
