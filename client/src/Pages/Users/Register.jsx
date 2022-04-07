@@ -141,13 +141,13 @@ const Register = () => {
                         />            
             <FormControl size="medium">
                 <InputLabel id={`package`} >
-                Choose your package by entering a valid package ID
+                Choose your package
                 </InputLabel>
                        <Select
                         labelId="package"
                             required
-                            label="Choose your package by entering a valid package ID"
-                            placeholder="Choose your package by entering a valid package ID"
+                            label="Choose your package"
+                            placeholder="Choose your package"
                             id="package_id"
                             type="number"
                             margin="1"

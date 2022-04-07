@@ -60,13 +60,6 @@ const Header = () => {
               color={'white'}
               className='cursor-pointer'
               marginLeft={2}
-            >
-              Bookings
-            </Typography>
-            <Typography
-              color={'white'}
-              className='cursor-pointer'
-              marginLeft={2}
               onClick={openEventMenu}
             >
               Events

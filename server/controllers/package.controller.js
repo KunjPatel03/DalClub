@@ -1,10 +1,14 @@
 // @Author: Anamika Ahmed
-const { PackageModel } = require("../models");
+const { PackagesModel } = require("../models");
 
 
 // Function to fetch all exisitng packages
 const getPackage = (req, res) => {
-    PackageModel.findAll()
+    PackagesModel.findAll({
+      where: {
+        isActive: true
+      }
+    })
       .then((package) => {
         res.send({ success: true, package });
       })
