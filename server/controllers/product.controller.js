@@ -139,40 +139,29 @@ exports.createProduct = (req, res) => {
 //Function to update a Product
 exports.updateProduct = async (req, res) => {
   const product_id = req.params.id;
-  let t = await DBConnection.transaction();
 
   try {
     const form = new multiparty.Form();
     form.parse(req, async (error, fields, formData) => {
-      console.log(fields);
       JSON.parse(fields.sizes[0]).forEach(async (element) => {
         if (element.id !== '') {
-          await ProductSizeModel.destroy(
-            {
-              where: { product_id: product_id, product_size_id: element.id },
-            },
-            { transaction: t }
-          );
+          await ProductSizeModel.destroy({
+            where: { product_id: product_id, product_size_id: element.id },
+          });
         } else {
-          await ProductSizeModel.create(
-            {
-              product_size: element.size,
-              product_id: product_id,
-            },
-            { transaction: t }
-          );
+          await ProductSizeModel.create({
+            product_size: element.size,
+            product_id: product_id,
+          });
         }
       });
 
       let index = 0;
       JSON.parse(fields.colorImages[0]).forEach(async (element) => {
         if (element.id !== '') {
-          await ProductColorModel.destroy(
-            {
-              where: { product_id: product_id, product_color_id: element.id },
-            },
-            { transaction: t }
-          );
+          await ProductColorModel.destroy({
+            where: { product_id: product_id, product_color_id: element.id },
+          });
         } else {
           const fileContent = fs.readFileSync(formData.images[index].path);
           const params = {
@@ -186,14 +175,11 @@ exports.updateProduct = async (req, res) => {
             if (err) {
               throw err;
             }
-            await ProductColorModel.create(
-              {
-                product_color: element.color,
-                product_image: data.Location,
-                product_id: product_id,
-              },
-              { transaction: t }
-            );
+            await ProductColorModel.create({
+              product_color: element.color,
+              product_image: data.Location,
+              product_id: product_id,
+            });
           });
 
           index += 1;
@@ -209,38 +195,14 @@ exports.updateProduct = async (req, res) => {
           product_quantity: parseInt(fields.quantity[0]),
           product_isactive: fields.status[0] === 'true' ? 1 : 0,
         },
-        { where: { product_id: product_id } },
-        { transaction: t }
+        { where: { product_id: product_id } }
       );
 
-      await t.commit();
       res.send({ sucess: true, message: 'Product Updated' });
     });
   } catch (error) {
     console.log(error);
-    //Rollback a Transaction
-    t.rollback();
     res.status(500).send({ success: false, message: 'Server error occured.' });
     return;
   }
 };
-
-// //Function to delete a Product
-// exports.deleteProduct = (req, res) => {
-//   const product_id = req.params.id;
-//   ProductModel.destroy({
-//     where: { product_id: product_id },
-//     include: [
-//       { model: ProductColorModel, as: 'product_color' },
-//       { model: ProductSizeModel, as: 'product_size' },
-//     ],
-//   })
-//     .then((data) => {
-//       res.send({ sucess: true, data: data });
-//     })
-//     .catch((err) => {
-//       res.status(500).send({
-//         message: err.message || 'Some error occurred while deleting product.',
-//       });
-//     });
-// };

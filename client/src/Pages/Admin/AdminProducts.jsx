@@ -1,9 +1,9 @@
+// @Author: Rahul Kherajani
 import React, { useState, useEffect } from 'react';
-import { DataGrid } from '@material-ui/data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import axios from '../../Assets/config/axiosConfig';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/system';
-import { DeleteOutline } from '@material-ui/icons';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
@@ -35,11 +35,6 @@ const EditButton = styled('button')(({ theme }) => ({
   marginRight: '2vh',
 }));
 
-// const MyDeleteOutline = styled(DeleteOutline)({
-//   color: 'red',
-//   cursor: 'pointer',
-// });
-
 const ItemAddButton = styled('button')(({ theme }) => ({
   border: 'none',
   backgroundColor: theme.palette.primary.main,
@@ -64,12 +59,12 @@ const AdminProducts = () => {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
+  // API call to get all product details
   useEffect(() => {
     axios
       .get('/products/all')
       .then((response) => {
         setProducts(response.data.success ? response.data.products : []);
-        console.log(response.data.products);
       })
       .catch((err) => {
         setProducts([]);
@@ -77,24 +72,7 @@ const AdminProducts = () => {
       });
   }, []);
 
-  // const handleDelete = (id) => {
-  //   axios
-  //     .delete(`/products/${id}`)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       if (response.data.status === true) {
-  //         console.log(response.data.data);
-  //         setProducts(products.filter((item) => item.product_id !== id));
-  //         toast.success('Product Deleted');
-  //       } else {
-  //         toast.success('Something Went Wrong');
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       toast.error('Something Went Wrong');
-  //     });
-  // };
-
+  // Defines columns of the Data Grid
   const columns = [
     { field: 'product_id', headerName: 'Product ID', width: 160 },
     {
@@ -142,9 +120,6 @@ const AdminProducts = () => {
             <Link to={`/admin/products/update/${params.row.product_id}`}>
               <EditButton>EDIT</EditButton>
             </Link>
-            {/* <MyDeleteOutline
-              onClick={() => handleDelete(params.row.product_id)}
-            /> */}
           </>
         );
       },

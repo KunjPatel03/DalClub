@@ -1,3 +1,4 @@
+// @Author: Rahul Kherajani
 import React, { useEffect, useState } from 'react';
 import axios from '../../Assets/config/axiosConfig';
 import { styled } from '@mui/system';
@@ -67,13 +68,13 @@ const AdminEditProduct = () => {
   const navigate = useNavigate();
   const params = useParams();
 
+  // Get the details of a particular product
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
       try {
         const response = await axios.get(`/products/${params.id}`);
         if (response.status === 200) {
-          console.log(response.data);
           setName(response.data.product_name);
           setCategory(response.data.product_category);
           setDescription(response.data.product_description);
@@ -115,7 +116,6 @@ const AdminEditProduct = () => {
   }, []);
   const handleChangeColor = (index, event) => {
     const newColorImages = [...colorImages];
-    console.log(index);
     newColorImages[index].color = event.target.value;
     setColorImages(newColorImages);
   };
@@ -131,7 +131,6 @@ const AdminEditProduct = () => {
     newColorImages[imageIndex].image = event.target.files[0];
     newColorImages[imageIndex].url = URL.createObjectURL(event.target.files[0]);
     setColorImages(newColorImages);
-    console.log(newColorImages);
   };
 
   const handleAddColorImages = () => {
@@ -159,7 +158,8 @@ const AdminEditProduct = () => {
     inputRef && inputRef.current && inputRef.current.click();
   };
 
-  const onCreateProduct = (e) => {
+  //Function to Edit Product
+  const onEditProduct = (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('name', name);
@@ -182,7 +182,6 @@ const AdminEditProduct = () => {
     newColorImages.forEach((colorImage) => {
       if (colorImage.image !== '') {
         formData.append('images', colorImage.image);
-        console.log(colorImage);
       }
     });
     axios
@@ -338,7 +337,7 @@ const AdminEditProduct = () => {
           <FlexContainer>
             <SubmitButton
               variant='contained'
-              onClick={onCreateProduct}
+              onClick={onEditProduct}
               sx={{ marginRight: '1vh' }}
             >
               UPDATE
