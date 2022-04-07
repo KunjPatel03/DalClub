@@ -87,7 +87,7 @@ const AdminOrders = () => {
       headerName: 'Order Total',
       width: 160,
       renderCell: (params) => {
-        return <ListItem>{params.row.order_total} CAD</ListItem>;
+        return <ListItem>{params.row.order_total/100} CAD</ListItem>;
       },
     },
     {
