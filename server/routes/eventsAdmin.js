@@ -8,7 +8,8 @@ const {
   deleteEvent,
   showUsers,
   activateEvent,
-  eventStatus
+  eventStatus,
+  imageUpload,
 } = require("../controllers/eventsAdmin.controller");
 
 const EventAdminRouter = express.Router();
@@ -20,6 +21,6 @@ EventAdminRouter.post("/delete-event", deleteEvent);
 EventAdminRouter.post("/booked-users", showUsers);
 EventAdminRouter.post("/activate-event", activateEvent);
 EventAdminRouter.post("/status", eventStatus);
-
+EventAdminRouter.post("/image", imageUpload);
 
 module.exports = EventAdminRouter;
