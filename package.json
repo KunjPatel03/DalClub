@@ -29,6 +29,7 @@
     "fs": "0.0.1-security",
     "http": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
     "multiparty": "^4.2.3",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",

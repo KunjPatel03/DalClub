@@ -81,10 +81,11 @@ const Login = () => {
         <JobsContainer>
             <TheList>
                 <ItemTitleContainer>
-                    <h1>Sign-in Form</h1>
+                    <h1>User Sign-in Form</h1>
                 </ItemTitleContainer>
+
                 <form onSubmit={handleSubmit}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', m: 1, alignItems: 'left' }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', m: 4, alignItems: 'right' }}>
                         <TextField
                             required
                             label="Enter your email address"

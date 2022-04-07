@@ -7,6 +7,7 @@ import UserHeader from '../Components/Users/Header';
 import Homepage from '../Pages/Users/Homepage';
 import UserLogin from '../Pages/Users/Login';
 import UserRegister from '../Pages/Users/Register';
+import UserProfile from '../Pages/Users/UpdateProfile';
 import EventList from '../Pages/Users/EventList';
 import EventDetails from '../Pages/Users/EventDetails';
 import StorePage from '../Pages/Users/StorePage';
@@ -89,8 +90,9 @@ const AppRoutes = () => {
         />
 
         {/* User routes without header */}
-        <Route path='/user/login' element={<UserLogin />} />
-        <Route path='/user/register' element={<UserRegister />} />
+        <Route path="/user/login" element={<UserLogin/>} />
+        <Route path="/user/register" element={<UserRegister/>} />
+        <Route path="/user/profile/:user_id" element={<UserProfile/>} />
 
         <Route path='/' element={<UserHeader />}>
           {/* User routes with header */}
