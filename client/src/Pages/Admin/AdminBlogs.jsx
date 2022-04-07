@@ -149,7 +149,7 @@ const AdminBlogs = () => {
           getRowId={(row) => row.blog_id}
           disableSelectionOnClick
           columns={columns}
-          pageSize={5}
+          pageSize={9}
         />
       </TheList>
     </BlogsContainer>
