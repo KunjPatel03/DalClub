@@ -63,6 +63,7 @@ function EventForm() {
     select: "Movies",
     mxs: 1,
   });
+  const [file, updateFile] = useState("");
   function updateSelect(event) {
     updateForm({ ...formData, select: event.target.value });
   }
@@ -77,7 +78,14 @@ function EventForm() {
     } else {
       setLbl({ ...lbl, ht1: " ", error1: false });
     }
-    updateForm({ ...formData, eventName: event.target.value });
+    updateForm({
+      ...formData,
+      eventName: event.target.value,
+      image:
+        "https://webproject5709.s3.amazonaws.com/eventimages/" +
+        event.target.value +
+        ".jpg",
+    });
   }
   function updateTextArea(event) {
     if (event.target.value === "") {
@@ -182,24 +190,36 @@ function EventForm() {
       updateForm({ ...formData, mxs: event.target.value });
     }
   }
-  function updateImage(event) {
-    console.log("lol");
-    updateForm({ ...formData, image: event.target.value });
-    var bucket = {
-      bucketName: "webproject5709",
-      key: formData.eventName + ".jpg",
-      region: process.env.REGION,
-      accessKeyId: process.env.ACCESS_KEY,
-      secretAccessKey: process.env.SECRET_KEY,
-    };
-    // s3.upload(bucket, function (err, data) {
-    //   if (err) {
-    //     console.log(err);
-    //     throw err;
-    //   }
-    //   // res.status(200).send({s3uri:"https://cloudass2.s3.amazonaws.com/data.json"})
-    //   console.log(`File uploaded successfully. ${data.Location}`);
-    // });
+  async function updateImage(event) {
+    event.preventDefault();
+
+    // updateForm({ ...formData, image: event.target.files[0] });
+
+    updateFile(event.target.files[0]);
+
+    const images = new FormData();
+    console.log("lol", file);
+    console.log(formData.eventName);
+    images.append("file", event.target.files[0]);
+    images.append("eventName", formData.eventName);
+    console.log(images);
+    try {
+      const i = await axios.post("events/image", images, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    } catch (err) {
+      toast.error("image upload failed");
+    }
+
+    // var bucket = {
+    //   bucketName: "webproject5709",
+    //   key: formData.eventName + ".jpg",
+    //   region: process.env.REGION,
+    //   accessKeyId: process.env.ACCESS_KEY,
+    //   secretAccessKey: process.env.SECRET_KEY,
+    // };
   }
   function sendForm(event) {
     console.log("lol");
@@ -226,7 +246,7 @@ function EventForm() {
     //   });
     // var fd = new FormData();
     // fd.append("image", imageRef.current.files[0], formData.eventName);
-    updateForm({ ...formData, image: imageRef.current.files[0] });
+    // updateForm({ ...formData, image: imageRef.current.files[0] });
     console.log(lbl);
     if (
       lbl.error1 ||
@@ -454,9 +474,7 @@ function EventForm() {
                 <br />
                 <label htmlFor="contained-button-file">
                   <Input
-                    ref={imageRef}
-                    // onChange={updateImage}
-                    accept="image/*"
+                    onChange={updateImage}
                     id="contained-button-file"
                     multiple
                     type="file"
@@ -473,7 +491,6 @@ function EventForm() {
           </Box>
         </div>
       </div>
-    
     </div>
   );
 }

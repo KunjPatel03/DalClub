@@ -15,17 +15,21 @@ const PackagesRouter = require('./routes/packages');
 const EventAdminRouter = require('./routes/eventsAdmin');
 const UserRouter = require('./routes/users');
 const DashboardRouter = require('./routes/dashboard');
+const fileUpload = require("express-fileupload");
+
+
 
 const PORT = process.env.PORT || 3005;
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
+app.use(fileUpload());
 
-app.get('/api/status', (req, res) => {
-  res.json({ message: 'DalClub.', status: true });
+app.get("/api/status", (req, res) => {
+  res.json({ message: "DalClub.", status: true });
 });
 
-app.use(express.static(path.resolve(__dirname, '../client/build')));
+app.use(express.static(path.resolve(__dirname, "../client/build")));
 
 app.use('/api/users', UserRouter);
 app.use('/api/events', EventRouter);
@@ -39,8 +43,8 @@ app.use('/api/events', EventAdminRouter);
 app.use('/api/payments', PaymentRouter);
 app.use('/api/dashboard', DashboardRouter);
 
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
 
 app.listen(PORT, () => {
