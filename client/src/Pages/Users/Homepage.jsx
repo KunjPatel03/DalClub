@@ -13,7 +13,7 @@ const Homepage = () => {
     <div>
       <BannerCarousel />
       <Box width={"70%"} margin="auto" my={"30px !important"}>
-        <EventCarousel isLoggedIn={siteAuth?.isLoggedIn} />
+        <EventCarousel isLoggedIn={siteAuth?.isLoggedIn} userType={siteAuth?.userDetails?.packageType} />
       </Box>
       <InfoSection isReverse image={EventBanner} title="Socialize with us" description={`
         Take a break from everyday life and socialize with people through club events.
