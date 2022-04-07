@@ -1,15 +1,18 @@
 // @Author: Kishan Thakkar
 import { Box, Grid, Select, Typography, MenuItem } from "@mui/material"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import axios from "../../Assets/config/axiosConfig"
 import { toast } from "react-toastify"
 import EventBanner from "../../Assets/images/event-banner.jpg";
 import PageBanner from "../../Components/Users/PageBanner"
 import RegisteredEventCard from "../../Components/Users/Events/RegisteredEventCard"
+import { StateContext } from "../../State"
 
 const RegisteredEvents = () => {
   const [registeredEvents, setRegisteredEvents] = useState(null)
   const [filterType, setFilterType] = useState("Upcoming")
+
+  const { siteAuth } = useContext(StateContext);
 
   const handleSelect = e => setFilterType(e.target.value)
 
@@ -18,7 +21,7 @@ const RegisteredEvents = () => {
   }, [filterType])
 
   const fetchEvents = async (filterType) => {
-    let events = await axios.post(`/events/bookedEvents/${1}`, {
+    let events = await axios.post(`/events/bookedEvents/${siteAuth?.userDetails?.userId}`, {
       eventType: filterType
     }).then(res => {
       if(!res.data.success) return []

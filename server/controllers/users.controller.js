@@ -1,4 +1,4 @@
-const {create,  getUserByUserEmail} = require("../models/users.model");
+const {create,  getUserByUserEmail, getUserDetailsAfterLogin} = require("../models/users.model");
 const { hashSync, genSaltSync, compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
 
@@ -47,7 +47,8 @@ login: (req, res) => {
       return res.json({
         success: 1,
         message: "login successfully",
-        token: jsontoken
+        token: jsontoken,
+        user: results
       });
     } else {
       return res.json({
@@ -56,5 +57,23 @@ login: (req, res) => {
       });
     }
   });
-}
+},
+  getUserDetailsAfterLogin: (req, res) => {
+    getUserDetailsAfterLogin(req.params.id, (err, results) => {
+      if (err) {
+        console.log(err);
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          data: "Cannot get user details."
+        });
+      } else {
+        return res.json({
+          success: true,
+          userDetails: results
+        })
+      }
+    })
+  }
 };

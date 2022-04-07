@@ -1,10 +1,10 @@
 // @Author: Anamika Ahmed
 import { useState } from "react"
 import { styled } from '@mui/system';
-import { Box, TextField, Button } from "@mui/material";
+import { Box, TextField, Button, Typography } from "@mui/material";
 import axios from "../../Assets/config/axiosConfig";
 import { toast } from "react-toastify"
-import {useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const JobsContainer = styled('div')({
     flex: '8',
@@ -42,9 +42,9 @@ const Register = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         axios.post("/users/register", formValues).then((res) => {
-            if(res.data.success==1) {
-                console.log("The message is ",res.data.success);
-              toast("Registered Successfully!")
+            if(res.data.success===1) {
+              toast.success("Registered Successfully!")
+              navigate("/user/login")
             } else {
               toast.error("Enter the information correctly.")
             }
@@ -106,10 +106,13 @@ const Register = () => {
                             value={formValues.confirm_password}
                             onChange={handleInputChange}
                         />
-                        <Box sx={{ margin:'auto', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)' }}>                
+                        <Box variant="contained" sx={{ m: 1, width: '35ch' }}>
+                            Have an Account? {" "}
+                            <Typography sx={{ textDecoration: "underline", color: "blue" }} component="span">
+                                <Link to="/user/login">Login Here.</Link>
+                            </Typography>
                         </Box>
                         <Button variant="contained" sx={{ m: 1, width: '35ch' }} type="submit"> Register </Button>
-                        <Button variant="contained" sx={{ m: 1, width: '35ch' }} type="submit"> Have an Account? Login </Button>
 
                     </Box>
                    

@@ -4,7 +4,7 @@ import EventDetailsBanner from "../../Assets/images/eventdetails-banner.jpg";
 import { Box, Typography, Chip, Select, MenuItem, Button, FormControl, InputLabel } from "@mui/material";
 import {styled} from '@mui/system'
 import { Link, useParams } from "react-router-dom"
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "../../Assets/config/axiosConfig";
 import { toast } from "react-toastify"
 import { format, parseISO } from "date-fns"
@@ -12,6 +12,7 @@ import { CalendarMonthRounded, AccessTimeRounded } from '@mui/icons-material';
 import PaymentModal from "../../Components/Users/Events/PaymentModal";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import { StateContext } from "../../State"
 
 const ContentContainer = styled(Box)(({ theme }) => ({
   margin: "auto",
@@ -38,10 +39,12 @@ const EventDetails = () => {
   const [paymentAmount, setPaymentAmount] = useState(0)
   const [stripeSecret, setStripeSecret] = useState("");
   const { eventId } = useParams()
+
+  const { siteAuth } = useContext(StateContext);
   
   useEffect(() => {
-    axios.get(`/events/event/${eventId}/details/${1}`).then(response => {
-      let userType = "Silver"
+    axios.get(`/events/event/${eventId}/details/${siteAuth?.userDetails?.userId}`).then(response => {
+      let userType = siteAuth?.userDetails?.packageType
       let remainingTicket = userType === "Silver" ? "remainingSilverSeats"
       : userType === "Gold" ? "remainingGoldSeats"
       : userType === "Platinum" ? "remainingPlatinumSeats"
@@ -64,19 +67,25 @@ const EventDetails = () => {
       toast.error("Please select number of ticket to book.")
       return
     } else if(numOfTicket > eventDetails.bookableTicket) {
-      toast.error(`Number of ticket to book should be less than ${eventDetails.remainingSilverSeats}.`)
+      toast.error(`Number of ticket to book should be less than ${eventDetails.bookableTicket}.`)
       return
     } else {
+      let userType = siteAuth.userDetails.packageType
+      let priceKey = userType === "Silver" ? "silverMemberPrice"
+      : userType === "Gold" ? "goldMemberPrice"
+      : userType === "Platinum" ? "platinumMemberPrice"
+      : "";
+      let eventPrice = eventDetails[priceKey] || 0
       axios.post("/payments/createIntent", {
         module: "event",
         entityId: eventDetails.id,
         entityName: eventDetails.name,
-        amount: eventDetails.silverMemberPrice * numOfTicket,
+        amount: eventPrice * numOfTicket,
         ticketsBooked: numOfTicket
       }).then((res) => {
         if(res.data.success) {
           setStripeSecret(res.data.clientSecret)
-          setPaymentAmount(numOfTicket * eventDetails.silverMemberPrice)
+          setPaymentAmount(numOfTicket * eventPrice)
           setShowPaymentModal(true)
         } else {
           toast.error(res?.data?.message || "Cannot initiate payment.")
@@ -123,7 +132,7 @@ const EventDetails = () => {
                   {eventDetails.name}
                 </Typography>
                 <Chip
-                  label={`${eventDetails.remainingSilverSeats} tickets left`}
+                  label={`${eventDetails.remainingTicket} tickets left`}
                   variant="primary"
                   color="primary"
                   size="small"
