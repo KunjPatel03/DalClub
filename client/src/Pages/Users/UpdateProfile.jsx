@@ -1,6 +1,7 @@
 // @Author: Anamika Ahmed
 import { useState } from "react"
 import { styled } from '@mui/system';
+import { useParams } from "react-router-dom";
 import { Box, TextField, Button } from "@mui/material";
 import axios from "../../Assets/config/axiosConfig";
 import { toast } from "react-toastify"
@@ -25,14 +26,15 @@ const ItemTitleContainer = styled('div')({
     justifyContent: 'space-between'
 });
 
-const Login = () => {
+const UpdateProfile = () => {
 
     const navigate = useNavigate();
+    let { user_id } = useParams();
 
-  
-    // Handles add login form input changes
+
+
+    // Handles add job form input changes
     const handleInputChange = (e) => {
-        
         const { id, value } = e.target;
         setFormValues(prevState => ({
             ...prevState,
@@ -40,25 +42,26 @@ const Login = () => {
         }))
     };
 
-    // Handles add job submit
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log("The form values are",formValues);
-    
-        axios.post("/users/login", formValues).then((res) => {
-            console.log("The result is ",res.data.success);
-            if(res.data.success==1) {
-              toast("Logged in Successfully!")
+        axios
+          .post(`/users/profile/update/${user_id}`, formValues)
+          .then((res) => {
+            if (res.data.success) {
+              toast("User Profile Updated!");
             } else {
-              toast.error(res?.data?.message || "Please enter your credentials correctly")
+              toast.error(res?.data?.message || "Cannot Update User Profile");
             }
           })
           .catch((err) => {
-            toast.error("Invalid Credentials. Please enter email and password correctly.")
+            toast.error(
+              err?.response?.data?.message || "Cannot Update User Profile"
+            );
           });
-    };
+      };
 
     const defaultValues = {
+        user_name: "",
         user_email: "",
         user_password: ""
     }
@@ -69,38 +72,46 @@ const Login = () => {
         <JobsContainer>
             <TheList>
                 <ItemTitleContainer>
-                    <h1>User Sign-in Form</h1>
+                    <h1>Update Profile</h1>
                 </ItemTitleContainer>
-
                 <form onSubmit={handleSubmit}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', m: 4, alignItems: 'right' }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', m: 1, alignItems: 'left' }}>
+                    <TextField
+                           
+                            label="Edit your username"
+                            id="user_name"
+                            type="text"
+                            sx={{ m: 1 }}
+                            value={formValues.user_name}
+                            onChange={handleInputChange}
+                        />
                         <TextField
-                            required
-                            label="Enter your email address"
+                           
+                            label="Edit your email address"
                             id="user_email"
-                            type="email"
+                            type="user_email"
                             sx={{ m: 1 }}
                             value={formValues.user_email}
                             onChange={handleInputChange}
                         />
                         <TextField
-                            required
-                            label="Enter your password"
+                           
+                            label="Edit your password"
                             id="user_password"
                             type="password"
                             sx={{ m: 1 }}
                             value={formValues.user_password}
                             onChange={handleInputChange}
-                        />                    
-                        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)' }}> 
-                               
+                        />
+                
+                        <Box sx={{ margin:'auto', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)' }}>                
                         </Box>
-                        <Button variant="contained" sx={{ m: 1, width: '25ch' }} type="submit"> Login </Button>
+                        <Button variant="contained" sx={{ m: 1, width: '35ch' }} type="submit"> Update Profile </Button>
                     </Box>
+                   
                 </form>
             </TheList>
         </JobsContainer>
     )
 }
-
-export default Login;
+export default UpdateProfile;
