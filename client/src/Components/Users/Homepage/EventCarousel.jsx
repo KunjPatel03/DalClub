@@ -34,7 +34,7 @@ const PrevArrow = (props) => {
   );
 };
 
-const EventCarousel = ({ isLoggedIn }) => {
+const EventCarousel = ({ isLoggedIn, userType }) => {
   const [eventList, setEventList] = useState(null)
   const getSettings = () => {
     return ({
@@ -92,7 +92,7 @@ const EventCarousel = ({ isLoggedIn }) => {
       </Typography>
       {eventList ? eventList.length > 0 ? 
       <Slider {...getSettings()}>
-        {eventList.map(({ id, name, coverImage, eventDate, silverMemberPrice }) => (
+        {eventList.map(({ id, name, coverImage, eventDate, silverMemberPrice, goldMemberPrice, platinumMemberPrice }) => (
           <EventCard
             redirectLink={isLoggedIn ? "" : "/user/login?redirect="}
             id={id}
@@ -100,7 +100,10 @@ const EventCarousel = ({ isLoggedIn }) => {
             name={name}
             coverImage={coverImage}
             eventDate={eventDate}
-            price={silverMemberPrice}
+            price={isLoggedIn ? userType === "Silver" ? silverMemberPrice
+            : userType === "Gold" ? goldMemberPrice
+            : userType === "Platinum" ? platinumMemberPrice : silverMemberPrice
+            : silverMemberPrice}
           />
         ))}
       </Slider>

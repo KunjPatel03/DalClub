@@ -1,5 +1,5 @@
 // @Author: Kishan Thakkar
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Typography, Box, Grid, TextField } from "@mui/material";
 import EventCard from "../../Components/Users/Events/EventCard";
 import PageBanner from "../../Components/Users/PageBanner";
@@ -7,6 +7,7 @@ import {styled} from '@mui/system'
 import { toast } from "react-toastify";
 import axios from "../../Assets/config/axiosConfig";
 import EventBanner from "../../Assets/images/event-banner.jpg";
+import { StateContext } from "../../State";
 
 const CategoryTab = styled('div')(({ theme }) => ({
   padding: "5px",
@@ -30,6 +31,7 @@ const EventList = () => {
   const [searchText, setSearchText] = useState("");
   const [events, setEvents] = useState(null)
   const CategoryList = ["All", "Movies", "Conference", "Drama", "Concert", "Game"];
+  const { siteAuth } = useContext(StateContext);
 
   useEffect(() => {
     handleSearch(searchText)
@@ -88,14 +90,17 @@ const EventList = () => {
             />
             <Grid container mb={3} mt={1}>
               {events ? events.length > 0 ? events.map(
-                ({ id, name, coverImage, eventDate, silverMemberPrice }) => (
+                ({ id, name, coverImage, eventDate, silverMemberPrice, goldMemberPrice, platinumMemberPrice }) => (
                   <Grid key={id} item sm={6} md={4}>
                     <EventCard
                       id={id}
                       name={name}
                       coverImage={coverImage}
                       eventDate={eventDate}
-                      price={silverMemberPrice}
+                      price={siteAuth?.userDetails?.packageType === "Silver" ? silverMemberPrice
+                      : siteAuth?.userDetails?.packageType === "Gold" ? goldMemberPrice
+                      : siteAuth?.userDetails?.packageType === "Platinum" ? platinumMemberPrice
+                      : silverMemberPrice}
                     />
                   </Grid>
                 )

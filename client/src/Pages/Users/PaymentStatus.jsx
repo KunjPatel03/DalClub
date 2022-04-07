@@ -31,7 +31,7 @@ const PaymentStatus = () => {
               .post('/events/bookEvent', {
                 paymentIntent: paymentIntent.id,
                 userId: siteAuth?.userDetails?.userId,
-                ticketType: 'Silver',
+                ticketType: siteAuth?.userDetails?.packageType,
               })
               .then((response) => {
                 toast.success(`Payment successfully processed for ${entity}.`);
