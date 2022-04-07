@@ -66,7 +66,7 @@ const Sidebar = () => {
             </Link>
             <SidebarListItem>
               <PeopleIcon sx={{ marginRight: '2vh' }} />
-              Users
+              <Link to={"/admin/listUsers"}>Users</Link>
             </SidebarListItem>
             <SidebarListItem>
               <EventIcon sx={{ marginRight: '2vh' }} />
