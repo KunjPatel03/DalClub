@@ -1,5 +1,5 @@
 // @Authors: Rahul Kherajani, Vishwanath Suresh, Vishnu Sumanth, Kunj Vijaykumar Patel
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
 import EventIcon from '@mui/icons-material/Event';
@@ -9,7 +9,9 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import HailIcon from '@mui/icons-material/Hail';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { styled } from '@mui/system';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { StateContext } from '../../State';
+import { toast } from "react-toastify"
 
 const SidebarContainer = styled('div')({
   flex: '2',
@@ -43,6 +45,14 @@ const SidebarListItem = styled('li')({
 });
 
 const Sidebar = () => {
+  const { siteAuth } = useContext(StateContext)
+  const navigate = useNavigate()
+  useEffect(() => {
+    if(!siteAuth.isLoggedIn || !siteAuth.isAdmin) {
+      toast.error("Please login first.")
+      navigate(`/admin/login`)
+    }
+  }, [])
   return (
     <SidebarContainer>
       <SidebarWrapper>
