@@ -105,6 +105,7 @@ const ProductDescription = ({ product, setIndex }) => {
         product_quantity: quantity,
         product_price: product.product_price,
         product_subtotal: product.product_price * quantity,
+        product_maxquantity: product.product_quantity,
       };
       setCartList([...cartList, cartProduct]);
       setDisabled(true);
@@ -157,6 +158,7 @@ const ProductDescription = ({ product, setIndex }) => {
       <AddContainer>
         <AmountContainer>
           <RemoveOutlinedIcon
+            sx={{ cursor: 'pointer' }}
             onClick={() => {
               if (quantity > 0) {
                 setQuantity(quantity - 1);
@@ -165,9 +167,12 @@ const ProductDescription = ({ product, setIndex }) => {
           />
           <Amount>{quantity}</Amount>
           <AddOutlinedIcon
+            sx={{ cursor: 'pointer' }}
             onClick={() => {
               if (quantity < product.product_quantity) {
                 setQuantity(quantity + 1);
+              } else {
+                toast.error('Max Available Quantity reached.');
               }
             }}
           />
