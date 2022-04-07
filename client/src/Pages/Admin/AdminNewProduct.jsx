@@ -1,3 +1,4 @@
+// @Author: Rahul Kherajani
 import React, { useState } from 'react';
 import axios from '../../Assets/config/axiosConfig';
 import { styled } from '@mui/system';
@@ -79,9 +80,6 @@ const AdminNewProduct = () => {
 
   const handleChangeImage = (event) => {
     const newColorImages = [...colorImages];
-    console.log(imageIndex);
-    console.log(event.target);
-    console.log(event.target.files[0]);
     newColorImages[imageIndex].image = event.target.files[0];
     newColorImages[imageIndex].url = URL.createObjectURL(event.target.files[0]);
     setColorImages(newColorImages);
@@ -112,6 +110,7 @@ const AdminNewProduct = () => {
     inputRef && inputRef.current && inputRef.current.click();
   };
 
+  // Function to create a new Product
   const onCreateProduct = (e) => {
     e.preventDefault();
     const formData = new FormData();
