@@ -13,6 +13,7 @@ const Careers= require("./careers.model");
 const JobApplications = require("./jobApplication.model")
 const Blogs = require("./blogs.model")
 const Users_Profile = require("./user_profile.model")
+const Packages = require("./packages.model")
 
 const Package = require("./package")
 const PackageModel = Package(DBConnection, DataTypes);
@@ -30,6 +31,7 @@ const ProductColorModel = ProductColor(DBConnection, DataTypes);
 const CareersModel = Careers(DBConnection, DataTypes);
 const JobApplicationsModel = JobApplications(DBConnection, DataTypes);
 const BlogsModel = Blogs(DBConnection,DataTypes);
+const PackagesModel = Packages(DBConnection,DataTypes);
 const Users_ProfileModel = Users_Profile(DBConnection,DataTypes)
 
 
@@ -94,5 +96,6 @@ module.exports = {
   JobApplicationsModel,
   BlogsModel,
   PackageModel,
-  Users_ProfileModel
+  Users_ProfileModel,
+  PackagesModel
 };
