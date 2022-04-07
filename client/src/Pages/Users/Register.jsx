@@ -1,21 +1,11 @@
 // @Author: Anamika Ahmed
 import React, { useState } from "react";
 import { styled } from '@mui/system';
-import { Box, TextField, Typography,Button } from "@mui/material";
+import { Box, TextField, Typography,Button, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import axios from "../../Assets/config/axiosConfig";
 
 import { toast } from "react-toastify"
 import { useNavigate, Link } from "react-router-dom";
-import Paper from '@mui/material/Paper';
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-
-
-
 
 const JobsContainer = styled('div')({
     flex: '8',
@@ -62,6 +52,13 @@ const Register = () => {
             [id]: value
         }))
     };
+
+    const handlePackageChange = (e) => {
+      setFormValues(prevState => ({
+        ...prevState,
+        package_id: e.target.value
+      }))
+    }
 
     // Handles add job submit
     const handleSubmit = (event) => {
@@ -141,44 +138,29 @@ const Register = () => {
                             sx={{ m: 1 }}
                             value={formValues.confirm_password}
                             onChange={handleInputChange}
-                        />
-                 <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                  <TableCell align="right">Package ID</TableCell>
-
-                  <TableCell align="right">Package Name</TableCell>
-                    <TableCell align="right">Package Price</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {lists.map((list) => (
-                    <TableRow>
-                      <TableCell align="right">{list.package_id}</TableCell>
-                      <TableCell align="right">{list.name}</TableCell>       
-                      <TableCell align="right">{list.price}</TableCell>
-                      <TableCell align="right">
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>            
-                       <TextField
+                        />            
+            <FormControl size="medium">
+                <InputLabel id={`package`} >
+                Choose your package by entering a valid package ID
+                </InputLabel>
+                       <Select
+                        labelId="package"
                             required
                             label="Choose your package by entering a valid package ID"
+                            placeholder="Choose your package by entering a valid package ID"
                             id="package_id"
                             type="number"
-                            sx={{ m: 1 }}
-                            InputProps={{
-                                inputProps: { 
-                                    max: 5, min: 1 
-                                }
-                            }}
-                            value={formValues.package_id}
-                            onChange={handleInputChange}
-                        />
+                            margin="1"
+                            value={formValues.package_id || null}
+                            onChange={handlePackageChange}
+                        >
+                          {lists.map((list) => (
+                            <MenuItem value={list.package_id} key={list.package_id}>
+                              {list.name} - {list.price}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        </FormControl>
                         <Box variant="contained" sx={{ m: 1, width: '35ch' }}>
                             Have an Account? {" "}
                             <Typography sx={{ textDecoration: "underline", color: "blue" }} component="span">
